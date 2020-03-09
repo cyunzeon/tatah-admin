@@ -20,3 +20,11 @@ export default {
   height: 100%;
 }
 </style>
+
+<style>
+  .el-table {
+  width: 99.9% !important;
+}
+
+</style>
+

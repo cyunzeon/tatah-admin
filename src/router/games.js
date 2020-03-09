@@ -1,9 +1,13 @@
 //系统管理
 let arr = [
   {
-    path: '/games',
-    name: 'games',
+    path: '/character',
+    name: 'character',
     component: () => import('@/page/games/character'),
+  },{
+    path: '/adventure',
+    name: 'adventure',
+    component: () => import('@/page/games/adventure'),
   },
 ]
 

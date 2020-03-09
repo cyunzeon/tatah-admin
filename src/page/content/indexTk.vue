@@ -30,6 +30,7 @@
         <el-table-column label="操作" header-align="center" align="center">
           <template slot-scope="scope">
             <el-button type="primary" @click="editAction(scope.row)">编辑</el-button>
+            <el-button type="danger" @click="editAction(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

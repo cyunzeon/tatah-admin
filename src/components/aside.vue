@@ -41,6 +41,9 @@
               {
                 label: '用户头像管理',
                 url: '/contentUserImg'
+              },{
+                label: '用户视频管理',
+                url: '/uservideo'
               },
               {
                 label: '用户举报管理',
@@ -56,8 +59,11 @@
             label: '游戏管理',
             children: [{
               label: '性格测试游戏',
-              url: '/games'
-            }, ]
+              url: '/character'
+            },{
+              label: '冒险游戏',
+              url: '/adventure'
+            } ]
           },
           {
             label: '财务管理',

@@ -44,6 +44,11 @@ let arr = [
     path: '/gift',
     name: 'gift',
     component: () => import('@/page/content/gift'),
+  },
+  {
+    path: '/uservideo',
+    name: 'uservideo',
+    component: () => import('@/page/content/userVideo'),
   }
 ]
 

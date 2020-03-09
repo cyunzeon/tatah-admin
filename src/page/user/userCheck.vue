@@ -15,13 +15,18 @@
             v-model="formInline.endDate" @change="endTimeChang"></el-date-picker>
         </div>
       </el-form-item>
-      <el-form-item label="审核状态：">
-        <el-select v-model="formInline.state" placeholder="请选择审核状态">
+      <el-form-item label="是否处理：">
+        <el-select v-model="formInline.state" placeholder="请选择">
           <el-option label="全部" value=""></el-option>
-          <el-option label="未提交审核" value="0"></el-option>
-          <el-option label="审核通过" value="1"></el-option>
-          <el-option label="审核中" value="2"></el-option>
-          <el-option label="审核未通过" value="3"></el-option>
+          <el-option label="未处理" value="0"></el-option>
+          <el-option label="已处理" value="1"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="审核状态：">
+        <el-select v-model="formInline.state" placeholder="请选择">
+          <el-option label="全部" value=""></el-option>
+          <el-option label="已拒绝" value="0"></el-option>
+          <el-option label="已通过" value="1"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -30,28 +35,26 @@
     </el-form>
     <div class="p10">
       <el-table :data="tableData" stripe border style="width: 100%">
-        <el-table-column prop="cmobileno" label="手机号" width="140" header-align="center" align="center">
+        <el-table-column prop="cmobileno" label="手机号" header-align="center" align="center">
         </el-table-column>
-        <el-table-column prop="cnickname" label="昵称" width="140" header-align="center" align="center">
+        <el-table-column prop="cnickname" label="昵称" header-align="center" align="center">
         </el-table-column>
-        <el-table-column label="头像" width="80" header-align="center" align="center">
+        <!-- <el-table-column label="头像" width="80" header-align="center" align="center">
           <template slot-scope="scope">
             <img :src="scope.row.chead" style="width: 50px;height:50px;" @click="openImg(scope.row.chead)">
           </template>
-        </el-table-column>
-        <el-table-column label="性别" width="80" header-align="center" align="center">
+        </el-table-column> -->
+        <el-table-column label="性别" header-align="center" align="center">
           <template slot-scope="scope">
             <p v-if="scope.row.igender==1">男</p>
             <p v-else>女</p>
           </template>
         </el-table-column>
-        <el-table-column prop="cbirthday" label="生日" width="150" header-align="center" align="center">
+        <el-table-column prop="cbirthday" label="生日" header-align="center" align="center">
         </el-table-column>
-        <el-table-column prop="csignature" label="个人描述" header-align="center" align="center">
+        <el-table-column prop="cadddate" label="注册时间" header-align="center" align="center">
         </el-table-column>
-        <el-table-column prop="cadddate" label="注册时间" width="170" header-align="center" align="center">
-        </el-table-column>
-        <el-table-column label="审核状态" width="90" header-align="center" align="center">
+        <el-table-column label="是否处理" header-align="center" align="center">
           <template slot-scope="scope">
             <p v-if="scope.row.iexamine==0">未提交审核</p>
             <p v-else-if="scope.row.iexamine==1">审核通过</p>
@@ -59,7 +62,15 @@
             <p v-else>审核未通过</p>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="100" header-align="center" align="center">
+        <el-table-column label="审核状态" header-align="center" align="center">
+          <template slot-scope="scope">
+            <p v-if="scope.row.iexamine==0">未提交审核</p>
+            <p v-else-if="scope.row.iexamine==1">审核通过</p>
+            <p v-else-if="scope.row.iexamine==2">审核中</p>
+            <p v-else>审核未通过</p>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" header-align="center" align="center">
           <template slot-scope="scope">
             <el-button type="primary" @click="lookAction(scope.$index, scope.row)" v-show="scope.row.iexamine != 1">查看</el-button>
           </template>
@@ -186,4 +197,7 @@
     padding: 5px;
   }
 
+  .el-select {
+    width: 120px;
+  }
 </style>

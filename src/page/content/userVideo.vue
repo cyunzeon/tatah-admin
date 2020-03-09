@@ -1,6 +1,6 @@
 <template>
   <div class="bg_fff main">
-    <h3 class="title"><i class="el-icon-user-solid"></i>头像管理</h3>
+    <h3 class="title"><i class="el-icon-user-solid"></i>视频管理</h3>
     <div class="btn-list">
       <el-button type="primary" icon="el-icon-refresh" size='small' @click="refreshAction">刷新</el-button>
     </div>
