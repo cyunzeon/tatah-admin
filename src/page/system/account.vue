@@ -71,7 +71,7 @@
               </div>
             </div>
 
-            <div class="shade2" v-show="showSet">
+            <div class="shade" v-show="showSet">
               <div class="shade-wrap">
                 <p>创建账号</p>
                 <div class="input-wrap">
@@ -149,6 +149,7 @@ export default {
               message: res.data.message,
               type: "success"
             });
+            this.getLoadAdminList();
             this.showSet = false;
           } else {
             this.$message.error(res.data.message);
@@ -170,6 +171,7 @@ export default {
             message: res.data.message,
             type: "success"
           });
+          this.getLoadAdminList();
           this.editPass = false;
           this.showInfo = false;
         } else {
@@ -246,6 +248,7 @@ export default {
 
   .shade-wrap {
     width: 400px;
+    height: 320px;
     background: #fff;
     position: absolute;
     top: 0;

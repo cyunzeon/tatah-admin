@@ -24,8 +24,7 @@
       </el-tab-pane>
     </el-tabs>
     <div class="btn-list">
-      <el-button type="primary" icon="el-icon-refresh" size='small'>刷新</el-button>
-      <el-button type="primary" icon="el-icon-back" size='small'>返回</el-button>
+      <el-button type="primary" icon="el-icon-back" size='small' @click="$router.go(-1)">返回</el-button>
     </div>
   </div>
 

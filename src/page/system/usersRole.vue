@@ -25,9 +25,16 @@
             <el-table v-loading="loading" element-loading-text="加载数据中" :data='tableData' border style="width: 100%">
               <el-table-column label="编号" prop="id" align="center" header-align="center">
               </el-table-column>
-              <el-table-column label="用户名称" prop="userName" align="center" header-align="center">
+              <el-table-column label="用户名称（ID）" align="center" header-align="center">
+                <template slot-scope="scope">
+                  {{scope.row.userName}}（{{scope.row.userId}}）
+</template>
               </el-table-column>
-              <el-table-column label="角色名称" prop="roleName" align="center" header-align="center">
+              <el-table-column label="角色名称（ID）" align="center" header-align="center">
+                <template slot-scope="scope">
+                  {{scope.row.roleName}}（{{scope.row.roleId}}）
+</template>
+
               </el-table-column>
               <el-table-column label="操作" align="center" header-align="center">
                 <template slot-scope="scope">

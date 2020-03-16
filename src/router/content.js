@@ -49,6 +49,11 @@ let arr = [
     path: '/uservideo',
     name: 'uservideo',
     component: () => import('@/page/content/userVideo'),
+  },
+  {
+    path: '/dynamic',
+    name: 'dynamic',
+    component: () => import('@/page/content/dynamic'),
   }
 ]
 

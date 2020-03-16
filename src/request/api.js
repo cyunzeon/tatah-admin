@@ -48,7 +48,7 @@ export const delUserPortrait = p => http.post('/content/delUserPortrait',p)
 //操作广告  修改/新增
 export const operationManageAdvertising = p => http.post('/content/operationManageAdvertising',p)
 //查询用户头像管理列表
-export const loaduserReportList = p => http.post('/content/loaduserReportList',p)
+export const loadUserPortraitList = p => http.post('/content/loadUserPortraitList',p)
 //查询用户举报管理列表
 export const loadUserReportList = p => http.post('/content/loadUserReportList',p)
 //查询用户礼物管理列表
@@ -57,6 +57,8 @@ export const loadUserGiftList = p => http.post('/content/loadUserGiftList',p)
 export const operationHomeWindow = p => http.post('/content/operationHomeWindow',p)
 //操作礼物  修改/新增
 export const operationGift = p => http.post('/content/operationGift',p)
+//用户动态
+export const loadUserCircleArticleList = p => http.post('/content/loadUserCircleArticleList',p)
 
 //财务管理
 //充值列表

@@ -39,9 +39,9 @@
         </el-form-item>
       </el-form>
       <el-table :data="tableData" stripe border style="width: 100%">
-        <el-table-column prop="mobileno" label="手机号" header-align="center" align="center">
+        <el-table-column prop="cmobileno" label="手机号" header-align="center" align="center">
         </el-table-column>
-        <el-table-column prop="nickname" label="昵称" header-align="center" align="center">
+        <el-table-column prop="cnickname" label="昵称" header-align="center" align="center">
         </el-table-column>
         <el-table-column label="性别" header-align="center" align="center">
           <template slot-scope="scope">
@@ -51,25 +51,24 @@
         </el-table-column>
         <el-table-column label="头像" header-align="center" align="center">
           <template slot-scope="scope">
-            <img :src="scope.row.head" style="width: 50px;height:50px;" alt="" @click="openImg(scope.row.head)">
+            <img :src="scope.row.chead" style="width: 50px;height:50px;" alt="" @click="openImg(scope.row.chead)">
           </template>
         </el-table-column>
-        <el-table-column prop="address" label="修改时间" header-align="center" align="center">
+        <el-table-column prop="caddDate" label="修改时间" header-align="center" align="center">
         </el-table-column>
         <el-table-column label="是否处理" header-align="center" align="center">
           <template slot-scope="scope">
-            <p v-if="scope.row.iexamine==0">未提交审核</p>
-            <p v-else-if="scope.row.iexamine==1">审核通过</p>
-            <p v-else-if="scope.row.iexamine==2">审核中</p>
-            <p v-else>审核未通过</p>
+            <p v-if="scope.row.istate==0">未审核</p>
+            <p v-else-if="scope.row.istate==1">已审核</p>
+            <p v-else></p>
           </template>
         </el-table-column>
         <el-table-column label="状态" header-align="center" align="center">
           <template slot-scope="scope">
-            <p v-if="scope.row.iexamine==0">未提交审核</p>
-            <p v-else-if="scope.row.iexamine==1">审核通过</p>
-            <p v-else-if="scope.row.iexamine==2">审核中</p>
-            <p v-else>审核未通过</p>
+            <p v-if="scope.row.exstate==0">审核中</p>
+            <p v-else-if="scope.row.exstate==1">拒绝</p>
+            <p v-else-if="scope.row.exstate==2">通过</p>
+            <p v-else></p>
           </template>
         </el-table-column>
         <el-table-column label="操作" header-align="center" align="center">
@@ -95,7 +94,7 @@
 </template>
 <script>
   import {
-    loaduserReportList,
+    loadUserPortraitList,
     delUserPortrait
   } from '@/request/api'
   export default {
@@ -129,10 +128,11 @@
     },
     methods: {
       getLoaduserReportList() {
-        loaduserReportList(this.formInline).then(res => {
+        loadUserPortraitList(this.formInline).then(res => {
           if (res.data.code == 200) {
-            this.total = res.data.data.length;
-            this.tableData = res.data.data;
+            console.log(res.data.data)
+            this.total = res.data.data.total;
+            this.tableData = res.data.data.list;
           }
         })
       },
@@ -148,7 +148,7 @@
       },
       delAction(index, row) {
         delUserPortrait({
-          userId: row.userid
+          userId: row.cuserid
         }).then(res => {
           if (res.data.code == 200) {
             this.$message({

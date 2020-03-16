@@ -48,6 +48,9 @@
               {
                 label: '用户举报管理',
                 url: '/report'
+              },{
+                label: '用户动态管理',
+                url: '/dynamic'
               },
               {
                 label: '用户礼物管理',

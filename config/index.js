@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       "/api": {
-        target: "http://iyouadmin.tiantiancaidian.com", //设置调用的接口域名和端口号 
+        target: "http://iyadmin.tiantiancaidian.com", //设置调用的接口域名和端口号 
         changeOrigin: true,
         pathRewrite: {
           '^/api': '' //需要rewrite重写的,
