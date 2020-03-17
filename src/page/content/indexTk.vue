@@ -30,21 +30,27 @@
         <el-table-column label="操作" header-align="center" align="center">
           <template slot-scope="scope">
             <el-button type="primary" @click="editAction(scope.row)">编辑</el-button>
-            <el-button type="danger" @click="editAction(scope.row)">删除</el-button>
+            <el-button type="danger" @click="deletBtn(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
     <div class="block p20 tac">
-      <el-pagination style="margin-top: 16px; text-align:center;" layout="total, prev, pager, next" :total="total"
-        @current-change="handleCurrentChange">
-      </el-pagination>
-    </div>
+      <el-pagination
+      style="margin-top: 16px; text-align:center;"
+      layout="total, prev, pager, next"
+      :total="total"
+      :page-size="formInline.pageSize"
+      :current-page.sync="formInline.pageNo"
+      @current-change="handleCurrentChange"
+    ></el-pagination>
+</div>
   </div>
 </template>
 <script>
   import {
-    loadHomeWindowList
+    loadHomeWindowList,
+    delHomeWindow
   } from '@/request/api'
   export default {
     data() {
@@ -76,8 +82,23 @@
       getLoadHomeWindowList() {
         loadHomeWindowList(this.formInline).then(res => {
           if (res.data.code == 200) {
-            this.total = res.data.data.length;
+            this.total = res.data.data.total;
             this.tableData = res.data.data;
+          }
+        })
+      },
+      deletBtn(row) {
+        delHomeWindow({
+          cwindowid: row.cwindowid
+        }).then(res => {
+          if (res.data.code == 200) {
+            this.$message({
+              message: res.data.message,
+              type: 'success'
+            });
+            this.getLoadHomeWindowList()
+          } else {
+            this.$message.error(res.data.message);
           }
         })
       },
@@ -96,7 +117,8 @@
             cadverturl: row.cadverturl,
             curl: row.curl,
             cwindowid: row.cwindowid
-          }})
+          }
+        })
       }
     },
     created() {

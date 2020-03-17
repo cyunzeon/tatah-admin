@@ -38,11 +38,11 @@
 
             <!-- 表单 -->
             <el-table v-loading="loading" element-loading-text="加载数据中" :data='tableData' border style="width: 100%">
-              <el-table-column label="举报人" prop="jbrMobileNo" align="center" header-align="center">
+              <el-table-column label="举报人" prop="cmobileno" align="center" header-align="center">
                 <template>
                 </template>
               </el-table-column>
-              <el-table-column label="被举报人" prop="bjbrMobileNo" align="center" header-align="center">
+              <el-table-column label="被举报人" prop="crmobileno" align="center" header-align="center">
               </el-table-column>
               <el-table-column label="举报时间" prop="cadddate" align="center" header-align="center">
                 <template>
@@ -68,8 +68,8 @@
             </el-table>
             <!-- 分页 -->
             <el-pagination style="margin-top: 16px; text-align:center;" layout="total, prev, pager, next" :total="total"
-              @current-change="handleCurrentChange">
-            </el-pagination>
+              :page-size="listQuery.pageSize" :current-page.sync="listQuery.pageNo"
+              @current-change="handleCurrentChange"></el-pagination>
           </div>
         </el-card>
       </el-col>
@@ -121,8 +121,8 @@
       getLoadUserReportList() {
         loadUserReportList(this.listQuery).then(res => {
           if (res.data.code == 200) {
-            this.tableData = res.data.data;
-            this.total = res.data.data.length;
+            this.tableData = res.data.data.list;
+            this.total = res.data.data.total;
           }
         })
       },
@@ -130,8 +130,8 @@
         this.$router.push({
           path: '/report/detail',
           query: {
-            jbrMobileNo: row.jbrMobileNo,
-            bjbrMobileNo: row.bjbrMobileNo,
+            jbrMobileNo: row.cmobileno,
+            bjbrMobileNo: row.crmobileno,
             cadddate: row.cadddate,
             reportimg: row.reportimg,
             state: row.state

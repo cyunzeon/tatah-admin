@@ -16,54 +16,43 @@
         <el-table-column prop="cupdatetime" label="更新时间" header-align="center" align="center">
         </el-table-column>
         <el-table-column label="状态" header-align="center" align="center">
-          <!-- <template slot-scope="scope">
-            <template v-if="showEdit[scope.$index]">
-              <el-select v-model="formInline.istatus" placeholder="请选择交易类型">
-                <el-option label="已上架" value="0"></el-option>
-                <el-option label="已下架" value="1"></el-option>
-              </el-select>
-            </template>
-            <template v-else>
-              <p v-if="scope.row.istatus==0">已上架</p>
-              <p v-else-if="scope.row.istatus==1">已下架</p>
-              <p v-else></p>
-            </template>
-          </template> -->
+          <template slot-scope="scope">
+            <p v-if="scope.row.upperstate==1">已上架</p>
+            <p v-else-if="scope.row.upperstate==0">已下架</p>
+            <p v-else></p>
+          </template>
         </el-table-column>
-        <el-table-column prop="address" label="发布人" header-align="center" align="center">
+        <el-table-column prop="coperator" label="发布人" header-align="center" align="center">
         </el-table-column>
         <el-table-column label="操作" header-align="center" align="center">
           <template slot-scope="scope">
-            <el-button v-if="showBtn[scope.$index]" type="success" size="small"
-              @click="saveAction(scope.$index, scope.row)">
-              保存
-            </el-button>
-            <el-button v-else type="primary" size="small" @click="editAction(scope.$index, scope.row)"
-              icon="el-icon-edit">
+            <el-button type="primary" size="small" @click="editAction(scope.$index, scope.row)" icon="el-icon-edit">
               编辑
             </el-button>
-            <el-button v-if="showBtn[scope.$index]" type="danger" size="small"
-              @click="cancelAction(scope.$index, scope.row)">
-              取消
-            </el-button>
-            <el-button v-else type="info" size="small" @click="delAction(scope.$index, scope.row)">
+            <el-button type="info" size="small" @click="delAction(scope.$index, scope.row)">
               删除
             </el-button>
           </template>
-
         </el-table-column>
       </el-table>
     </div>
     <div class="block p20 tac">
-      <el-pagination style="margin-top: 16px; text-align:center;" layout="total, prev, pager, next" :total="total"
-        @current-change="handleCurrentChange">
-      </el-pagination>
-    </div>
+      <el-pagination
+      style="margin-top: 16px; text-align:center;"
+      layout="total, prev, pager, next"
+      :total="total"
+      :page-size="formInline.pageSize"
+      :current-page.sync="formInline.pageNo"
+      @current-change="handleCurrentChange"
+    ></el-pagination>
+</div>
   </div>
 </template>
 <script>
   import {
-    loadManageAdvertisingList
+    loadManageAdvertisingList,
+    operationManageAdvertising,
+    delManageAdvertising
   } from '@/request/api'
   export default {
     data() {
@@ -75,7 +64,6 @@
         formInline: {
           pageSize: 20,
           pageNo: 1,
-          istatus: ''
         }
       }
     },
@@ -83,55 +71,39 @@
       getLoadManageAdvertisingList() {
         loadManageAdvertisingList(this.formInline).then(res => {
           if (res.data.code == 200) {
-            this.total = res.data.data.length;
-            this.tableData = res.data.data;
+            this.total = res.data.data.total;
+            this.tableData = res.data.data.list;
           }
         })
       },
       //修改
       editAction(index, row) {
-        console.log('row', row)
-        //console.log('index', index)
-        this.editData.advertId = row.advertId;
-        this.$set(this.showEdit, index, true);
-        this.$set(this.showBtn, index, true);
+        this.$router.push({
+          path: '/activityAd/editAd',
+          query: {
+            cadvertid: row.cadvertid,
+            ctitle: row.ctitle,
+            cadverturl: row.cadverturl,
+            curl: row.curl,
+            upperstate: row.upperstate
+          }
+        })
       },
-      //取消
-      cancelAction(index, row) {
-        this.$set(this.showEdit, index, false);
-        this.$set(this.showBtn, index, false);
-      },
-      //保存
-      saveAction(index, row) {
-        /*this.axios({
-            url: '/system/editAdvert',
-            method: 'post',
-            data: this.editData,
-            transformRequest: [function (data) {
-              let ret = ''
-              for (let it in data) {
-                ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-              }
-              return ret
-            }],
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            }
-          })
-          .then(res => {
-            if (res.code == 200) {
-              this.$set(this.showEdit, index, false);
-              this.$set(this.showBtn, index, false);
-              this.getTableData();
-              this.$message({
-                message: res.message,
-                type: 'success'
-              });
-            } else {
-              this.$message.error(res.message);
-            }
-          })*/
-        //this.$router.go(0);
+      delAction(index, row) {
+        console.log(row)
+        delManageAdvertising({
+          cadvertid: row.cadvertid
+        }).then(res => {
+          if (res.data.code == 200) {
+            this.$message({
+              message: res.data.message,
+              type: "success"
+            });
+            this.getLoadManageAdvertisingList()
+          } else {
+            this.$message.error(res.data.message)
+          }
+        })
       },
       //分页器
       handleCurrentChange(pgno) {

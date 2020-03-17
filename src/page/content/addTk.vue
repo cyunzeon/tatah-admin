@@ -16,7 +16,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="弹框图片：">
-          <el-upload class="upload-demo" action="http://iyouadmin.tiantiancaidian.com/system/uploadImage" 
+          <el-upload class="upload-demo" action="/api/system/uploadImage" 
             :on-preview="handlePreview" :on-remove="handleRemove" :before-remove="beforeRemove" multiple :limit="1"
             :file-list="fileList" list-type="picture" :on-success="success">
             <el-button size="small" type="primary">点击上传</el-button>
@@ -60,6 +60,15 @@
     methods: {
       onSubmit() {
         operationHomeWindow(this.form).then(res => {
+          if (res.data.code == 200) {
+              this.$message({
+                message: res.data.message,
+                type: 'success'
+              });
+              this.$router.go(-1);
+            } else {
+              this.$message.error(res.data.message);
+            }
 
         })
       },

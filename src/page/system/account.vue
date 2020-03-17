@@ -49,6 +49,16 @@
               </el-table-column>
             </el-table>
 
+            <el-pagination
+            style="margin-top: 16px; text-align:center;"
+            layout="total, prev, pager, next"
+            :total="total"
+            :page-size="listQuery.pageSize"
+            :current-page.sync="listQuery.pageNo"
+            @current-change="handleCurrentChange"
+          ></el-pagination>
+
+
             <div class="shade" v-show="showInfo">
               <div class="shade-wrap">
                 <p>账号信息</p>
@@ -109,8 +119,11 @@ export default {
   data() {
     return {
       tableData: [],
+      total: 0,
       loading: false,
       listQuery: {
+        pageNo: 1,
+        pageSize: 20,
         account: "",
         password: "",
         userName: ""
@@ -126,6 +139,7 @@ export default {
     getLoadAdminList() {
       loadAdminList().then(res => {
         this.tableData = res.data.data.array;
+        this.total = res.data.data.totalRows;
       });
     },
     lookAction(row) {
@@ -137,6 +151,10 @@ export default {
       this.showInfo = false;
       this.editPass = false;
     },
+    handleCurrentChange(value) {
+        this.listQuery.pageNo = value;
+        this.getLoadAdminList();
+      },
     setBtn() {
       if (
         this.listQuery.account != "" &&

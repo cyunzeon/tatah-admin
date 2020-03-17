@@ -26,8 +26,8 @@
             </el-table-column>
             <el-table-column label="状态" header-align="center" align="center">
               <template slot-scope="scope">
-                <p v-if="scope.row.istate == 0">未上架</p>
-                <p v-else>已上架</p>
+                <p v-if="scope.row.istate == 0">下架</p>
+                <p v-else>上架</p>
               </template>
             </el-table-column>
             <el-table-column label="操作" header-align="center" align="center">
@@ -39,8 +39,8 @@
 
           <!-- 分页 -->
           <el-pagination style="margin-top: 16px; text-align:center;" layout="total, prev, pager, next" :total="total"
-            @current-change="handleCurrentChange">
-          </el-pagination>
+          :page-size="form.pageSize" :current-page.sync="form.pageNo"
+          @current-change="handleCurrentChange"></el-pagination>
 
 
           <div class="shade" v-show="showLook">
@@ -63,8 +63,8 @@
                 <div class="input-item">
                   礼物状态：
                   <el-select v-model="editForm.state" :placeholder="placeholder">
-                    <el-option label="未上架" value="0"></el-option>
-                    <el-option label="已上架" value="1"></el-option>
+                    <el-option label="下架" value="0"></el-option>
+                    <el-option label="上架" value="1"></el-option>
                   </el-select>
                 </div>
                 <div class="btn-wrap">
@@ -90,7 +90,7 @@
                 </div>
                 <div class="input-item">
                   礼物图片：
-                  <el-upload class="upload-demo" action="http://iyouadmin.tiantiancaidian.com/system/uploadImage" :on-preview="handlePreview"
+                  <el-upload class="upload-demo" action="/api/system/uploadImage" :on-preview="handlePreview"
                     :on-remove="handleRemove" :before-remove="beforeRemove" multiple :limit="1" :on-success="success"
                     :file-list="fileList" list-type="picture">
                     <el-button size="small" type="primary">点击上传</el-button>
@@ -101,8 +101,8 @@
                 <div class="input-item">
                   礼物状态：
                   <el-select v-model="addForm.state" placeholder="请选择">
-                    <el-option label="未上架" value="0"></el-option>
-                    <el-option label="已上架" value="1"></el-option>
+                    <el-option label="下架" value="0"></el-option>
+                    <el-option label="上架" value="1"></el-option>
                   </el-select>
                 </div>
                 <div class="btn-wrap">
@@ -173,9 +173,9 @@
         this.editForm.state = this.istate;
         this.editForm.top = row.itop;
         if (row.istate == 0) {
-          this.placeholder = '未上架'
+          this.placeholder = '下架'
         } else {
-          this.placeholder = '已上架'
+          this.placeholder = '上架'
         }
         this.showLook = true;
       },
@@ -216,8 +216,8 @@
       getLoadUserGiftList() {
         loadUserGiftList(this.form).then(res => {
           if (res.data.code == 200) {
-            this.tableData = res.data.data;
-            this.total = res.data.data.length;
+            this.tableData = res.data.data.list;
+            this.total = res.data.data.total;
           }
         })
       },

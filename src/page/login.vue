@@ -1,7 +1,7 @@
 <template>
   <div class="login-bg">
     <div class="login">
-      <div class="message">管理登录</div>
+      <div class="message">Iyou管理登录</div>
       <div id="darkbannerwrap"></div>
       <div class="info">
         <p v-show='info'>{{info}}</p>

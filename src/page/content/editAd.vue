@@ -1,28 +1,24 @@
 <template>
   <div class="bg_fff main">
     <h3 class="title">
-      <i class="el-icon-user-solid"></i>添加广告
+      <i class="el-icon-user-solid"></i>修改广告
     </h3>
-    <div class="btn-list">
-      <el-button type="primary" icon="el-icon-refresh" size="small">刷新</el-button>
-      <el-button type="primary" icon="el-icon-back" size="small" @click="backAction">返回</el-button>
-    </div>
     <div class="p10 w30">
       <el-form ref="form" :model="form" label-width="120px">
         <el-form-item label="广告标题：">
           <el-input v-model="form.ctitle"></el-input>
         </el-form-item>
         <el-form-item label="状态：">
-          <el-select v-model="form.upperstate" placeholder="请选择状态">
-            <el-option label="已上架" value="0"></el-option>
-            <el-option label="已下架" value="1"></el-option>
+          <el-select v-model="form.upperstate" :placeholder="placeholder">
+            <el-option label="已上架" value="1"></el-option>
+            <el-option label="已下架" value="0"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="活动图片：">
           <img :src="form.curl" alt />
           <el-upload
             class="upload-demo"
-            action="http://iyouadmin.tiantiancaidian.com/system/uploadImage"
+            action="/api/system/uploadImage"
             :on-preview="handlePreview"
             :on-remove="handleRemove"
             :before-remove="beforeRemove"
@@ -40,7 +36,7 @@
           <el-input v-model="form.cadverturl"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">立即创建</el-button>
+          <el-button type="primary" @click="onSubmit">修改</el-button>
           <el-button @click="backAction">取消</el-button>
         </el-form-item>
       </el-form>
@@ -53,16 +49,24 @@ export default {
   data() {
     return {
       form: {
-        curl: "",
-        ctitle: "",
-        upperstate: "",
-        cadverturl: "",
-        cadvertid: "",
-        type: 2,
+        curl: this.$route.query.curl,
+        ctitle: this.$route.query.ctitle,
+        upperstate: this.$route.query.upperstate,
+        cadverturl: this.$route.query.cadverturl,
+        cadvertid: this.$route.query.cadvertid,
+        type: 1,
         top: ""
       },
-      fileList: []
+      fileList: [],
+      placeholder: ''
     };
+  },
+  created() {
+    if(this.$route.query.upperstate == 0) {
+      this.placeholder = '下架'
+    } else if(this.$route.query.upperstate == 1) {
+      this.placeholder = '上架'
+    }
   },
   methods: {
     onSubmit() {
@@ -99,3 +103,11 @@ export default {
   }
 };
 </script>
+
+
+<style lang="scss" scoped>
+  img {
+    width: 200px;
+    height: 200px;
+  }
+</style>

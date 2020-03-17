@@ -35,7 +35,7 @@
             <!-- 表单 -->
             <div class="table">
               <ul>
-                <li v-for="item in tableData" :key="index">
+                <li v-for="item in tableData" :key="item.carticleid" v-show="item.istate == 1">
                   <div class="top">
                     <div class="info">
                       <img class="head-img" :src="item.chead" alt="">
@@ -44,19 +44,26 @@
                         <span>{{item.cadddate}}</span>
                       </div>
                     </div>
-                    <el-button type="danger">删除</el-button>
+                    <el-button type="danger" @click="deletBtn">删除</el-button>
                   </div>
-                  <span class="word-wrap">{{item.ccontent}}</span>
-                  <template class="content-img" v-for="imga in item.imgList.slice(0, 9)">
-                    <img :src="imga" alt="">
-                  </template>
+                  <p class="word-wrap">{{item.ccontent}}</p>
+                  <div class="img-wrap">
+                    <template v-for="imga in item.imgList.slice(0, 9)">
+                      <img :src="imga" alt="" class="content-img">
+                    </template>
+                  </div>
                 </li>
               </ul>
             </div>
             <!-- 分页 -->
-            <!-- <el-pagination style="margin-top: 16px; text-align:center;" layout="total, prev, pager, next" :total="total"
-              @current-change="handleCurrentChange">
-            </el-pagination> -->
+            <el-pagination
+            style="margin-top: 16px; text-align:center;"
+            layout="total, prev, pager, next"
+            :total="total"
+            :page-size="listQuery.pageSize"
+            :current-page.sync="listQuery.pageNo"
+            @current-change="handleCurrentChange"
+          ></el-pagination>
           </div>
         </el-card>
       </el-col>
@@ -65,7 +72,8 @@
 </template>
 <script>
   import {
-    loadUserCircleArticleList
+    loadUserCircleArticleList,
+    updateUserCircleArticleList
   } from '@/request/api'
   export default {
     created() {
@@ -100,6 +108,12 @@
       }
     },
     methods: {
+      deletBtn(event) {
+        console.log(event)
+        /*updateUserCircleArticleList().then(res => {
+
+        })*/
+      },
       handleFilter() {
         this.listQuery.pageNo = 1;
         this.getLoadUserCircleArticleList();
@@ -108,7 +122,7 @@
         loadUserCircleArticleList(this.listQuery).then(res => {
           if (res.data.code == 200) {
             this.tableData = res.data.data.list;
-            this.total = res.data.data.length;
+            this.total = res.data.data.total;
           }
         })
       },
@@ -197,12 +211,25 @@
 
           .word-wrap {
             display: block;
-            width: 90%;
+            width: 460px;
+            word-wrap: break-word;
+            word-break: break-all;
+            overflow: hidden;
+            padding-left: 20px;
           }
 
-          .content-img {
-            width: 150px;
-            height: 150px;
+          .img-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: space-around;
+
+            .content-img {
+              display: block;
+              width: 150px;
+              height: 150px;
+              margin: 10px 0;
+            }
           }
         }
       }

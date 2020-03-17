@@ -12,6 +12,7 @@
     <el-form ref="form" label-width="100px" class="form-wrap">
       <el-form-item>
         <div class="check-group" v-for="(item, index) in roldList" :key="index">
+          <!-- <el-checkbox :label="item.permissionId" @change="handleCheckChange(item.permissionId)">{{item.permissionName}}</el-checkbox> -->
           <el-tag>{{item.permissionName}}</el-tag>
           <el-checkbox-group v-model="checkedEquipments[index]">
             {{checkedEquipments[index]}}
@@ -61,7 +62,7 @@
         console.log('传选中', this.checkedIds)
         console.log('传不选中', this.deleteIds)
 
-        handlerRolePermission({
+        /*handlerRolePermission({
           checkedIds: this.checkedIds.join(','),
           deleteIds: this.deleteIds.join(','),
           roleId: this.$route.query.roleId
@@ -75,7 +76,10 @@
           } else {
             this.$message.error(res.data.message)
           }
-        })
+        })*/
+      },
+      handleCheckChange(event) {
+
       },
       handleCheckAllChange(event) {
         console.log(event)

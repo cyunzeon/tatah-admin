@@ -21,19 +21,20 @@
           </div>
         </el-form-item>
         <el-form-item label="是否处理：">
-          <el-select v-model="formInline.state" placeholder="请选择">
+          <el-select v-model="formInline.istate" placeholder="请选择">
             <el-option label="全部" value=""></el-option>
-            <el-option label="未处理" value="0"></el-option>
-            <el-option label="已处理" value="1"></el-option>
+            <el-option label="未审核" value="0"></el-option>
+            <el-option label="已审核" value="1"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="审核状态：">
-          <el-select v-model="formInline.state" placeholder="请选择">
+          <el-select v-model="formInline.exstate" placeholder="请选择">
             <el-option label="全部" value=""></el-option>
-            <el-option label="已拒绝" value="0"></el-option>
-            <el-option label="已通过" value="1"></el-option>
+            <el-option label="审核中" value="0"></el-option>
+            <el-option label="拒绝" value="1"></el-option>
+            <el-option label="通过" value="2"></el-option>
           </el-select>
-        </el-form-item>  
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
         </el-form-item>
@@ -72,17 +73,22 @@
           </template>
         </el-table-column>
         <el-table-column label="操作" header-align="center" align="center">
-          <template slot-scope="scope">
-            <el-button type="primary" @click="delAction(scope.$index, scope.row)">通过</el-button>
-            <el-button type="danger" @click="delAction(scope.$index, scope.row)">删除</el-button>
+          <template slot-scope="scope" v-if="scope.row.istate==0">
+            <el-button type="primary" @click="passBtn(scope.$index, scope.row)">通过</el-button>
+            <el-button type="danger" @click="delAction(scope.$index, scope.row)">拒绝</el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
     <div class="block p20 tac">
-      <el-pagination style="margin-top: 16px; text-align:center;" layout="total, prev, pager, next" :total="total"
-        @current-change="handleCurrentChange">
-      </el-pagination>
+      <el-pagination
+      style="margin-top: 16px; text-align:center;"
+      layout="total, prev, pager, next"
+      :total="total"
+      :page-size="formInline.pageSize"
+      :current-page.sync="formInline.pageNo"
+      @current-change="handleCurrentChange"
+    ></el-pagination>
     </div>
 
     <el-dialog width="400px" :visible.sync="imgVisible" class="img-dialog">
@@ -95,7 +101,7 @@
 <script>
   import {
     loadUserPortraitList,
-    delUserPortrait
+    updateUserPortrait
   } from '@/request/api'
   export default {
     data() {
@@ -110,7 +116,9 @@
           pageSize: 20,
           pageNo: 1,
           startDate: '',
-          endDate: ''
+          endDate: '',
+          istate: '',
+          exstate:''
         },
         //时间选择
         pickerOptionsStart: {
@@ -146,9 +154,26 @@
       refreshAction() {
         this.getLoaduserReportList()
       },
+      passBtn(index, row) {
+        updateUserPortrait({
+          exstate: 2,
+          cuserid: row.cuserid
+        }).then(res => {
+          if (res.data.code == 200) {
+            this.$message({
+              message: res.data.message,
+              type: 'success'
+            });
+            this.getLoaduserReportList();
+          } else {
+            this.$message.error(res.data.message);
+          }
+        })
+      },
       delAction(index, row) {
-        delUserPortrait({
-          userId: row.cuserid
+        updateUserPortrait({
+          exstate: 1,
+          cuserid: row.cuserid
         }).then(res => {
           if (res.data.code == 200) {
             this.$message({
@@ -194,7 +219,7 @@
 </script>
 
 <style lang="scss" scoped>
-    .el-select {
+  .el-select {
     width: 120px;
   }
 

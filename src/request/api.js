@@ -44,21 +44,29 @@ export const loadHomeWindowList = p => http.post('/content/loadHomeWindowList',p
 //删除广告
 export const delManageAdvertising = p => http.post('/content/delManageAdvertising',p)
 //删除头像
-export const delUserPortrait = p => http.post('/content/delUserPortrait',p)
+export const updateUserPortrait = p => http.post('/content/updateUserPortrait',p)
 //操作广告  修改/新增
 export const operationManageAdvertising = p => http.post('/content/operationManageAdvertising',p)
 //查询用户头像管理列表
 export const loadUserPortraitList = p => http.post('/content/loadUserPortraitList',p)
 //查询用户举报管理列表
 export const loadUserReportList = p => http.post('/content/loadUserReportList',p)
+//查询用户视频管理列表
+export const loadUserVideoExaminetList = p => http.post('/content/loadUserVideoExaminetList',p)
+//审核视频管理列表
+export const updateVideoExaminet = p => http.post('/content/updateVideoExaminet',p)
 //查询用户礼物管理列表
 export const loadUserGiftList = p => http.post('/content/loadUserGiftList',p)
 //操作弹窗
 export const operationHomeWindow = p => http.post('/content/operationHomeWindow',p)
+//删除弹窗
+export const delHomeWindow = p => http.post('/content/delHomeWindow',p)
 //操作礼物  修改/新增
 export const operationGift = p => http.post('/content/operationGift',p)
 //用户动态
 export const loadUserCircleArticleList = p => http.post('/content/loadUserCircleArticleList',p)
+//删除用户动态
+export const updateUserCircleArticleList = p => http.post('/content/updateUserCircleArticleList',p)
 
 //财务管理
 //充值列表
@@ -111,7 +119,11 @@ export const loadAdminlogList = p => http.post('/system/loadAdminlogList',p)
 export const uploadImage = p => http.post('/system/uploadImage',p) 
 
 
-//游戏管理
+//游戏性格
 export const loadSquareQuestionList = p => http.post('/game/loadSquareQuestionList',p) 
-//操作游戏
+//操作性格
 export const editSquareQuestion = p => http.post('/game/editSquareQuestion',p) 
+//冒险
+export const loadAdventureTaskList = p => http.post('/game/loadAdventureTaskList',p) 
+//操作冒险
+export const editAdventureByCtastId = p => http.post('/game/editAdventureByCtastId',p) 

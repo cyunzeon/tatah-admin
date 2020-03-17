@@ -92,9 +92,14 @@
             </div>
 
             <!-- 分页 -->
-            <el-pagination style="margin-top: 16px; text-align:center;" layout="total, prev, pager, next" :total="total"
-              @current-change="handleCurrentChange">
-            </el-pagination>
+            <el-pagination
+            style="margin-top: 16px; text-align:center;"
+            layout="total, prev, pager, next"
+            :total="total"
+            :page-size="listQuery.pageSize"
+            :current-page.sync="listQuery.pageNo"
+            @current-change="handleCurrentChange"
+          ></el-pagination>
           </div>
         </el-card>
       </el-col>
@@ -190,7 +195,7 @@
       getLoadUserRoleList() {
         loadUserRoleList(this.listQuery).then(res => {
           this.tableData = res.data.data.array;
-          this.total = res.data.data.array.length;
+          this.total = res.data.data.totalRows;
         })
       },
       refreshAction() {

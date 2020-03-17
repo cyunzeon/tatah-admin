@@ -3,7 +3,7 @@
     <el-row class="box">
       <el-col :span="4" class="user-img">
         <img :src="infoList.head" />
-        <span class="tab">v{{infoList.viplevel}}</span>
+        <span class="tab">lv{{infoList.viplevel}}</span>
         <el-button type="primary" round size="small" class="mt30" @click="goUrl">编辑信息</el-button>
       </el-col>
       <el-col :span="20">

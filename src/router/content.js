@@ -9,6 +9,10 @@ let arr = [
     path: '/activityAd/addAd',
     name: 'activityAdAddAd',
     component: () => import('@/page/content/addAd'),
+  },{
+    path: '/activityAd/editAd',
+    name: 'activityAdeditAd',
+    component: () => import('@/page/content/editAd'),
   },
   {
     path: '/indexTk',
