@@ -33,7 +33,29 @@
             </div>
 
             <!-- 表单 -->
-            <div class="table">
+            <el-row class="table">
+              <el-col :span="8" v-for="item in tableData" :key="item.carticleid" :offset="index > 0 ? 2 : 0">
+                <el-card :body-style="{ padding: '0px' }">
+                  <div class="top">
+                    <div class="info">
+                      <img class="head-img" :src="item.chead" alt="">
+                      <div>
+                        <span>{{item.cnickname}}</span>
+                        <span>{{item.cadddate}}</span>
+                      </div>
+                    </div>
+                    <el-button type="danger" @click="deletBtn">删除</el-button>
+                  </div>
+                  <p class="word-wrap">{{item.ccontent}}</p>
+                  <div class="img-wrap">
+                    <template v-for="imga in item.imgList.slice(0, 9)">
+                      <img :src="imga" alt="" class="content-img">
+                    </template>
+                  </div>
+                </el-card>
+              </el-col>
+            </el-row>
+            <!-- <div class="table">
               <ul>
                 <li v-for="item in tableData" :key="item.carticleid" v-show="item.istate == 1">
                   <div class="top">
@@ -54,16 +76,11 @@
                   </div>
                 </li>
               </ul>
-            </div>
+            </div> -->
             <!-- 分页 -->
-            <el-pagination
-            style="margin-top: 16px; text-align:center;"
-            layout="total, prev, pager, next"
-            :total="total"
-            :page-size="listQuery.pageSize"
-            :current-page.sync="listQuery.pageNo"
-            @current-change="handleCurrentChange"
-          ></el-pagination>
+            <el-pagination style="margin-top: 16px; text-align:center;" layout="total, prev, pager, next" :total="total"
+              :page-size="listQuery.pageSize" :current-page.sync="listQuery.pageNo"
+              @current-change="handleCurrentChange"></el-pagination>
           </div>
         </el-card>
       </el-col>
@@ -169,8 +186,53 @@
   .dynamic-wrap {
     width: 100%;
     height: 100%;
+    .top {
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            border-radius: 15px;
 
-    .table {
+            .info {
+              display: flex;
+
+              .head-img {
+                width: 50px;
+                height: 50px;
+              }
+
+              div {
+                display: flex;
+                flex-direction: column;
+                padding-left: 10px;
+              }
+            }
+          }
+
+          .word-wrap {
+            display: block;
+            width: 460px;
+            word-wrap: break-word;
+            word-break: break-all;
+            overflow: hidden;
+            padding-left: 20px;
+          }
+
+          .img-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: space-around;
+
+            .content-img {
+              display: block;
+              width: 150px;
+              height: 150px;
+              margin: 10px 0;
+            }
+          }
+
+    /* .table {
       width: 100%;
       height: 100%;
 
@@ -233,7 +295,7 @@
           }
         }
       }
-    }
+    } */
   }
 
   .top-wrap {
