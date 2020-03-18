@@ -183,12 +183,14 @@
             </el-table>
             <!-- 分页 -->
             <el-pagination
-              style="margin-top: 16px; text-align:center;"
-              layout="total, prev, pager, next"
-              :total="total"
-              @current-change="handleCurrentChange"
-            ></el-pagination>
-
+            style="margin-top: 16px; text-align:center;"
+            layout="total, prev, pager, next"
+            :total="total"
+            :page-size="listQuery.pageSize"
+            :current-page.sync="listQuery.pageNo"
+            @current-change="handleCurrentChange"
+          ></el-pagination>
+  
             <div class="shade" v-show="add">
               <div class="shade-wrap">
                 <p>加钻石</p>
@@ -333,8 +335,8 @@ export default {
     },
     getLoadRechargeList() {
       loadRechargeList(this.listQuery).then(res => {
-        this.tableData = res.data.data;
-        this.total = res.data.data.length;
+        this.tableData = res.data.data.list;
+        this.total = res.data.data.total;
       });
     },
     handleCurrentChange(value) {

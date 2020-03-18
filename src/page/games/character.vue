@@ -20,11 +20,10 @@
           </template>
         </el-table-column>
         <el-table-column prop="csubject" label="题目" header-align="center"></el-table-column>
-        <el-table-column prop="squareAnswerlist[0].content" label="选项A" header-align="center">
+        <el-table-column prop="squareAnswerlist[0].ccontent" label="选项A" header-align="center">
         </el-table-column>
-        <el-table-column prop="squareAnswerlist[1].content" label="选项B" header-align="center"></el-table-column>
-        <el-table-column prop="squareAnswerlist[2].content" label="选项C" header-align="center"></el-table-column>
-        <el-table-column prop="squareAnswerlist[3].content" label="选项D" header-align="center"></el-table-column>
+        <el-table-column prop="squareAnswerlist[1].ccontent" label="选项B" header-align="center"></el-table-column>
+        <el-table-column prop="squareAnswerlist[2].ccontent" label="选项C" header-align="center"></el-table-column>
         <el-table-column label="操作" header-align="center" align="center" width="180">
           <template slot-scope="scope">
             <el-button type="primary" @click="editAction(scope.row)">编辑</el-button>
@@ -43,7 +42,6 @@
             <el-input placeholder="请输入题目" v-model="subject"></el-input>
           </div>
           <div class="input-item">
-            <!-- 选项A：<el-input placeholder="请输入题目"></el-input> -->
             <div>
               选项A：
               <el-input placeholder="请输入答案" v-model="aSub"></el-input>
@@ -55,10 +53,6 @@
             <div>
               选项C：
               <el-input placeholder="请输入答案" v-model="cSub"></el-input>
-            </div>
-            <div>
-              选项D：
-              <el-input placeholder="请输入答案" v-model="dSub"></el-input>
             </div>
           </div>
           <div class="btn-wrap">
@@ -74,29 +68,28 @@
         <p>编辑题目</p>
         <div class="input-wrap">
           <div class="input-item">
-            题目：
+            <span>题目：</span>
             <el-input placeholder="请输入题目" v-model="subject"></el-input>
+            <el-button @click="agreeBtn">修改</el-button>
           </div>
           <div class="input-item">
             <div>
-              选项A：
+              <span>选项A：</span>
               <el-input placeholder="请输入答案" v-model="aSub"></el-input>
+              <el-button @click="editA">修改</el-button>
             </div>
             <div>
-              选项B：
+              <span>选项B：</span>
               <el-input placeholder="请输入答案" v-model="bSub"></el-input>
+              <el-button @click="editB">修改</el-button>
             </div>
             <div>
-              选项C：
+              <span>选项C：</span>
               <el-input placeholder="请输入答案" v-model="cSub"></el-input>
-            </div>
-            <div>
-              选项D：
-              <el-input placeholder="请输入答案" v-model="dSub"></el-input>
+              <el-button @click="editC">修改</el-button>
             </div>
           </div>
           <div class="btn-wrap">
-            <el-button @click="editBtn">确认</el-button>
             <el-button @click="cancelBtn">取消</el-button>
           </div>
         </div>
@@ -104,14 +97,9 @@
     </div>
 
     <div class="block p20 tac">
-      <el-pagination
-      style="margin-top: 16px; text-align:center;"
-      layout="total, prev, pager, next"
-      :total="total"
-      :page-size="formInline.pageSize"
-      :current-page.sync="formInline.pageNo"
-      @current-change="handleCurrentChange"
-    ></el-pagination>
+      <el-pagination style="margin-top: 16px; text-align:center;" layout="total, prev, pager, next" :total="total"
+        :page-size="formInline.pageSize" :current-page.sync="formInline.pageNo" @current-change="handleCurrentChange">
+      </el-pagination>
     </div>
   </div>
 </template>
@@ -136,11 +124,13 @@
         sort: "",
         answerid: "",
         content: "",
-        serialn: ['0', '1', '2', '3'],
+        serialn: ['0', '1', '2'],
         aSub: "",
         bSub: "",
         cSub: "",
-        dSub: "",
+        aId: "",
+        bId: "",
+        cId: "",
         showEdit: false,
         showLook: false
       };
@@ -167,14 +157,17 @@
         this.aSub = '';
         this.bSub = '';
         this.cSub = '';
-        this.dSub = '';
         this.sort = '';
+        this.aId = '';
+        this.bId = '';
+        this.cId = '';
         this.answerid = '';
         this.serialn = '';
         this.content = '';
       },
       agreeBtn() {
-        this.content = 'a:' + this.aSub + ',' + 'b:' +  this.bSub + ',' + 'c:' + this.cSub + ',' + 'd:' + this.dSub
+        this.content = '1:' + this.aSub + ',' + '2:' + this.bSub + ',' + '3:' + this.cSub;
+        this.serialn = this.serialn.join(',');
         console.log(this.content)
         editSquareQuestion({
           questionid: '',
@@ -182,7 +175,7 @@
           sort: '',
           answerid: '',
           content: this.content,
-          serialn: this.serialn.join(','),
+          serialn: this.serialn,
           type: 3
         }).then(res => {
           if (res.data.code == 200) {
@@ -197,15 +190,14 @@
           }
         });
       },
-      editBtn() {
-        this.content = 'a:' + this.aSub + ',' + 'b:' +  this.bSub + ',' + 'c:' + this.cSub + ',' + 'd:' + this.dSub
-        console.log(this.content)
+      editA() {
+        console.log(this.aId)
         editSquareQuestion({
           questionid: this.questionid,
           subject: this.subject,
           sort: this.sort,
-          answerid: this.answerid,
-          content: this.content,
+          answerid: this.aId,
+          content: this.aSub,
           serialn: this.serialn.join(','),
           type: 1
         }).then(res => {
@@ -216,6 +208,89 @@
             });
             this.getLoadSquareQuestionList();
             this.showEdit = false;
+            this.questionid = '';
+            this.subject = '';
+            this.sort = '';
+            this.aSub = '';
+            this.bSub = '';
+            this.cSub = '';
+            this.sort = '';
+            this.aId = '';
+            this.bId = '';
+            this.cId = '';
+            this.answerid = '';
+            this.serialn = '';
+            this.content = '';
+          } else {
+            this.$message.error(res.data.message);
+          }
+        });
+      },
+      editB() {
+        editSquareQuestion({
+          questionid: this.questionid,
+          subject: this.subject,
+          sort: this.sort,
+          answerid: this.bId,
+          content: this.bSub,
+          serialn: this.serialn.join(','),
+          type: 1
+        }).then(res => {
+          if (res.data.code == 200) {
+            this.$message({
+              message: res.data.message,
+              type: 'success'
+            });
+            this.getLoadSquareQuestionList();
+            this.showEdit = false;
+            this.questionid = '';
+            this.subject = '';
+            this.sort = '';
+            this.aSub = '';
+            this.bSub = '';
+            this.cSub = '';
+            this.sort = '';
+            this.aId = '';
+            this.bId = '';
+            this.cId = '';
+            this.answerid = '';
+            this.serialn = '';
+            this.content = '';
+          } else {
+            this.$message.error(res.data.message);
+          }
+        });
+      },
+      editC() {
+        editSquareQuestion({
+          questionid: this.questionid,
+          subject: this.subject,
+          sort: this.sort,
+          answerid: this.cId,
+          content: this.cSub,
+          serialn: this.serialn.join(','),
+          type: 1
+        }).then(res => {
+          if (res.data.code == 200) {
+            this.$message({
+              message: res.data.message,
+              type: 'success'
+            });
+            this.getLoadSquareQuestionList();
+            this.showEdit = false;
+            this.questionid = '';
+            this.subject = '';
+            this.sort = '';
+            this.aSub = '';
+            this.bSub = '';
+            this.cSub = '';
+            this.sort = '';
+            this.aId = '';
+            this.bId = '';
+            this.cId = '';
+            this.answerid = '';
+            this.serialn = '';
+            this.content = '';
           } else {
             this.$message.error(res.data.message);
           }
@@ -235,11 +310,14 @@
         this.questionid = row.cquestionid;
         this.subject = row.csubject;
         this.sort = row.isort;
-        this.aSub = row.squareAnswerlist[0].content;
-        this.bSub = row.squareAnswerlist[1].content;
-        this.cSub = row.squareAnswerlist[2].content;
-        this.dSub = row.squareAnswerlist[3].content;
-        this.answerid = row.squareAnswerlist[0].answerid;
+        this.aSub = row.squareAnswerlist[0].ccontent;
+        this.bSub = row.squareAnswerlist[1].ccontent;
+        this.cSub = row.squareAnswerlist[2].ccontent;
+        this.aId = row.squareAnswerlist[0].canswerid;
+        this.bId = row.squareAnswerlist[1].canswerid;
+        this.cId = row.squareAnswerlist[2].canswerid;
+        this.answerid = row.squareAnswerlist[0].canswerid;
+        console.log(this.aId)
       }
     },
     created() {

@@ -21,9 +21,9 @@
         </el-table-column>
         <el-table-column prop="adddate" label="操作时间" header-align="center" align="center">
         </el-table-column>
-        <el-table-column prop="address" label="变化前钻石" header-align="center" align="center">
+        <el-table-column prop="oldmoney" label="变化前钻石" header-align="center" align="center">
         </el-table-column>
-        <el-table-column prop="address" label="变化后钻石" header-align="center" align="center">
+        <el-table-column prop="balance" label="变化后钻石" header-align="center" align="center">
         </el-table-column>
         <el-table-column label="业务数据" header-align="center" align="center">
           <template slot-scope="scope">

@@ -35,12 +35,12 @@
         </el-table-column>
         <el-table-column label="充值金额" header-align="center" align="center">
           <template slot-scope="scope">
-            <p v-if="scope.row.biztype==301">{{scope.row.czcs}}</p>
+            <p v-if="scope.row.biztype==101">{{scope.row.czcs}}</p>
           </template>
         </el-table-column>
         <el-table-column label="提现金额" header-align="center" align="center">
           <template slot-scope="scope">
-            <p v-if="scope.row.biztype==303">{{scope.row.czcs}}</p>
+            <p v-if="scope.row.biztype==103">{{scope.row.czcs}}</p>
           </template>
         </el-table-column>
         <el-table-column label="进帐钻石" header-align="center" align="center">

@@ -38,9 +38,9 @@
             <p v-else>女</p>
           </template>
         </el-table-column>
-        <el-table-column prop="address" label="VIP等级" header-align="center" align="center">
+        <el-table-column prop="iviplevel" label="VIP等级" header-align="center" align="center">
         </el-table-column>
-        <el-table-column prop="cchannel" label="渠道号" header-align="center" align="center">
+        <el-table-column prop="cosname" label="渠道号" header-align="center" align="center">
         </el-table-column>
         <el-table-column prop="ifillmoney" label="充值总额" header-align="center" align="center">
         </el-table-column>
@@ -53,7 +53,10 @@
         <el-table-column prop="cadddate" label="上次活跃时间" header-align="center" align="center">
         </el-table-column>
         <el-table-column label="操作" width="100" header-align="center" align="center">
-          <el-button type="primary">查看</el-button>
+          <template slot-scope="scope">
+
+          <el-button type="primary" @click="lookAction(scope.$index, scope.row)">查看</el-button>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -98,6 +101,15 @@
       }
     },
     methods: {
+      //查看
+      lookAction(index, row) {
+        this.$router.push({
+          path: '/userInfo/detail',
+          query: {
+            userid: row.cuserid
+          }
+        })
+      },
       getLoadUserLossList() {
         loadUserLossList(this.formInline).then(res => {
           if (res.data.code == 200) {

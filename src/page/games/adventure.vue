@@ -21,16 +21,16 @@
             </el-table-column>
             <el-table-column prop="ccontent" label="任务" header-align="center" align="center">
             </el-table-column>
-            <el-table-column prop="cbegindate" label="更新时间" header-align="center" align="center">
+            <el-table-column prop="cupdatetime" label="更新时间" header-align="center" align="center">
             </el-table-column>
             <el-table-column label="状态" header-align="center" align="center">
               <template slot-scope="scope">
-                <p v-if="scope.row.upperstate == 0">下架</p>
-                <p v-else-if="scope.row.upperstate == 1">上架</p>
+                <p v-if="scope.row.exstate == 0">下架</p>
+                <p v-else-if="scope.row.exstate == 1">上架</p>
                 <p v-else></p>
               </template>
             </el-table-column>
-            <el-table-column prop="cnickname" label="发布人" header-align="center" align="center">
+            <el-table-column prop="coperator" label="发布人" header-align="center" align="center">
             </el-table-column>
             <el-table-column label="操作" header-align="center" align="center">
               <template slot-scope="scope">
@@ -56,11 +56,11 @@
               <p>查看任务</p>
               <div class="input-wrap">
                 <div class="input-item">
-                  任务内容<el-input v-model="editForm.ccontent" placeholder=""></el-input>
+                  任务内容<el-input v-model="editForm.ccontent"></el-input>
                 </div>
                 <div class="input-item">
                   状态：
-                  <el-select v-model="editForm.state" placeholder="请选择">
+                  <el-select v-model="editForm.state" :placeholder="placeholder">
                     <el-option label="下架" value="0"></el-option>
                     <el-option label="上架" value="1"></el-option>
                   </el-select>
@@ -78,7 +78,7 @@
               <p>添加任务</p>
               <div class="input-wrap">
                 <div class="input-item">
-                  任务内容<el-input v-model="addForm.ccontent" placeholder=""></el-input>
+                  任务内容<el-input v-model="addForm.ccontent" placeholder="请填写内容"></el-input>
                 </div>
                 <div class="input-item">
                   状态：
@@ -137,10 +137,16 @@
         this.getLoadAdventureTaskList();
       },
       lookAction(index, row) {
-        if (row.istate == 0) {
+        this.editForm.ctaskid = row.ctitleid,
+        this.editForm.state = row.exstate,
+        this.editForm.ccontent = row.ccontent
+        console.log(row.exstate)
+        if (row.exstate == 0) {
           this.placeholder = '下架'
-        } else {
+        } else if (row.exstate == 1) {
           this.placeholder = '上架'
+        } else {
+          this.placeholder = ''
         }
         this.showLook = true;
       },

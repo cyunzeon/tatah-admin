@@ -179,11 +179,13 @@
             </el-table>
             <!-- 分页 -->
             <el-pagination
-              style="margin-top: 16px; text-align:center;"
-              layout="total, prev, pager, next"
-              :total="total"
-              @current-change="handleCurrentChange"
-            ></el-pagination>
+            style="margin-top: 16px; text-align:center;"
+            layout="total, prev, pager, next"
+            :total="total"
+            :page-size="listQuery.pageSize"
+            :current-page.sync="listQuery.pageNo"
+            @current-change="handleCurrentChange"
+          ></el-pagination>
 
             <div class="shade" v-show="showCash">
               <div class="shade-wrap">
@@ -259,7 +261,8 @@ export default {
   methods: {
     getLoadUserCashList() {
       loadUserCashList(this.listQuery).then(res => {
-        this.tableData = res.data.data;
+        this.tableData = res.data.data.list;
+        this.total = res.data.data.total;
       });
     },
     agreeBtn() {
@@ -308,7 +311,8 @@ export default {
       this.cashList.cbankname = row.cbankname;
       this.cashList.cbankbranchname = row.cbankbranchname;
       this.cashList.imoney = row.imoney;
-      this.$set(this.showCash, index, true);
+      //this.$set(this.showCash, index, true);
+      this.showCash = true
     },
     handleFilter() {
       this.listQuery.pageNo = 1;
