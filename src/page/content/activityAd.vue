@@ -71,7 +71,7 @@
       getLoadManageAdvertisingList() {
         loadManageAdvertisingList(this.formInline).then(res => {
           if (res.data.code == 200) {
-            this.total = res.data.data.total;
+            this.total = parseInt(res.data.data.total);
             this.tableData = res.data.data.list;
           }
         })

@@ -12,7 +12,7 @@
         <el-form-item label="昵称：">
           <el-input v-model="formInline.nickName" placeholder="昵称"></el-input>
         </el-form-item>
-        <el-form-item label="注册时间：">
+        <el-form-item label="修改时间：">
           <div class="block">
             <el-date-picker type="date" placeholder="选择开始日期" :picker-options="pickerOptionsStart"
               v-model="formInline.startDate" @change="startTimeChang"></el-date-picker>
@@ -20,15 +20,15 @@
               v-model="formInline.endDate" @change="endTimeChang"></el-date-picker>
           </div>
         </el-form-item>
-        <el-form-item label="是否处理：">
+        <!-- <el-form-item label="是否处理：">
           <el-select v-model="formInline.state" placeholder="请选择">
             <el-option label="全部" value=""></el-option>
             <el-option label="未审核" value="0"></el-option>
             <el-option label="已审核" value="1"></el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="审核状态：">
-          <el-select v-model="formInline.exstate" placeholder="请选择">
+          <el-select v-model="formInline.state" placeholder="请选择">
             <el-option label="全部" value=""></el-option>
             <el-option label="拒绝" value="0"></el-option>
             <el-option label="通过" value="1"></el-option>
@@ -59,18 +59,18 @@
         </el-table-column>
         <el-table-column prop="cadddate" label="修改时间" header-align="center" align="center">
         </el-table-column>
-        <el-table-column label="是否处理" header-align="center" align="center">
+        <!-- <el-table-column label="是否处理" header-align="center" align="center">
           <template slot-scope="scope">
             <p v-if="scope.row.istate==0">未审核</p>
             <p v-else-if="scope.row.istate==1">已审核</p>
             <p v-else></p>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column label="状态" header-align="center" align="center">
           <template slot-scope="scope">
-            <p v-if="scope.row.exstate==0">待审核</p>
-            <p v-else-if="scope.row.exstate==1">拒绝</p>
-            <p v-else-if="scope.row.exstate==2">通过</p>
+            <p v-if="scope.row.istate==0">待审核</p>
+            <p v-else-if="scope.row.istate==1">拒绝</p>
+            <p v-else-if="scope.row.istate==2">通过</p>
             <p v-else></p>
           </template>
         </el-table-column>
@@ -112,7 +112,6 @@
           pageNo: 1,
           startDate: '',
           endDate: '',
-          exstate: '',
           state: ''
         },
         //时间选择
@@ -133,7 +132,7 @@
       getLoadUserVideoExaminetList() {
         loadUserVideoExaminetList(this.formInline).then(res => {
           if (res.data.code == 200) {
-            this.total = res.data.data.total;
+            this.total = parseInt(res.data.data.total);
             this.tableData = res.data.data.list;
           }
         })
@@ -145,7 +144,7 @@
         updateVideoExaminet({
           cuserid: row.cuserid,
           cvideo: row.cvideo,
-          exstate: 2
+          state: 2
         }).then(res => {
           if (res.data.code == 200) {
             this.$message({
@@ -162,7 +161,7 @@
         updateVideoExaminet({
           cuserid: row.cuserid,
           cvideo: row.cvideo,
-          exstate: 1
+          state: 1
         }).then(res => {
           if (res.data.code == 200) {
             this.$message({

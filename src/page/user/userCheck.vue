@@ -15,13 +15,13 @@
             v-model="formInline.endDate" @change="endTimeChang"></el-date-picker>
         </div>
       </el-form-item>
-      <el-form-item label="是否处理：">
+      <!-- <el-form-item label="是否处理：">
         <el-select v-model="formInline.state" placeholder="请选择">
           <el-option label="全部" value=""></el-option>
           <el-option label="未处理" value="0"></el-option>
           <el-option label="已处理" value="1"></el-option>
         </el-select>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="审核状态：">
         <el-select v-model="formInline.state" placeholder="请选择">
           <el-option label="全部" value=""></el-option>
@@ -54,14 +54,14 @@
         </el-table-column>
         <el-table-column prop="cadddate" label="注册时间" header-align="center" align="center">
         </el-table-column>
-        <el-table-column label="是否处理" header-align="center" align="center">
+        <!-- <el-table-column label="是否处理" header-align="center" align="center">
           <template slot-scope="scope">
             <p v-if="scope.row.iexamine==0">未提交审核</p>
             <p v-else-if="scope.row.iexamine==1">审核通过</p>
             <p v-else-if="scope.row.iexamine==2">审核中</p>
             <p v-else>审核未通过</p>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column label="审核状态" header-align="center" align="center">
           <template slot-scope="scope">
             <p v-if="scope.row.iexamine==0">未提交审核</p>
@@ -79,9 +79,14 @@
     </div>
 
     <div class="block p20 tac">
-      <el-pagination style="margin-top: 16px; text-align:center;" layout="total, prev, pager, next" :total="total"
-        @current-change="handleCurrentChange">
-      </el-pagination>
+      <el-pagination
+      style="margin-top: 16px; text-align:center;"
+      layout="total, prev, pager, next"
+      :total="total"
+      :page-size="formInline.pageSize"
+      :current-page.sync="formInline.pageNo"
+      @current-change="handleCurrentChange"
+    ></el-pagination>
     </div>
 
     <el-dialog width="400px" :visible.sync="imgVisible">
@@ -130,8 +135,8 @@
     methods: {
       getLoadUserExamineList() {
         loadUserExamineList(this.formInline).then(res => {
-          this.tableData = res.data.data
-          this.total = res.data.data.length
+          this.tableData = res.data.data.list;
+          this.total = parseInt(res.data.data.total);
         })
       },
       onSubmit() {

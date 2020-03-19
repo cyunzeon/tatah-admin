@@ -67,10 +67,15 @@
               </el-table-column>
             </el-table>
             <!-- 分页 -->
-            <el-pagination style="margin-top: 16px; text-align:center;" layout="total, prev, pager, next" :total="total"
-              :page-size="listQuery.pageSize" :current-page.sync="listQuery.pageNo"
-              @current-change="handleCurrentChange"></el-pagination>
-          </div>
+            <el-pagination
+            style="margin-top: 16px; text-align:center;"
+            layout="total, prev, pager, next"
+            :total="total"
+            :page-size="listQuery.pageSize"
+            :current-page.sync="listQuery.pageNo"
+            @current-change="handleCurrentChange"
+          ></el-pagination>
+                </div>
         </el-card>
       </el-col>
     </el-row>
@@ -122,7 +127,7 @@
         loadUserReportList(this.listQuery).then(res => {
           if (res.data.code == 200) {
             this.tableData = res.data.data.list;
-            this.total = res.data.data.total;
+            this.total = parseInt(res.data.data.total);
           }
         })
       },

@@ -297,7 +297,21 @@
         });
       },
       deletAction(row) {
-
+        console.log(row)
+        editSquareQuestion({
+          questionid: row.cquestionid,
+          type: 2
+        }).then(res => {
+          if (res.data.code == 200) {
+            this.$message({
+              message: res.data.message,
+              type: 'success'
+            });
+            this.getLoadSquareQuestionList();
+          } else {
+            this.$message.error(res.data.message);
+          }
+        });
       },
       refreshAction() {
         this.getLoadSquareQuestionList();

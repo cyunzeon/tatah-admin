@@ -79,9 +79,9 @@
     },
     created() {
       if (this.$route.query.state == 1) {
-        this.states = 1
+        this.states = true
       } else {
-        this.states = 0
+        this.states = false
       }
     }
   };

@@ -20,7 +20,8 @@
             <td>性别</td>
             <td>
               <span v-if="infoList.gender==1">男</span>
-              <span v-else>女</span>
+              <span v-else-if="infoList.gender==0">女</span>
+              <span v-else></span>
             </td>
           </tr>
           <tr>
@@ -47,12 +48,13 @@
             <td>帐户状态</td>
             <td>
               <span v-if="infoList.state==1">正常</span>
-              <span v-else>注销</span>
+              <span v-else-if="infoList.state==0">注销</span>
+              <span v-else></span>
             </td>
           </tr>
           <tr>
             <td>真实姓名</td>
-            <td>{{infoList.realname}}</td>
+            <td>{{infoList.crealname}}</td>
             <td>身份证号码</td>
             <td>{{infoList.idCard}}</td>
           </tr>
@@ -70,7 +72,7 @@
           </tr>
           <tr>
             <td>个人描述</td>
-            <td colspan="3">{{infoList.signature}}</td>
+            <td colspan="3">{{infoList.csignature}}</td>
           </tr>
         </table>
       </el-col>
@@ -160,7 +162,7 @@ export default {
   data() {
     return {
       infoList: "",
-      accountList: ""
+      accountList: "",
     };
   },
   methods: {
@@ -169,7 +171,13 @@ export default {
         path: "/userInfo/edit",
         query: {
           userId: this.infoList.userid,
-          state: this.infoList.state
+          state: this.infoList.state,
+          crealname: this.infoList.crealname,
+          idCard: this.infoList.idCard,
+          bankBranchName: this.infoList.bankBranchName,
+          csignature: this.infoList.csignature,
+          alipayCcount: this.infoList.alipayCcount,
+          bankCard: this.infoList.bankCard
         }
       });
     },
@@ -179,6 +187,7 @@ export default {
       }).then(res => {
         if (res.data.code == 200) {
           this.infoList = res.data.data;
+          console.log(this.infoList.uservideo)
         }
       });
     },

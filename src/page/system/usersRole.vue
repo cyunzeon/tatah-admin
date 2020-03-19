@@ -53,10 +53,10 @@
                 <p>编辑名称</p>
                 <div class="input-wrap">
                   <div class="input-item">
-                    用户编号：<el-input v-model="editForm.userId" placeholder="编辑名称"></el-input>
+                    用户编号：<el-input v-model="editForm.userId" placeholder="用户编号"></el-input>
                   </div>
                   <div class="input-item">
-                    角色编号：<el-input v-model="editForm.roleId" placeholder="编辑名称"></el-input>
+                    角色编号：<el-input v-model="editForm.roleId" placeholder="角色编号"></el-input>
                   </div>
                   <div class="btn-wrap">
                     <el-button @click="editBtn">
@@ -74,10 +74,10 @@
                 <p>添加用户</p>
                 <div class="input-wrap">
                   <div class="input-item">
-                    用户编号：<el-input v-model="editForm.userId" placeholder="编辑名称"></el-input>
+                    用户编号：<el-input v-model="editForm.userId" placeholder="用户编号"></el-input>
                   </div>
                   <div class="input-item">
-                    角色编号：<el-input v-model="editForm.roleId" placeholder="编辑名称"></el-input>
+                    角色编号：<el-input v-model="editForm.roleId" placeholder="角色编号"></el-input>
                   </div>
                   <div class="btn-wrap">
                     <el-button @click="addRoleBtn">

@@ -14,9 +14,9 @@
           <td>{{$route.query.cnickname}}</td>
           <td>俱乐部状态</td>
           <td>
-            <p v-if="$route.query.cgroupname == 0">解散</p>
-            <p v-else-if="$route.query.cgroupname == 1">正常</p>
-            <p v-else>冻结</p>
+            <p v-if="$route.query.istate == 0">解散</p>
+            <p v-else-if="$route.query.istate == 1">正常</p>
+            <!-- <p v-else>冻结</p> -->
           </td>
           <td>创建时间</td>
           <td>{{$route.query.cadddate}}</td>
@@ -70,6 +70,16 @@
         </el-table-column>
       </el-table>
 
+      <el-pagination
+      style="margin-top: 16px; text-align:center;"
+      layout="total, prev, pager, next"
+      :total="total"
+      :page-size="formInline.pageSize"
+      :current-page.sync="formInline.pageNo"
+      @current-change="handleCurrentChange"
+    ></el-pagination>
+      
+
       <el-dialog width="400px" :visible.sync="imgVisible">
         <el-card :body-style="{ padding: '0px' }">
           <img :src="dialogImgUrl" width="100%" height="100%">
@@ -87,32 +97,44 @@
   export default {
     data() {
       return {
-        form: {
-          type: ''
+        formInline: {
+          groupid: this.$route.query.cgroupid,
+          pageSize: 20,
+          pageNo: 1
         },
         tableData: [],
         imgVisible: false,
-        dialogImgUrl: ''
+        dialogImgUrl: '',
+        total: 0
       };
     },
     methods: {
       getLoadGroupMemberList() {
-        loadGroupMemberList({
-          groupid: this.$route.query.cgroupid
-        }).then(res => {
+        loadGroupMemberList(this.formInline).then(res => {
           if (res.data.code == 200) {
-            this.tableData = res.data.data
+            this.tableData = res.data.data.list;
+            this.total = parseInt(res.data.data.total);
           }
         })
       },
       refreshAction() {
         this.getLoadGroupMemberList();
       },
+            //分页器
+        handleCurrentChange(pgno) {
+        this.formInline.pageNo = pgno;
+        this.getLoadGroupMemberList();
+      },
       backAction() {
         this.$router.go(-1)
       },
       lookAction(index, row) {
-        
+        this.$router.push({
+          path: '/userInfo/detail',
+          query: {
+            userid: row.cuserid
+          }
+        })
       },
       openImg(head) {
         if (head) {

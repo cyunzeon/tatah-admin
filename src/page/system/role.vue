@@ -48,13 +48,13 @@
                 <p>编辑名称</p>
                 <div class="input-wrap">
                   <div class="input-item">
-                    角色名称：<el-input v-model="editForm.roleName" placeholder="编辑名称"></el-input>
+                    角色名称：<el-input v-model="editForm.roleName" placeholder="角色名称"></el-input>
                   </div>
                   <div class="input-item">
-                    备注：<el-input v-model="editForm.description" placeholder="编辑名称"></el-input>
+                    备注：<el-input v-model="editForm.description" placeholder="备注"></el-input>
                   </div>
                   <div class="input-item">
-                    角色代码编号：<el-input v-model="editForm.roleCode" placeholder="编辑名称"></el-input>
+                    角色编号：<el-input v-model="editForm.roleCode" placeholder="角色编号"></el-input>
                   </div>
                   <div class="btn-wrap">
                     <el-button @click="editBtn">
@@ -72,13 +72,10 @@
                 <p>用户和角色绑定的页面</p>
                 <div class="input-wrap">
                   <div class="input-item">
-                    用户编号：<el-input v-model="editForm.roleName" placeholder="编辑名称"></el-input>
+                    角色编号：<el-input v-model="editForm.roleCode" placeholder="角色编号"></el-input>
                   </div>
                   <div class="input-item">
-                    备注：<el-input v-model="editForm.description" placeholder="编辑名称"></el-input>
-                  </div>
-                  <div class="input-item">
-                    角色编号：<el-input v-model="editForm.roleCode" placeholder="编辑名称"></el-input>
+                    备注：<el-input v-model="editForm.description" placeholder="备注"></el-input>
                   </div>
                   <div class="btn-wrap">
                     <el-button @click="addRoleBtn">

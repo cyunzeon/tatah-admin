@@ -23,13 +23,13 @@
             </el-table-column>
             <el-table-column prop="cupdatetime" label="更新时间" header-align="center" align="center">
             </el-table-column>
-            <el-table-column label="状态" header-align="center" align="center">
+            <!-- <el-table-column label="状态" header-align="center" align="center">
               <template slot-scope="scope">
                 <p v-if="scope.row.exstate == 0">下架</p>
                 <p v-else-if="scope.row.exstate == 1">上架</p>
                 <p v-else></p>
               </template>
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column prop="coperator" label="发布人" header-align="center" align="center">
             </el-table-column>
             <el-table-column label="操作" header-align="center" align="center">
@@ -56,10 +56,10 @@
               <p>查看任务</p>
               <div class="input-wrap">
                 <div class="input-item">
-                  任务内容<el-input v-model="editForm.ccontent"></el-input>
+                  <span>任务内容：</span><el-input v-model="editForm.ccontent"></el-input>
                 </div>
                 <div class="input-item">
-                  状态：
+                  <span>状态：</span>
                   <el-select v-model="editForm.state" :placeholder="placeholder">
                     <el-option label="下架" value="0"></el-option>
                     <el-option label="上架" value="1"></el-option>
@@ -167,7 +167,7 @@
       delAction(row) {
         editAdventureByCtastId({
           type: 2,
-          ctaskid: row.ctaskid
+          ctitleid: row.ctitleid
         }).then(res => {
           if (res.data.code == 200) {
             this.$message({
@@ -260,15 +260,24 @@
 
         .input-wrap {
           display: flex;
+          width: 100%;
           flex-direction: column;
-          justify-content: center;
+          justify-content: space-around;
           align-items: center;
 
           .input-item {
+            width: 100%;
             margin: 10px 0;
+            display:flex;
+            justify-content: center;
+            align-items: center;
 
             .el-select {
               width: 120px;
+            }
+
+            .el-input {
+              width: 200px;
             }
 
             img {

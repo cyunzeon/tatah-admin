@@ -20,7 +20,7 @@
               <el-input v-model="listQuery.nickName" />
             </div>
             <div class="palette palette-wrap">
-              举报时间:
+              发布时间:
               <el-date-picker type="date" placeholder="选择开始日期" :picker-options="pickerOptionsStart"
                 v-model="listQuery.startDate" @change="startTimeChang"></el-date-picker>
               <el-date-picker type="date" placeholder="选择结束日期" :picker-options="pickerOptionsOver"
@@ -31,7 +31,6 @@
                 查询
               </el-button>
             </div>
-
             <!-- 表单 -->
             <!-- <el-row class="table">
               <el-col :span="8" v-for="item in tableData" :key="item.carticleid" :offset="index > 0 ? 2 : 0">
@@ -56,6 +55,8 @@
               </el-col>
             </el-row> -->
             <div class="table">
+              <display-info-with-emoji :msg="inputMessage"></display-info-with-emoji>
+
               <ul>
                 <li v-for="item in tableData" :key="item.carticleid" v-show="item.istate == 1">
                   <div class="top">
@@ -69,10 +70,16 @@
                     <el-button type="danger" @click="deletBtn(item)">删除</el-button>
                   </div>
                   <p class="word-wrap">{{item.ccontent}}</p>
-                  <div class="img-wrap">
+                  <div class="img-wrap" v-if="item.imgList != ''">
                     <template v-for="imga in item.imgList.slice(0, 9)">
                       <img :src="imga" alt="" class="content-img">
                     </template>
+                  </div>
+                  <div class="img-wrap" v-else>
+                    <video muted width="700" height="400" autoplay loop controls="controls">
+                      <source :src="item.cvideoimage" type="video/mp4" />您的浏览器不支持 video 标签
+                    </video>
+
                   </div>
                 </li>
               </ul>
@@ -92,7 +99,20 @@
     loadUserCircleArticleList,
     updateUserCircleArticleList
   } from '@/request/api'
+  import {
+    smileEmoji,
+    CEmoji,
+    DisplayInfoWithEmoji,
+    EmojiItem,
+    convertEmoji2Str,
+    convertStr2Emoji
+  } from "w-vue-emoji"
   export default {
+    components: {
+      CEmoji,
+      DisplayInfoWithEmoji,
+      EmojiItem
+    },
     created() {
       this.getLoadUserCircleArticleList();
     },
@@ -150,7 +170,7 @@
         loadUserCircleArticleList(this.listQuery).then(res => {
           if (res.data.code == 200) {
             this.tableData = res.data.data.list;
-            this.total = res.data.data.total;
+            this.total = parseInt(res.data.data.total);
           }
         })
       },

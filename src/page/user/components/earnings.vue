@@ -33,10 +33,15 @@
       </el-table>
     </div>
     <div class="block p20 tac">
-      <el-pagination style="margin-top: 16px; text-align:center;" layout="total, prev, pager, next" :total="total"
-        @current-change="handleCurrentChange">
-      </el-pagination>
-    </div>
+      <el-pagination
+      style="margin-top: 16px; text-align:center;"
+      layout="total, prev, pager, next"
+      :total="total"
+      :page-size="formInline.pageSize"
+      :current-page.sync="formInline.pageNo"
+      @current-change="handleCurrentChange"
+    ></el-pagination>
+      </div>
   </div>
 </template>
 <script>
@@ -74,8 +79,8 @@
       getlLoadUserConsumptionList() {
         loadUserConsumptionList(this.formInline).then(res => {
           if (res.data.code == 200) {
-            this.tableData = res.data.data;
-            this.total = res.data.data.length;
+            this.tableData = res.data.data.list;
+            this.total = parseInt(res.data.data.total);
           }
         })
       },
