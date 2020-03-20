@@ -1,13 +1,13 @@
 <template>
   <div class="gift-wrap">
-    
+
     <el-row>
       <el-col :span='24'>
         <el-card>
           <h3 class="title">
             <i class="el-icon-user-solid"></i>冒险游戏
           </h3>
-      
+
           <div class="refresh-btn">
             <el-button type="primary" icon="el-icon-plus" @click="showAdd=true">添加任务</el-button>
             <el-button type="primary" icon="el-icon-refresh" @click="refreshBtn">刷新</el-button>
@@ -41,29 +41,18 @@
           </el-table>
 
           <!-- 分页 -->
-          <el-pagination
-          style="margin-top: 16px; text-align:center;"
-          layout="total, prev, pager, next"
-          :total="total"
-          :page-size="form.pageSize"
-          :current-page.sync="form.pageNo"
-          @current-change="handleCurrentChange"
-        ></el-pagination>
-    
+          <el-pagination style="margin-top: 16px; text-align:center;" layout="total, prev, pager, next" :total="total"
+            :page-size="form.pageSize" :current-page.sync="form.pageNo" @current-change="handleCurrentChange">
+          </el-pagination>
+
 
           <div class="shade2" v-show="showLook">
             <div class="shade-wrap">
               <p>查看任务</p>
               <div class="input-wrap">
                 <div class="input-item">
-                  <span>任务内容：</span><el-input v-model="editForm.ccontent"></el-input>
-                </div>
-                <div class="input-item">
-                  <span>状态：</span>
-                  <el-select v-model="editForm.state" :placeholder="placeholder">
-                    <el-option label="下架" value="0"></el-option>
-                    <el-option label="上架" value="1"></el-option>
-                  </el-select>
+                  <span>任务内容：</span>
+                  <el-input v-model="editForm.ccontent"></el-input>
                 </div>
                 <div class="btn-wrap">
                   <el-button @click="agreeBtn">确认</el-button>
@@ -78,14 +67,7 @@
               <p>添加任务</p>
               <div class="input-wrap">
                 <div class="input-item">
-                  任务内容<el-input v-model="addForm.ccontent" placeholder="请填写内容"></el-input>
-                </div>
-                <div class="input-item">
-                  状态：
-                  <el-select v-model="addForm.state" placeholder="请选择">
-                    <el-option label="下架" value="0"></el-option>
-                    <el-option label="上架" value="1"></el-option>
-                  </el-select>
+                  任务内容：<el-input v-model="addForm.ccontent" placeholder="请填写内容"></el-input>
                 </div>
                 <div class="btn-wrap">
                   <el-button @click="addBtn">确认</el-button>
@@ -116,14 +98,11 @@
           pageSize: 20
         },
         editForm: {
-          ctaskid: '',
-          state: '',
+          ctitleid: '',
           ccontent: '',
           type: 1
         },
         addForm: {
-          ctaskid: '',
-          state: '',
           ccontent: '',
           type: 3
         },
@@ -137,9 +116,9 @@
         this.getLoadAdventureTaskList();
       },
       lookAction(index, row) {
-        this.editForm.ctaskid = row.ctitleid,
-        this.editForm.state = row.exstate,
-        this.editForm.ccontent = row.ccontent
+        this.editForm.ctitleid = row.ctitleid,
+          this.editForm.state = row.exstate,
+          this.editForm.ccontent = row.ccontent
         console.log(row.exstate)
         if (row.exstate == 0) {
           this.placeholder = '下架'
@@ -184,6 +163,8 @@
       cancelBtn() {
         this.editForm.ccontent = '';
         this.editForm.state = '';
+        this.addForm.ccontent = '';
+        this.addForm.state = '';
         this.showLook = false;
         this.showAdd = false;
       },
@@ -195,6 +176,8 @@
               type: 'success'
             });
             this.showAdd = false;
+            this.addForm.ccontent = '';
+            this.addForm.state = '';
             this.getLoadAdventureTaskList();
           } else {
             this.$message.error(res.data.message);
@@ -205,7 +188,7 @@
         loadAdventureTaskList(this.form).then(res => {
           if (res.data.code == 200) {
             this.tableData = res.data.data.list;
-            this.total = res.data.data.total;
+            this.total = parseInt(res.data.data.total);
           }
         })
       },
@@ -268,7 +251,7 @@
           .input-item {
             width: 100%;
             margin: 10px 0;
-            display:flex;
+            display: flex;
             justify-content: center;
             align-items: center;
 

@@ -139,7 +139,7 @@ export default {
     getLoadAdminList() {
       loadAdminList().then(res => {
         this.tableData = res.data.data.array;
-        this.total = res.data.data.totalRows;
+        this.total = parseInt(res.data.data.totalRows);
       });
     },
     lookAction(row) {

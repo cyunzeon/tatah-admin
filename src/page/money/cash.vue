@@ -216,7 +216,13 @@ import { loadUserCashList, operationUserCash } from "@/request/api";
 export default {
   created() {
     this.getLoadUserCashList();
+    setInterval(this.getTime, 1000);
   },
+  beforeDestroy() {
+      if (this.timer) {
+        clearInterval(this.timer); // 在Vue实例销毁前，清除我们的定时器
+      }
+    },
   data() {
     return {
       tableData: [],
@@ -245,6 +251,7 @@ export default {
         state: ""
       },
       time: "",
+      timer: "",
       //
       pickerOptionsStart: {
         disabledDate(time) {
@@ -262,7 +269,7 @@ export default {
     getLoadUserCashList() {
       loadUserCashList(this.listQuery).then(res => {
         this.tableData = res.data.data.list;
-        this.total = res.data.data.total;
+        this.total = parseInt(res.data.data.total);
       });
     },
     agreeBtn() {
@@ -315,6 +322,9 @@ export default {
       this.showCash = true
     },
     handleFilter() {
+      if(this.listQuery.endDate == '' && this.listQuery.startDate != '') {
+          this.listQuery.endDate = this.timer
+        }
       this.listQuery.pageNo = 1;
       this.getLoadUserCashList();
     },
@@ -338,7 +348,20 @@ export default {
     endTimeChang(val) {
       let endTime = this.dateFilter(val);
       this.listQuery.endDate = endTime;
-    }
+    },
+    getTime() {
+        var _this = this;
+        let yy = new Date().getFullYear();
+        let mm =
+          (new Date().getMonth() + 1) < 10 ?
+          "0" + (new Date().getMonth() + 1) :
+          (new Date().getMonth() + 1);
+        let dd =
+          new Date().getDate() < 10 ?
+          "0" + new Date().getDate() :
+          new Date().getDate();
+        _this.timer = yy + "-" + mm + "-" + dd;
+      },
   }
 };
 </script>

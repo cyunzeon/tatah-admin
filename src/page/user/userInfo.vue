@@ -1,5 +1,6 @@
 <template>
   <div class="bg_fff">
+    <h3 class="title"><i class="el-icon-user-solid"></i>用户信息管理</h3>
     <!-- 条件查询 -->
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item label="手机号码：">
@@ -61,14 +62,9 @@
       </el-table>
     </div>
     <!-- 分页 -->
-    <el-pagination
-    style="margin-top: 16px; text-align:center;"
-    layout="total, prev, pager, next"
-    :total="total"
-    :page-size="formInline.pageSize"
-    :current-page.sync="formInline.pageNo"
-    @current-change="handleCurrentChange"
-  ></el-pagination>
+    <el-pagination style="margin-top: 16px; text-align:center;" layout="total, prev, pager, next" :total="total"
+      :page-size="formInline.pageSize" :current-page.sync="formInline.pageNo" @current-change="handleCurrentChange">
+    </el-pagination>
 
     <el-dialog width="400px" :visible.sync="imgVisible">
       <el-card :body-style="{ padding: '0px' }">
@@ -107,7 +103,8 @@
           disabledDate(time) {
             return time.getTime() < 1488297600000 || time.getTime() >= Date.now();
           }
-        }
+        },
+        timer: "" //定义一个定时器的变量
       }
     },
     methods: {
@@ -122,6 +119,9 @@
       },
       //查询
       onSubmit() {
+        if(this.formInline.endDate == '' && this.formInline.startDate != '' ) {
+          this.formInline.endDate = this.timer
+        }
         this.formInline.pageNo = 1;
         this.getLoadUserList()
       },
@@ -161,11 +161,30 @@
       endTimeChang(val) {
         let endTime = this.dateFilter(val);
         this.formInline.endDate = endTime;
-      }
+      },
+      getTime() {
+        var _this = this;
+        let yy = new Date().getFullYear();
+        let mm =
+          (new Date().getMonth() + 1) < 10 ?
+          "0" + (new Date().getMonth() + 1) :
+          (new Date().getMonth() + 1);
+        let dd =
+          new Date().getDate() < 10 ?
+          "0" + new Date().getDate() :
+          new Date().getDate();
+        _this.timer = yy + "-" + mm + "-" + dd;
+      },
     },
     created() {
-      this.getLoadUserList()
-    }
+      this.getLoadUserList();
+      setInterval(this.getTime, 1000);
+    },
+    beforeDestroy() {
+      if (this.timer) {
+        clearInterval(this.timer); // 在Vue实例销毁前，清除我们的定时器
+      }
+    },
   };
 
 </script>

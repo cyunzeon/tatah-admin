@@ -39,7 +39,15 @@ let arr = [
     path: '/loseUser',
     name: 'loseUser',
     component: () => import('@/page/user/loseUser'),
-  },
+  },{
+    path: '/realName',
+    name: 'realName',
+    component: () => import('@/page/user/realName'),
+  },{
+    path: '/realName/detail',
+    name: 'realNameDetail',
+    component: () => import('@/page/user/nameCheckDetail'),
+  }
 ]
 
 module.exports = arr

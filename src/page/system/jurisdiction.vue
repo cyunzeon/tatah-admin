@@ -62,7 +62,7 @@
         console.log('传选中', this.checkedIds)
         console.log('传不选中', this.deleteIds)
 
-        /*handlerRolePermission({
+        handlerRolePermission({
           checkedIds: this.checkedIds.join(','),
           deleteIds: this.deleteIds.join(','),
           roleId: this.$route.query.roleId
@@ -76,7 +76,7 @@
           } else {
             this.$message.error(res.data.message)
           }
-        })*/
+        })
       },
       handleCheckChange(event) {
 

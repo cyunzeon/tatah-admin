@@ -90,11 +90,10 @@
                 </div>
                 <div class="input-item">
                   礼物图片：
-                  <el-upload class="upload-demo" action="/api/system/uploadImage" :on-preview="handlePreview"
+                  <el-upload class="upload-demo" action="http://iyadmin.tiantiancaidian.com/system/uploadImage" :on-preview="handlePreview"
                     :on-remove="handleRemove" :before-remove="beforeRemove" multiple :limit="1" :on-success="success"
                     :file-list="fileList" list-type="picture">
                     <el-button size="small" type="primary">点击上传</el-button>
-                    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                   </el-upload>
 
                 </div>
@@ -217,7 +216,7 @@
         loadUserGiftList(this.form).then(res => {
           if (res.data.code == 200) {
             this.tableData = res.data.data.list;
-            this.total = res.data.data.total;
+            this.total = parseInt(res.data.data.total);
           }
         })
       },

@@ -2,7 +2,7 @@
   <div class="bg_fff main">
     <div class="btn-list">
       <el-button type="primary" icon="el-icon-refresh" size='small'>刷新</el-button>
-      <el-button type="primary" icon="el-icon-back" size='small' @click="backAction">返回</el-button>
+      <el-button type="primary" icon="el-icon-back" size='small' @click="$router.go(-1)">返回</el-button>
     </div>
     <h3 class="title"><i class="el-icon-user-solid"></i>编辑信息</h3>
     <div class="p20 w30">
@@ -26,7 +26,7 @@
           <el-input type="textarea" v-model="form.signature"></el-input>
         </el-form-item>
         <el-form-item label="帐号状态">
-          <el-switch v-model="states" active-value="1" inactive-value="0"></el-switch>
+          <el-switch v-model="state" active-value="1" inactive-value="0"></el-switch>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" size='small' @click="editAction">修改</el-button>
@@ -46,13 +46,13 @@
       return {
         states: '',
         form: {
-          realName: '',
-          idCard: '',
-          bankCard: '',
-          bankBranchName: '',
+          realName: this.$route.query.crealname,
+          idCard: this.$route.query.idCard,
+          bankCard: this.$route.query.bankCard,
+          bankBranchName: this.$route.query.bankBranchName,
           state: '',
-          alipayAccount: '',
-          signature: '',
+          alipayAccount: this.$route.query.alipayAccount,
+          signature: this.$route.query.csignature,
           userId: this.$route.query.userId
         }
       }
@@ -71,17 +71,13 @@
             this.$message.error(res.data.message);
           }
         })
-      },
-      onSubmit() {},
-      backAction() {
-        this.$router.go(-1)
       }
     },
     created() {
       if (this.$route.query.state == 1) {
-        this.states = true
+        this.state = '1'
       } else {
-        this.states = false
+        this.state = '0'
       }
     }
   };

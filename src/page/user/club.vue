@@ -1,5 +1,6 @@
 <template>
   <div class="bg_fff">
+    <h3 class="title"><i class="el-icon-user-solid"></i>俱乐部管理</h3>
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item label="俱乐部名称：">
         <el-input v-model="formInline.groupName" placeholder="俱乐部名称"></el-input>
@@ -98,6 +99,7 @@
           }
         },
         value: '',
+        timer: '',
         tableData: []
       }
     },
@@ -128,6 +130,9 @@
         })
       },
       onSubmit() {
+        if(this.formInline.endDate == '' && this.formInline.startDate != '') {
+          this.formInline.endDate = this.timer
+        }
         this.formInline.pageNo = 1;
         this.getLoadGroupList();
       },
@@ -137,6 +142,19 @@
         this.getLoadGroupList();
       },
       //时间选择
+      getTime() {
+        var _this = this;
+        let yy = new Date().getFullYear();
+        let mm =
+          (new Date().getMonth() + 1) < 10 ?
+          "0" + (new Date().getMonth() + 1) :
+          (new Date().getMonth() + 1);
+        let dd =
+          new Date().getDate() < 10 ?
+          "0" + new Date().getDate() :
+          new Date().getDate();
+        _this.timer = yy + "-" + mm + "-" + dd;
+      },
       dateFilter(input) {
         var d = new Date(input);
         var year = d.getFullYear();
@@ -154,7 +172,13 @@
       }
     },
     created() {
-      this.getLoadGroupList()
+      this.getLoadGroupList();
+      setInterval(this.getTime, 1000);
+    },
+    beforeDestroy() {
+      if (this.timer) {
+        clearInterval(this.timer); // 在Vue实例销毁前，清除我们的定时器
+      }
     }
   };
 

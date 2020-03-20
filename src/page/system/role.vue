@@ -72,10 +72,10 @@
                 <p>用户和角色绑定的页面</p>
                 <div class="input-wrap">
                   <div class="input-item">
-                    角色编号：<el-input v-model="editForm.roleCode" placeholder="角色编号"></el-input>
+                    角色名称：<el-input v-model="editForm.roleName" placeholder="角色名称"></el-input>
                   </div>
                   <div class="input-item">
-                    备注：<el-input v-model="editForm.description" placeholder="备注"></el-input>
+                    角色编号：<el-input v-model="editForm.roleCode" placeholder="角色编号"></el-input>
                   </div>
                   <div class="btn-wrap">
                     <el-button @click="addRoleBtn">
@@ -203,7 +203,7 @@
       getLoadRoleList() {
         loadRoleList(this.listQuery).then(res => {
           this.tableData = res.data.data.array;
-          this.total = res.data.data.totalRows;
+          this.total = parseInt(res.data.data.totalRows);
         })
       },
       refreshAction() {

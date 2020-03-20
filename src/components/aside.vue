@@ -15,7 +15,7 @@
                 url: '/userInfo',
               },
               {
-                label: '用户审核管理',
+                label: '用户注册审核',
                 url: '/userCheck'
               },
               {
@@ -25,6 +25,9 @@
               {
                 label: '流失用户管理',
                 url: '/loseUser'
+              },{
+                label: '用户实名审核',
+                url: '/realName'
               },
             ]
           },

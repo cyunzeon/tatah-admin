@@ -8,7 +8,7 @@
     </div>
     <div class="p10 main">
       <h3 class="title">
-        <i class="el-icon-user-solid"></i>游戏题库
+        游戏题库
       </h3>
       <div class="btn-list">
         <el-button type="primary" icon="el-icon-circle-plus" size="mini" @click="addAction">添加题目</el-button>
@@ -143,7 +143,7 @@
       getLoadSquareQuestionList() {
         loadSquareQuestionList(this.formInline).then(res => {
           if (res.data.code == 200) {
-            this.total = res.data.data.total;
+            this.total = parseInt(res.data.data.total);
             this.tableData = res.data.data.list;
           }
         });

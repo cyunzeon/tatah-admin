@@ -195,7 +195,7 @@
       getLoadUserRoleList() {
         loadUserRoleList(this.listQuery).then(res => {
           this.tableData = res.data.data.array;
-          this.total = res.data.data.totalRows;
+          this.total = parseInt(res.data.data.totalRows);
         })
       },
       refreshAction() {

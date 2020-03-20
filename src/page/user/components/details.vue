@@ -137,17 +137,12 @@
               </template>
             </td>
             <td>
-              <video
-                muted
-                width="700"
-                height="400"
-                autoplay
-                loop
-                controls="controls"
-                v-if="infoList.uservideo != ''"
-              >
-                <source :src="infoList.uservideo" type="video/mp4" />您的浏览器不支持 video 标签
-              </video>
+              <embed :src="infoList.uservideo" allowFullScreen="true" quality="high" class="video-wrap"
+                align="middle" allowScriptAccess="always" v-if="infoList.uservideo != ''"></embed>
+              <!-- <video muted width="700" height="400" autoplay loop controls='controls' class="video-wrap" v-if="infoList.uservideo != ''">
+                <source :src="infoList.uservideo" type="video/mp4">
+                您的浏览器不支持 video 标签
+              </video> -->
               <p v-else>暂无视频</p>
             </td>
           </tr>
@@ -157,133 +152,144 @@
   </div>
 </template>
 <script>
-import { loadUserVerifyInfo, loadUserAccountInfo } from "@/request/api";
-export default {
-  data() {
-    return {
-      infoList: "",
-      accountList: "",
-    };
-  },
-  methods: {
-    goUrl() {
-      this.$router.push({
-        path: "/userInfo/edit",
-        query: {
-          userId: this.infoList.userid,
-          state: this.infoList.state,
-          crealname: this.infoList.crealname,
-          idCard: this.infoList.idCard,
-          bankBranchName: this.infoList.bankBranchName,
-          csignature: this.infoList.csignature,
-          alipayCcount: this.infoList.alipayCcount,
-          bankCard: this.infoList.bankCard
-        }
-      });
+  import {
+    loadUserVerifyInfo,
+    loadUserAccountInfo
+  } from "@/request/api";
+  export default {
+    data() {
+      return {
+        infoList: "",
+        accountList: ""
+      };
     },
-    getLoadUserVerifyInfo() {
-      loadUserVerifyInfo({
-        userId: this.$route.query.userid
-      }).then(res => {
-        if (res.data.code == 200) {
-          this.infoList = res.data.data;
-          console.log(this.infoList.uservideo)
-        }
-      });
+    methods: {
+      goUrl() {
+        this.$router.push({
+          path: "/userInfo/edit",
+          query: {
+            userId: this.infoList.userid,
+            state: this.infoList.state,
+            crealname: this.infoList.crealname,
+            idCard: this.infoList.idCard,
+            bankBranchName: this.infoList.bankBranchName,
+            csignature: this.infoList.csignature,
+            alipayCcount: this.infoList.alipayCcount,
+            bankCard: this.infoList.bankCard
+          }
+        });
+      },
+      getLoadUserVerifyInfo() {
+        loadUserVerifyInfo({
+          userId: this.$route.query.userid
+        }).then(res => {
+          if (res.data.code == 200) {
+            this.infoList = res.data.data;
+            console.log(this.infoList.uservideo)
+            console.log(typeof (this.infoList.uservideo))
+          }
+        });
+      },
+      getLoadUserAccountInfo() {
+        loadUserAccountInfo({
+          userId: this.$route.query.userid
+        }).then(res => {
+          if (res.data.code == 200) {
+            this.accountList = res.data.data;
+          }
+        });
+      }
     },
-    getLoadUserAccountInfo() {
-      loadUserAccountInfo({
-        userId: this.$route.query.userid
-      }).then(res => {
-        if (res.data.code == 200) {
-          this.accountList = res.data.data;
-        }
-      });
+    created() {
+      this.getLoadUserVerifyInfo();
+      this.getLoadUserAccountInfo();
     }
-  },
-  created() {
-    this.getLoadUserVerifyInfo();
-    this.getLoadUserAccountInfo();
-  }
-};
+  };
+
 </script>
 <style lang='less' scoped>
-.box {
-  background: #fff;
-  margin-bottom: 10px;
-}
-
-.user-img {
-  padding: 60px 0;
-  text-align: center;
-
-  img {
-    width: 120px;
-    height: 120px;
-    display: block;
-    margin: auto;
+  .box {
+    background: #fff;
+    margin-bottom: 10px;
   }
 
-  .tab {
-    width: 20px;
-    display: block;
-    margin: 15px auto;
-    padding: 0 10px;
-    background: #f56c6c;
-    color: #fff;
-    border-radius: 10px;
-  }
-}
-
-.table {
-  td {
-    padding: 8px 0;
-    font-size: 14px;
-
-    &:nth-child(odd) {
-      width: 15%;
-      border: 1px #f8f8f8 solid;
-      background: #f8f8f8;
-    }
-
-    &:nth-child(even) {
-      width: 35%;
-      border: 1px #f8f8f8 solid;
-    }
-  }
-}
-
-.tables {
-  td {
-    padding: 8px 0;
-    font-size: 14px;
-    width: 12.5%;
-
-    &:nth-child(odd) {
-      border: 1px #f8f8f8 solid;
-      background: #f8f8f8;
-    }
-
-    &:nth-child(even) {
-      border: 1px #f8f8f8 solid;
-    }
-  }
-}
-
-.table2 {
-  th {
-    background: #f8f8f8;
-  }
-
-  .photo-wrap {
-    display: flex;
-    justify-content: space-around;
+  .user-img {
+    padding: 60px 0;
+    text-align: center;
 
     img {
-      width: 350px;
-      height: 350px;
-      padding: 28px 0;
+      width: 120px;
+      height: 120px;
+      display: block;
+      margin: auto;
+    }
+
+    .tab {
+      width: 20px;
+      display: block;
+      margin: 15px auto;
+      padding: 0 10px;
+      background: #f56c6c;
+      color: #fff;
+      border-radius: 10px;
     }
   }
-}
+
+  .table {
+    td {
+      padding: 8px 0;
+      font-size: 14px;
+
+      &:nth-child(odd) {
+        width: 15%;
+        border: 1px #f8f8f8 solid;
+        background: #f8f8f8;
+      }
+
+      &:nth-child(even) {
+        width: 35%;
+        border: 1px #f8f8f8 solid;
+      }
+    }
+  }
+
+  .tables {
+    td {
+      padding: 8px 0;
+      font-size: 14px;
+      width: 12.5%;
+
+      &:nth-child(odd) {
+        border: 1px #f8f8f8 solid;
+        background: #f8f8f8;
+      }
+
+      &:nth-child(even) {
+        border: 1px #f8f8f8 solid;
+      }
+    }
+  }
+
+  .table2 {
+    th {
+      background: #f8f8f8;
+    }
+
+    .photo-wrap {
+      display: flex;
+      justify-content: space-around;
+
+      img {
+        width: 350px;
+        height: 350px;
+        padding: 28px 0;
+      }
+    }
+  }
+
+  .video-wrap {
+    width: 400px;
+    height: 300px;
+  }
+
 </style>

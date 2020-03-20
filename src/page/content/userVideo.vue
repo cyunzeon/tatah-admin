@@ -30,8 +30,9 @@
         <el-form-item label="审核状态：">
           <el-select v-model="formInline.state" placeholder="请选择">
             <el-option label="全部" value=""></el-option>
-            <el-option label="拒绝" value="0"></el-option>
-            <el-option label="通过" value="1"></el-option>
+            <el-option label="未审核" value="0"></el-option>
+            <el-option label="已审核通过" value="1"></el-option>
+            <el-option label="未通过" value="2"></el-option>
           </el-select>
         </el-form-item>  
         <el-form-item>
@@ -68,9 +69,9 @@
         </el-table-column> -->
         <el-table-column label="状态" header-align="center" align="center">
           <template slot-scope="scope">
-            <p v-if="scope.row.istate==0">待审核</p>
-            <p v-else-if="scope.row.istate==1">拒绝</p>
-            <p v-else-if="scope.row.istate==2">通过</p>
+            <p v-if="scope.row.istate==0">未审核</p>
+            <p v-else-if="scope.row.istate==1">已审核通过</p>
+            <p v-else-if="scope.row.istate==2">未通过</p>
             <p v-else></p>
           </template>
         </el-table-column>
@@ -126,6 +127,7 @@
           }
         },
         value: '',
+        timer: ''
       }
     },
     methods: {
@@ -134,6 +136,8 @@
           if (res.data.code == 200) {
             this.total = parseInt(res.data.data.total);
             this.tableData = res.data.data.list;
+            console.log(this.tableData[2].cvideo)
+            console.log(typeof(this.tableData[2].cvideo))
           }
         })
       },
@@ -144,7 +148,7 @@
         updateVideoExaminet({
           cuserid: row.cuserid,
           cvideo: row.cvideo,
-          state: 2
+          state: 1
         }).then(res => {
           if (res.data.code == 200) {
             this.$message({
@@ -161,7 +165,7 @@
         updateVideoExaminet({
           cuserid: row.cuserid,
           cvideo: row.cvideo,
-          state: 1
+          state: 2
         }).then(res => {
           if (res.data.code == 200) {
             this.$message({
@@ -195,12 +199,34 @@
         let endTime = this.dateFilter(val);
         this.formInline.endDate = endTime;
       },
+      getTime() {
+        var _this = this;
+        let yy = new Date().getFullYear();
+        let mm =
+          (new Date().getMonth() + 1) < 10 ?
+          "0" + (new Date().getMonth() + 1) :
+          (new Date().getMonth() + 1);
+        let dd =
+          new Date().getDate() < 10 ?
+          "0" + new Date().getDate() :
+          new Date().getDate();
+        _this.timer = yy + "-" + mm + "-" + dd;
+      },
       onSubmit() {
+        if(this.formInline.endDate == '' && this.formInline.startDate != '') {
+          this.formInline.endDate = this.timer
+        }
         this.getLoadUserVideoExaminetList();
       }
     },
     created() {
       this.getLoadUserVideoExaminetList();
+      setInterval(this.getTime, 1000);
+    },
+    beforeDestroy() {
+      if (this.timer) {
+        clearInterval(this.timer); // 在Vue实例销毁前，清除我们的定时器
+      }
     }
   };
 

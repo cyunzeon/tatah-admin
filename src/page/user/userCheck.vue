@@ -1,5 +1,6 @@
 <template>
   <div class="bg_fff">
+    <h3 class="title"><i class="el-icon-user-solid"></i>用户注册审核</h3>
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item label="手机号码：">
         <el-input v-model="formInline.mobileNo" placeholder="手机号码"></el-input>
@@ -72,21 +73,17 @@
         </el-table-column>
         <el-table-column label="操作" header-align="center" align="center">
           <template slot-scope="scope">
-            <el-button type="primary" @click="lookAction(scope.$index, scope.row)" v-show="scope.row.iexamine != 1">查看</el-button>
+            <el-button type="primary" @click="lookAction(scope.$index, scope.row)" v-show="scope.row.iexamine != 1">查看
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
 
     <div class="block p20 tac">
-      <el-pagination
-      style="margin-top: 16px; text-align:center;"
-      layout="total, prev, pager, next"
-      :total="total"
-      :page-size="formInline.pageSize"
-      :current-page.sync="formInline.pageNo"
-      @current-change="handleCurrentChange"
-    ></el-pagination>
+      <el-pagination style="margin-top: 16px; text-align:center;" layout="total, prev, pager, next" :total="total"
+        :page-size="formInline.pageSize" :current-page.sync="formInline.pageNo" @current-change="handleCurrentChange">
+      </el-pagination>
     </div>
 
     <el-dialog width="400px" :visible.sync="imgVisible">
@@ -114,6 +111,7 @@
           pageNo: 1,
           pageSize: 20
         },
+        timer: '',
         imgVisible: false,
         dialogImgUrl: '',
         //时间选择
@@ -140,6 +138,10 @@
         })
       },
       onSubmit() {
+        console.log(this.timer)
+        if (this.formInline.endDate == '' && this.formInline.startDate != '') {
+          this.formInline.endDate = this.timer
+        }
         this.formInline.pageNo = 1;
         this.getLoadUserExamineList()
       },
@@ -161,8 +163,8 @@
           }
         })
       },
-            //点击看大图
-            openImg(head) {
+      //点击看大图
+      openImg(head) {
         if (head) {
           this.imgVisible = true
           this.dialogImgUrl = head
@@ -174,6 +176,19 @@
         this.getLoadUserExamineList();
       },
       //时间选择
+      getTime() {
+        var _this = this;
+        let yy = new Date().getFullYear();
+        let mm =
+          (new Date().getMonth() + 1) < 10 ?
+          "0" + (new Date().getMonth() + 1) :
+          (new Date().getMonth() + 1);
+        let dd =
+          new Date().getDate() < 10 ?
+          "0" + new Date().getDate() :
+          new Date().getDate();
+        _this.timer = yy + "-" + mm + "-" + dd;
+      },
       dateFilter(input) {
         var d = new Date(input);
         var year = d.getFullYear();
@@ -191,7 +206,13 @@
       }
     },
     created() {
-      this.getLoadUserExamineList()
+      this.getLoadUserExamineList();
+      setInterval(this.getTime, 1000);
+    },
+    beforeDestroy() {
+      if (this.timer) {
+        clearInterval(this.timer); // 在Vue实例销毁前，清除我们的定时器
+      }
     }
   };
 
@@ -205,4 +226,5 @@
   .el-select {
     width: 120px;
   }
+
 </style>

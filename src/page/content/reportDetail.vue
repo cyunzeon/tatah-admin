@@ -73,11 +73,6 @@ export default {
 
   tr:last-of-type {
     height: 400px;
-
-    img {
-      width: 350px;
-      height: 350px;
-    }
   }
 }
 </style>

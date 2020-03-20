@@ -87,6 +87,7 @@
           endDate: ''
         },
         time: '',
+        timer: '',
         //
         pickerOptionsStart: {
           disabledDate(time) {
@@ -102,6 +103,9 @@
     },
     methods: {
       handleFilter() {
+        if(this.listQuery.endDate == '' && this.listQuery.startDate != '') {
+          this.listQuery.endDate = this.timer
+        }
         this.listQuery.pageNo = 1;
         this.getLoadAdminlogList();
       },
@@ -133,10 +137,30 @@
       endTimeChang(val) {
         let endTime = this.dateFilter(val);
         this.listQuery.endDate = endTime;
-      }
+      },
+      getTime() {
+        var _this = this;
+        let yy = new Date().getFullYear();
+        let mm =
+          (new Date().getMonth() + 1) < 10 ?
+          "0" + (new Date().getMonth() + 1) :
+          (new Date().getMonth() + 1);
+        let dd =
+          new Date().getDate() < 10 ?
+          "0" + new Date().getDate() :
+          new Date().getDate();
+        _this.timer = yy + "-" + mm + "-" + dd;
+      },
     },
     created() {
       this.getLoadAdminlogList();
+      setInterval(this.getTime, 1000);
+    }
+    ,
+  beforeDestroy() {
+      if (this.timer) {
+        clearInterval(this.timer); // 在Vue实例销毁前，清除我们的定时器
+      }
     }
   };
 

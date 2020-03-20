@@ -132,6 +132,7 @@
           }
         },
         value: '',
+        timer: ''
       }
     },
     methods: {
@@ -172,7 +173,7 @@
       },
       delAction(index, row) {
         updateUserPortrait({
-          state: 0,
+          state: 1,
           cuserid: row.cuserid
         }).then(res => {
           if (res.data.code == 200) {
@@ -207,12 +208,34 @@
         let endTime = this.dateFilter(val);
         this.formInline.endDate = endTime;
       },
+      getTime() {
+        var _this = this;
+        let yy = new Date().getFullYear();
+        let mm =
+          (new Date().getMonth() + 1) < 10 ?
+          "0" + (new Date().getMonth() + 1) :
+          (new Date().getMonth() + 1);
+        let dd =
+          new Date().getDate() < 10 ?
+          "0" + new Date().getDate() :
+          new Date().getDate();
+        _this.timer = yy + "-" + mm + "-" + dd;
+      },
       onSubmit() {
+        if(this.formInline.endDate == '' && this.formInline.startDate != '') {
+          this.formInline.endDate = this.timer
+        }
         this.getLoaduserReportList();
       }
     },
     created() {
       this.getLoaduserReportList();
+      setInterval(this.getTime, 1000);
+    },
+    beforeDestroy() {
+      if (this.timer) {
+        clearInterval(this.timer); // 在Vue实例销毁前，清除我们的定时器
+      }
     }
   };
 
