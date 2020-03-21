@@ -18,8 +18,10 @@
       </el-form-item>
       <el-form-item label="俱乐部状态：">
         <el-select v-model="formInline.state" placeholder="请选择俱乐部状态">
+          <el-option label="全部" value=""></el-option>
           <el-option label="正常" value="1"></el-option>
           <el-option label="解散" value="0"></el-option>
+          <el-option label="冻结" value="2"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -46,7 +48,8 @@
           <template slot-scope="scope">
             <p v-if="scope.row.istate == 0">解散</p>
             <p v-else-if="scope.row.istate == 1">正常</p>
-            <p v-else>冻结</p>
+            <p v-else-if="scope.row.istate == 2">冻结</p>
+            <p v-else></p>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="100" header-align="center" align="center">

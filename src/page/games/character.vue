@@ -70,7 +70,7 @@
           <div class="input-item">
             <span>题目：</span>
             <el-input placeholder="请输入题目" v-model="subject"></el-input>
-            <el-button @click="agreeBtn">修改</el-button>
+            <el-button @click="editTit">修改</el-button>
           </div>
           <div class="input-item">
             <div>
@@ -167,7 +167,6 @@
       },
       agreeBtn() {
         this.content = '1:' + this.aSub + ',' + '2:' + this.bSub + ',' + '3:' + this.cSub;
-        this.serialn = this.serialn.join(',');
         console.log(this.content)
         editSquareQuestion({
           questionid: '',
@@ -175,7 +174,7 @@
           sort: '',
           answerid: '',
           content: this.content,
-          serialn: this.serialn,
+          serialn: this.serialn.join(','),
           type: 3
         }).then(res => {
           if (res.data.code == 200) {
@@ -185,6 +184,11 @@
             });
             this.getLoadSquareQuestionList();
             this.showLook = false;
+            this.subject = '';
+            this.content = '';
+            this.aSub = '';
+            this.bSub = '';
+            this.cSub = '';
           } else {
             this.$message.error(res.data.message);
           }
@@ -219,7 +223,6 @@
             this.bId = '';
             this.cId = '';
             this.answerid = '';
-            this.serialn = '';
             this.content = '';
           } else {
             this.$message.error(res.data.message);
@@ -254,7 +257,6 @@
             this.bId = '';
             this.cId = '';
             this.answerid = '';
-            this.serialn = '';
             this.content = '';
           } else {
             this.$message.error(res.data.message);
@@ -289,7 +291,37 @@
             this.bId = '';
             this.cId = '';
             this.answerid = '';
-            this.serialn = '';
+            this.content = '';
+          } else {
+            this.$message.error(res.data.message);
+          }
+        });
+      },
+      editTit() {
+        editSquareQuestion({
+          questionid: this.questionid,
+          subject: this.subject,
+          sort: this.sort,
+          type: 1
+        }).then(res => {
+          if (res.data.code == 200) {
+            this.$message({
+              message: res.data.message,
+              type: 'success'
+            });
+            this.getLoadSquareQuestionList();
+            this.showEdit = false;
+            this.questionid = '';
+            this.subject = '';
+            this.sort = '';
+            this.aSub = '';
+            this.bSub = '';
+            this.cSub = '';
+            this.sort = '';
+            this.aId = '';
+            this.bId = '';
+            this.cId = '';
+            this.answerid = '';
             this.content = '';
           } else {
             this.$message.error(res.data.message);

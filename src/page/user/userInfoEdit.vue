@@ -26,7 +26,7 @@
           <el-input type="textarea" v-model="form.signature"></el-input>
         </el-form-item>
         <el-form-item label="帐号状态">
-          <el-switch v-model="state" active-value="1" inactive-value="0"></el-switch>
+          <el-switch v-model="form.state" active-value="1" inactive-value="0" ></el-switch>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" size='small' @click="editAction">修改</el-button>
@@ -75,14 +75,18 @@
     },
     created() {
       if (this.$route.query.state == 1) {
-        this.state = '1'
+        this.form.state = '1'
       } else {
-        this.state = '0'
+        this.form.state = '0'
       }
     }
   };
 
 </script>
-<style lang='less' scoped>
-
+<style lang='scss'>
+  .p20 {
+    .el-switch {
+      z-index: 9999999;
+    }
+  }
 </style>

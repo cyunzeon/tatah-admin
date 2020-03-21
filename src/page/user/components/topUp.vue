@@ -13,12 +13,12 @@
         <el-input v-model="formInline.numberId" placeholder="充值编号"></el-input>
       </el-form-item>
       <el-form-item label="状态">
-        <el-select v-model="formInline.state" placeholder="请选择活动区域">
-          <el-option label="" value="">全部</el-option>
-          <el-option label="0" value="0">已申请</el-option>
-          <el-option label="1" value="1">未处理</el-option>
-          <el-option label="2" value="2">已处理</el-option>
-          <el-option label="3" value="3">已成功</el-option>
+        <el-select v-model="formInline.state" placeholder="请选择">
+          <el-option label="全部" value=""></el-option>
+          <el-option label="已申请" value="0"></el-option>
+          <el-option label="未处理" value="1"></el-option>
+          <el-option label="已处理" value="2"></el-option>
+          <el-option label="已成功" value="3"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>

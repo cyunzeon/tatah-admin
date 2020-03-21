@@ -50,12 +50,67 @@
               </el-table-column>
               <el-table-column label="被举报类型" align="center" header-align="center">
                 <template slot-scope="scope">
-                  <p v-if="scope.row.state == 1">头像、资料作假</p>
+                  <template v-if="scope.row.istate.split(',')[0] != ''">
+                    <span v-if="scope.row.istate.split(',')[0] == 1">头像、资料作假</span>
+                    <span v-else-if="scope.row.istate.split(',')[0] == 2">骚扰广告</span>
+                    <span v-else-if="scope.row.istate.split(',')[0] == 3">诈骗、托</span>
+                    <span v-else-if="scope.row.istate.split(',')[0] == 4">恶意骚扰、不文明语言</span>
+                    <span v-else-if="scope.row.istate.split(',')[0] == 5">发广告或推广消息</span>
+                    <span v-else-if="scope.row.istate.split(',')[0] == 6">色情低俗</span>
+                    <span v-else></span>
+                  </template>
+                  <template v-if="scope.row.istate.split(',')[1] != ''">
+                    <span v-if="scope.row.istate.split(',')[1] == 1">,头像、资料作假</span>
+                    <span v-else-if="scope.row.istate.split(',')[1] == 2">,骚扰广告</span>
+                    <span v-else-if="scope.row.istate.split(',')[1] == 3">,诈骗、托</span>
+                    <span v-else-if="scope.row.istate.split(',')[1] == 4">,恶意骚扰、不文明语言</span>
+                    <span v-else-if="scope.row.istate.split(',')[1] == 5">,发广告或推广消息</span>
+                    <span v-else-if="scope.row.istate.split(',')[1] == 6">,色情低俗</span>
+                    <span v-else></span>
+                  </template>
+                  <template v-if="scope.row.istate.split(',')[2] != ''">
+                    <span v-if="scope.row.istate.split(',')[2] == 1">,头像、资料作假</span>
+                    <span v-else-if="scope.row.istate.split(',')[2] == 2">,骚扰广告</span>
+                    <span v-else-if="scope.row.istate.split(',')[2] == 3">,诈骗、托</span>
+                    <span v-else-if="scope.row.istate.split(',')[2] == 4">,恶意骚扰、不文明语言</span>
+                    <span v-else-if="scope.row.istate.split(',')[2] == 5">,发广告或推广消息</span>
+                    <span v-else-if="scope.row.istate.split(',')[2] == 6">,色情低俗</span>
+                    <span v-else></span>
+                  </template>
+                                    <template v-if="scope.row.istate.split(',')[3] != ''">
+                    <span v-if="scope.row.istate.split(',')[3] == 1">,头像、资料作假</span>
+                    <span v-else-if="scope.row.istate.split(',')[3] == 2">,骚扰广告</span>
+                    <span v-else-if="scope.row.istate.split(',')[3] == 3">,诈骗、托</span>
+                    <span v-else-if="scope.row.istate.split(',')[3] == 4">,恶意骚扰、不文明语言</span>
+                    <span v-else-if="scope.row.istate.split(',')[3] == 5">,发广告或推广消息</span>
+                    <span v-else-if="scope.row.istate.split(',')[3] == 6">,色情低俗</span>
+                    <span v-else></span>
+                  </template>
+                  <template v-if="scope.row.istate.split(',')[4] != ''">
+                    <span v-if="scope.row.istate.split(',')[4] == 1">,头像、资料作假</span>
+                    <span v-else-if="scope.row.istate.split(',')[4] == 2">,骚扰广告</span>
+                    <span v-else-if="scope.row.istate.split(',')[4] == 3">,诈骗、托</span>
+                    <span v-else-if="scope.row.istate.split(',')[4] == 4">,恶意骚扰、不文明语言</span>
+                    <span v-else-if="scope.row.istate.split(',')[4] == 5">,发广告或推广消息</span>
+                    <span v-else-if="scope.row.istate.split(',')[4] == 6">,色情低俗</span>
+                    <span v-else></span>
+                  </template>
+                  <template v-if="scope.row.istate.split(',')[5] != ''">
+                    <span v-if="scope.row.istate.split(',')[5] == 1">,头像、资料作假</span>
+                    <span v-else-if="scope.row.istate.split(',')[5] == 2">,骚扰广告</span>
+                    <span v-else-if="scope.row.istate.split(',')[5] == 3">,诈骗、托</span>
+                    <span v-else-if="scope.row.istate.split(',')[5] == 4">,恶意骚扰、不文明语言</span>
+                    <span v-else-if="scope.row.istate.split(',')[5] == 5">,发广告或推广消息</span>
+                    <span v-else-if="scope.row.istate.split(',')[5] == 6">,色情低俗</span>
+                    <span v-else></span>
+                  </template>
+
+                  <!-- <p v-if="scope.row.state == 1">头像、资料作假</p>
                   <p v-else-if="scope.row.state == 2">骚扰广告</p>
                   <p v-else-if="scope.row.state == 3">诈骗、托</p>
                   <p v-else-if="scope.row.state == 4">恶意骚扰、不文明语言</p>
-                  <p v-else-if="scope.row.state == 5">发广告或推广消息</p>
-                  <p v-else>色情低俗</p>
+                  <p v-else-if="scope.row.state == 5">发广告或推广消息</p> 
+                  <p v-else>色情低俗</p>-->
                 </template>
               </el-table-column>
               <el-table-column label="操作" align="center" header-align="center">

@@ -49,14 +49,14 @@
               </el-table-column>
             </el-table>
 
-            <el-pagination
+            <!-- <el-pagination
             style="margin-top: 16px; text-align:center;"
             layout="total, prev, pager, next"
             :total="total"
             :page-size="listQuery.pageSize"
             :current-page.sync="listQuery.pageNo"
             @current-change="handleCurrentChange"
-          ></el-pagination>
+          ></el-pagination> -->
 
 
             <div class="shade" v-show="showInfo">
@@ -122,8 +122,8 @@ export default {
       total: 0,
       loading: false,
       listQuery: {
-        pageNo: 1,
-        pageSize: 20,
+        //pageNo: 1,
+        //pageSize: 20,
         account: "",
         password: "",
         userName: ""

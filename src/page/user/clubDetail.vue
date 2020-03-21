@@ -40,9 +40,9 @@
     <h3 class="title"><i class="el-icon-user-solid"></i>俱乐部成员</h3>
     <div class="p10">
       <el-table :data="tableData" stripe border style="width: 100%" highlight-current-row>
-        <el-table-column prop="date" label="手机号" header-align="center" align="center">
+        <el-table-column prop="mobileno" label="手机号" header-align="center" align="center">
         </el-table-column>
-        <el-table-column prop="name" label="昵称" header-align="center" align="center">
+        <el-table-column prop="nickName" label="昵称" header-align="center" align="center">
         </el-table-column>
         <el-table-column label="头像" header-align="center" align="center">
           <template slot-scope="scope">
@@ -132,7 +132,7 @@
         this.$router.push({
           path: '/userInfo/detail',
           query: {
-            userid: row.cuserid
+            userid: row.userId
           }
         })
       },
