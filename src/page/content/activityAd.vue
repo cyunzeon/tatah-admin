@@ -15,6 +15,17 @@
         </el-table-column>
         <el-table-column prop="cupdatetime" label="更新时间" header-align="center" align="center">
         </el-table-column>
+        <el-table-column label="广告类型" header-align="center" align="center">
+          <template slot-scope="scope">
+            <p v-if="scope.row.iadvertposition==0">首页banner广告</p>
+            <p v-else-if="scope.row.iadvertposition==1">首页公告</p>
+            <p v-else-if="scope.row.iadvertposition==2">首页广告</p>
+            <p v-else-if="scope.row.iadvertposition==3">朋友圈banner</p>
+            <p v-else-if="scope.row.iadvertposition==4">启动页</p>
+            <p v-else-if="scope.row.iadvertposition==5">发现banner</p>
+            <p v-else></p>
+          </template>
+        </el-table-column>
         <el-table-column label="状态" header-align="center" align="center">
           <template slot-scope="scope">
             <p v-if="scope.row.upperstate==1">已上架</p>

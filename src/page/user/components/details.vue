@@ -5,6 +5,7 @@
         <img :src="infoList.head" />
         <span class="tab">lv{{infoList.viplevel}}</span>
         <el-button type="primary" round size="small" class="mt30" @click="goUrl">编辑信息</el-button>
+        <el-button type="primary" round size="small" class="mt30" @click="protectBtn">设置保密头像</el-button>
       </el-col>
       <el-col :span="20">
         <table class="table">
@@ -154,7 +155,8 @@
 <script>
   import {
     loadUserVerifyInfo,
-    loadUserAccountInfo
+    loadUserAccountInfo,
+    userhidehead
   } from "@/request/api";
   export default {
     data() {
@@ -164,6 +166,22 @@
       };
     },
     methods: {
+      protectBtn() {
+        userhidehead({
+          userId: this.$route.query.userid
+        }).then(res => {
+          if (res.data.code == 200) {
+            this.$message({
+              message: res.data.message,
+              type: 'success'
+            });
+            this.getLoadUserVerifyInfo();
+          } else {
+            this.$message.error(res.data.message);
+          }
+
+        })
+      },
       goUrl() {
         this.$router.push({
           path: "/userInfo/edit",

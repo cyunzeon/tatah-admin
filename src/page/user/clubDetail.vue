@@ -16,7 +16,8 @@
           <td>
             <p v-if="$route.query.istate == 0">解散</p>
             <p v-else-if="$route.query.istate == 1">正常</p>
-            <!-- <p v-else>冻结</p> -->
+            <p v-else-if="$route.query.istate == 2">冻结</p>
+            <p v-else></p>
           </td>
           <td>创建时间</td>
           <td>{{$route.query.cadddate}}</td>

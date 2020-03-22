@@ -12,17 +12,27 @@
         <el-form-item label="广告标题：">
           <el-input v-model="form.ctitle"></el-input>
         </el-form-item>
+        <el-form-item label="广告类型：">
+          <el-select v-model="form.upperstate" placeholder="请选择状态">
+            <el-option label="首页banner广告" value="0"></el-option>
+            <el-option label="首页公告" value="1"></el-option>
+            <el-option label="首页广告" value="2"></el-option>
+            <el-option label="朋友圈banner" value="3"></el-option>
+            <el-option label="启动页" value="4"></el-option>
+            <el-option label="发现banner" value="5"></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="状态：">
           <el-select v-model="form.upperstate" placeholder="请选择状态">
-            <el-option label="已上架" value="0"></el-option>
-            <el-option label="已下架" value="1"></el-option>
+            <el-option label="上架" value="0"></el-option>
+            <el-option label="下架" value="1"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="活动图片：">
           <img :src="form.curl" alt />
           <el-upload
             class="upload-demo"
-            action="http://iyouadmin.tiantiancaidian.com/system/uploadImage"
+            action="http://iyadmin.tiantiancaidian.com/system/uploadImage"
             :on-preview="handlePreview"
             :on-remove="handleRemove"
             :before-remove="beforeRemove"
@@ -88,8 +98,8 @@ export default {
       console.log(file);
     },
     success(response, file, fileList) {
-      this.fileLists = [];
-      this.fileLists = [file];
+      //this.fileLists = [];
+      //this.fileLists = [file];
       this.form.curl = response.data.imageUrl;
     },
     beforeRemove(file, fileList) {
