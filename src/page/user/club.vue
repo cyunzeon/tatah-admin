@@ -20,7 +20,7 @@
         <el-select v-model="formInline.state" placeholder="请选择俱乐部状态">
           <el-option label="全部" value=""></el-option>
           <el-option label="正常" value="1"></el-option>
-          <el-option label="解散" value="0"></el-option>
+          <!-- <el-option label="解散" value="0"></el-option> -->
           <el-option label="冻结" value="2"></el-option>
         </el-select>
       </el-form-item>
@@ -34,7 +34,7 @@
         </el-table-column>
         <el-table-column prop="cnickname" label="俱乐部创建人" width="130" header-align="center" align="center">
         </el-table-column>
-        <el-table-column prop="cgroupnotice" label="俱乐部公告" header-align="center" align="center">
+        <el-table-column prop="cgroupnotice" label="俱乐部公告" header-align="center">
         </el-table-column>
         <el-table-column prop="iredpacketnum" label="每日礼物数量（钻石/人）" width="120" header-align="center" align="center">
         </el-table-column>

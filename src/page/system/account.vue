@@ -49,14 +49,14 @@
               </el-table-column>
             </el-table>
 
-            <!-- <el-pagination
+            <el-pagination
             style="margin-top: 16px; text-align:center;"
             layout="total, prev, pager, next"
             :total="total"
             :page-size="listQuery.pageSize"
             :current-page.sync="listQuery.pageNo"
             @current-change="handleCurrentChange"
-          ></el-pagination> -->
+          ></el-pagination>
 
 
             <div class="shade" v-show="showInfo">
@@ -113,17 +113,14 @@
 <script>
 import { loadAdminList, editUser } from "@/request/api";
 export default {
-  created() {
-    //this.getTableData();
-  },
   data() {
     return {
       tableData: [],
       total: 0,
       loading: false,
       listQuery: {
-        //pageNo: 1,
-        //pageSize: 20,
+        pageNo: 1,
+        pageSize: 20,
         account: "",
         password: "",
         userName: ""
@@ -137,7 +134,7 @@ export default {
   },
   methods: {
     getLoadAdminList() {
-      loadAdminList().then(res => {
+      loadAdminList(this.listQuery).then(res => {
         this.tableData = res.data.data.array;
         this.total = parseInt(res.data.data.totalRows);
       });

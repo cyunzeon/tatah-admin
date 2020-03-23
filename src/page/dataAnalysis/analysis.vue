@@ -5,7 +5,7 @@
         <i class="el-icon-user-solid"></i>概况分析
       </p>
       <div>
-        <el-button type="primary" icon="el-icon-refresh">
+        <el-button type="primary" icon="el-icon-refresh" @click="refreshBtn">
           刷新
         </el-button>
       </div>
@@ -13,38 +13,38 @@
 
     <div class="people-total">
       <div>
-        <p>123456</p>
+        <p>{{dataList.num}}</p>
         <p>用户总数</p>
       </div>
       <div>
-        <p>123456</p>
+        <p>{{dataList.daynum}}</p>
         <p>本日新增用户</p>
       </div>
       <div>
-        <p>123456</p>
+        <p>{{dataList.weeknum}}</p>
         <p>本周新增用户</p>
       </div>
       <div>
-        <p>123456</p>
+        <p>{{dataList.monthnum}}</p>
         <p>本月新增用户</p>
       </div>
     </div>
 
     <div class="people-total">
       <div>
-        <p>123456</p>
+        <p>{{dataList.num}}</p>
         <p>在线用户人数</p>
       </div>
       <div>
-        <p>123456</p>
+        <p>{{dataList.activedaynum}}</p>
         <p>本日活跃用户</p>
       </div>
       <div>
-        <p>123456</p>
+        <p>{{dataList.activeweeknum}}</p>
         <p>本周活跃用户</p>
       </div>
       <div>
-        <p>123456</p>
+        <p>{{dataList.activemonthnum}}</p>
         <p>本月活跃用户</p>
       </div>
     </div>
@@ -52,9 +52,9 @@
     <div class="date-wrap">
       <div class="top-box">
         <p>用户统计</p>
-        <el-select v-model="listQuery.dateTime" placeholder="请选择时间段">
+        <!-- <el-select v-model="listQuery.dateTime" placeholder="请选择时间段">
           <el-option v-for="item in states" :key="item.name" :label="item.name" :value="item.value" />
-        </el-select>
+        </el-select> -->
       </div>
 
       <div id="my-echarts"></div>
@@ -63,6 +63,9 @@
 </template>
 
 <script>
+  import {
+    loadUserData
+  } from '@/request/api';
   import echarts from 'echarts';
   export default {
     data() {
@@ -84,10 +87,35 @@
           }
         ],
         charts: '',
-        opinionData: ["3", "2", "4", "4", "5", "4", "4", "5"]
+        opinionData: ["3", "2", "4", "4", "5", "4", "4", "5"],
+        dataList: [],
+        adduserlist: [],
+        activeuserlist: [],
+        dataTimes: []
       }
     },
     methods: {
+      getLoadUserData() {
+        loadUserData().then(res => {
+          this.dataList = res.data.data;
+          res.data.data.adduserlist.map(item => {
+          this.adduserlist.push(item.daynum);
+          this.dataTimes.push(item.dates);
+        });
+        res.data.data.activeuserlist.map(items => {
+          this.activeuserlist.push(items.activedaynum);
+        });
+        this.$nextTick(function() {
+          this.drawLine("my-echarts");
+        });
+        })
+      },
+      refreshBtn() {
+      this.adduserlist = [];
+      this.activeuserlist = [];
+      this.dataTimes = [];
+      this.getLoadUserData();
+    },
       drawLine(id) {
         console.log(111)
         this.charts = echarts.init(document.getElementById(id))
@@ -112,29 +140,32 @@
           xAxis: {
             type: 'category',
             boundaryGap: false,
-            data: ["1", "2", "3", "4", "5", "5", "5", "5", "5", "5"]
+            data: this.dataTimes
           },
           yAxis: {
             type: 'value'
           },
           series: [{
               name: '新增用户数',
-              data: [820, 932, 901, 934, 1290, 1330, 1320],
+              data: this.adduserlist,
               type: 'line'
             },
             {
               name: '活跃用户数',
-              data: [620, 711, 823, 934, 1445, 1456, 1178],
+              data: this.activeuserlist,
               type: 'line'
             }
           ]
         })
       },
     },
+    created() {
+      this.getLoadUserData();
+    },
     mounted() {
-      this.$nextTick(function () {
+      /*this.$nextTick(function () {
         this.drawLine('my-echarts')
-      })
+      })*/
     }
 
   }

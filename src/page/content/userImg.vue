@@ -157,7 +157,7 @@
       },
       passBtn(index, row) {
         updateUserPortrait({
-          state: 2,
+          state: 1,
           cuserid: row.cuserid
         }).then(res => {
           if (res.data.code == 200) {
@@ -173,7 +173,7 @@
       },
       delAction(index, row) {
         updateUserPortrait({
-          state: 1,
+          state: 2,
           cuserid: row.cuserid
         }).then(res => {
           if (res.data.code == 200) {

@@ -192,7 +192,6 @@
                 <p>提现处理</p>
                 <div class="input-wrap">
                   <div class="input-item">用户姓名：{{cashList.crealname}}</div>
-                  <div class="input-item">身份证号：</div>
                   <div class="input-item">银行卡号：{{cashList.cbankcard}}</div>
                   <div class="input-item">银行名称：{{cashList.cbankname}}</div>
                   <div class="input-item">支行名称：{{cashList.cbankbranchname}}</div>
@@ -434,8 +433,7 @@ export default {
     width: 400px;
     background: #fff;
     position: absolute;
-    top: 0;
-    bottom: 0;
+    top: 30%;
     left: 0;
     right: 0;
     margin: auto;

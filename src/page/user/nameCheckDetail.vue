@@ -11,9 +11,9 @@
           <th>手机号</th>
           <th>昵称</th>
           <th>性别</th>
-          <th>生日</th>
-          <th>注册时间</th>
-          <th>个人描述</th>
+          <th>姓名</th>
+          <th>身份证号码</th>
+          <th>提交时间</th>
         </tr>
         <tr>
           <th>{{$route.query.tel}}</th>
@@ -22,9 +22,9 @@
             <p v-if="$route.query.sex == 1">男</p>
             <p v-else>女</p>
           </th>
-          <th>{{$route.query.birth}}</th>
+          <th>{{$route.query.crealname}}</th>
+          <th>{{$route.query.cidcard}}</th>
           <th>{{$route.query.time}}</th>
-          <th>{{$route.query.sign}}</th>
         </tr>
       </table>
       <table class="table2">
@@ -36,7 +36,7 @@
           <td colspan="2" class="photo-box">
             <img :src="$route.query.photo1" alt="">
           </td>
-          <td>
+          <td class="photo-box">
             <img :src="$route.query.photo2" alt="">
           </td>
         </tr>
@@ -46,7 +46,7 @@
             <el-form :inline="true" :model="form" class='tal p10'>
               <el-form-item>
                 <el-radio-group v-model="form.state" class='tac'>
-                  <el-radio label="1" v-model="form.state" value="1">通过</el-radio>
+                  <el-radio label="2" v-model="form.state" value="2">通过</el-radio>
                   <el-radio label="3" v-model="form.state" value="3">不通过</el-radio>
                 </el-radio-group>
               </el-form-item>
@@ -67,14 +67,13 @@
 </template>
 <script>
   import {
-    userExamine
+    userInformation
   } from '@/request/api'
   export default {
     data() {
       return {
         form: {
           state: '',
-          reason: '',
           userId: this.$route.query.userId
         },
         tableData: [],
@@ -82,7 +81,7 @@
     },
     methods: {
       getAction() {
-        userExamine(this.form).then(res => {
+        userInformation(this.form).then(res => {
           if (res.data.code == 200) {
             this.$message({
               message: res.data.message,
@@ -113,7 +112,7 @@
   }
 
   .photo-box img {
-    width: 240px;
+    width: 340px;
     height: 240px;
   }
 

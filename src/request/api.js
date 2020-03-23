@@ -23,7 +23,7 @@ export const loadUserConsumptionList = p => http.post('/user/loadUserConsumption
 export const loadUserDetailList = p => http.post('/user/loadUserDetailList',p) 
 //编辑用户详情
 export const editUserVerify = p => http.post('/user/editUserVerify',p)
-//编辑用户详情
+//保密头像
 export const userhidehead = p => http.post('/user/userhidehead',p)
 //查询流失用管理列表
 export const loadUserLossList = p => http.post('/user/loadUserLossList',p)
@@ -35,6 +35,8 @@ export const loadUserExamineList = p => http.post('/user/loadUserExamineList',p)
 export const loadUserInformationList = p => http.post('/user/loadUserInformationList',p)
 //用户审核
 export const userExamine = p => http.post('/user/userExamine',p)
+//实名审核
+export const userInformation = p => http.post('/user/userInformation',p)
 //查询俱乐部列表
 export const loadGroupList = p => http.post('/user/loadGroupList',p)
 //查询俱乐部成员列表
@@ -131,3 +133,7 @@ export const editSquareQuestion = p => http.post('/game/editSquareQuestion',p)
 export const loadAdventureTaskList = p => http.post('/game/loadAdventureTaskList',p) 
 //操作冒险
 export const editAdventureByCtastId = p => http.post('/game/editAdventureByCtastId',p) 
+
+
+//数据统计
+export const loadUserData = p => http.post('/user/loadUserData',p) 

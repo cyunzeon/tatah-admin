@@ -13,20 +13,10 @@
       </el-form-item>
       <el-form-item label="提交日期:">
         <div class="block">
-          <el-date-picker
-            type="date"
-            placeholder="选择开始日期"
-            :picker-options="pickerOptionsStart"
-            v-model="formInline.startDate"
-            @change="startTimeChang"
-          ></el-date-picker>
-          <el-date-picker
-            type="date"
-            placeholder="选择结束日期"
-            :picker-options="pickerOptionsOver"
-            v-model="formInline.endDate"
-            @change="endTimeChang"
-          ></el-date-picker>
+          <el-date-picker type="date" placeholder="选择开始日期" :picker-options="pickerOptionsStart"
+            v-model="formInline.startDate" @change="startTimeChang"></el-date-picker>
+          <el-date-picker type="date" placeholder="选择结束日期" :picker-options="pickerOptionsOver"
+            v-model="formInline.endDate" @change="endTimeChang"></el-date-picker>
         </div>
       </el-form-item>
       <!-- <el-form-item label="是否处理：">
@@ -39,9 +29,10 @@
       <el-form-item label="审核状态：">
         <el-select v-model="formInline.state" placeholder="请选择">
           <el-option label="全部" value=""></el-option>
-          <el-option label="未处理" value="2"></el-option>
-          <el-option label="审核通过" value="1"></el-option>
-          <el-option label="审核未通过" value="3"></el-option>
+          <el-option label="未实名" value="0"></el-option>
+          <el-option label="未处理" value="1"></el-option>
+          <el-option label="已实名" value="2"></el-option>
+          <el-option label="实名未通过" value="3"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -72,33 +63,26 @@
         </el-table-column>-->
         <el-table-column label="审核状态" header-align="center" align="center">
           <template slot-scope="scope">
-            <p v-if="scope.row.iexamine==3">审核未通过</p>
-            <p v-else-if="scope.row.iexamine==1">审核通过</p>
-            <p v-else-if="scope.row.iexamine==2">未处理</p>
+            <p v-if="scope.row.itype==0">未实名</p>
+            <p v-else-if="scope.row.itype==1">未处理</p>
+            <p v-else-if="scope.row.itype==2">已实名</p>
+            <p v-else-if="scope.row.itype==3">实名未通过</p>
             <p v-else></p>
           </template>
         </el-table-column>
         <el-table-column label="操作" header-align="center" align="center">
           <template slot-scope="scope">
-            <el-button
-              type="primary"
-              @click="lookAction(scope.$index, scope.row)"
-              v-show="scope.row.iexamine != 1"
-            >查看</el-button>
+            <el-button type="primary" @click="lookAction(scope.$index, scope.row)" v-show="scope.row.iexamine != 1">查看
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
 
     <div class="block p20 tac">
-      <el-pagination
-        style="margin-top: 16px; text-align:center;"
-        layout="total, prev, pager, next"
-        :total="total"
-        :page-size="formInline.pageSize"
-        :current-page.sync="formInline.pageNo"
-        @current-change="handleCurrentChange"
-      ></el-pagination>
+      <el-pagination style="margin-top: 16px; text-align:center;" layout="total, prev, pager, next" :total="total"
+        :page-size="formInline.pageSize" :current-page.sync="formInline.pageNo" @current-change="handleCurrentChange">
+      </el-pagination>
     </div>
 
     <el-dialog width="400px" :visible.sync="imgVisible">
@@ -109,101 +93,103 @@
   </div>
 </template>
 <script>
-import { loadUserInformationList } from "@/request/api";
-export default {
-  data() {
-    return {
-      formInline: {
-        startDate: "",
-        endDate: "",
-        mobileNo: "",
-        nickName: "",
-        state: "",
-        pageNo: 1,
-        pageSize: 20
-      },
-              timer: '',
-      imgVisible: false,
-      dialogImgUrl: "",
-      //时间选择
-      pickerOptionsStart: {
-        disabledDate(time) {
-          return time.getTime() < 1488297600000 || time.getTime() >= Date.now();
-        }
-      },
-      pickerOptionsOver: {
-        disabledDate(time) {
-          return time.getTime() < 1488297600000 || time.getTime() >= Date.now();
-        }
-      },
-      value: "",
-      tableData: [],
-      total: 0
-    };
-  },
-  methods: {
-    getLoadUserInformationList() {
-      loadUserInformationList(this.formInline).then(res => {
-        this.tableData = res.data.data.list;
-        this.total = parseInt(res.data.data.total);
-      });
+  import {
+    loadUserInformationList
+  } from "@/request/api";
+  export default {
+    data() {
+      return {
+        formInline: {
+          startDate: "",
+          endDate: "",
+          mobileNo: "",
+          nickName: "",
+          state: "",
+          pageNo: 1,
+          pageSize: 20
+        },
+        timer: '',
+        imgVisible: false,
+        dialogImgUrl: "",
+        //时间选择
+        pickerOptionsStart: {
+          disabledDate(time) {
+            return time.getTime() < 1488297600000 || time.getTime() >= Date.now();
+          }
+        },
+        pickerOptionsOver: {
+          disabledDate(time) {
+            return time.getTime() < 1488297600000 || time.getTime() >= Date.now();
+          }
+        },
+        value: "",
+        tableData: [],
+        total: 0
+      };
     },
-    onSubmit() {
-        if(this.formInline.endDate == '' && this.formInline.startDate != '') {
+    methods: {
+      getLoadUserInformationList() {
+        loadUserInformationList(this.formInline).then(res => {
+          this.tableData = res.data.data.list;
+          this.total = parseInt(res.data.data.total);
+        });
+      },
+      onSubmit() {
+        if (this.formInline.endDate == '' && this.formInline.startDate != '') {
           this.formInline.endDate = this.timer
         }
 
-      this.formInline.pageNo = 1;
-      this.getLoadUserInformationList();
-    },
-    lookAction(index, row) {
-      console.log(row);
-      this.$router.push({
-        path: "/realName/detail",
-        query: {
-          tel: row.cmobileno,
-          nickName: row.cnickname,
-          sex: row.igender,
-          photo1: row.cphoto1,
-          photo2: row.cphoto2,
-          video: row.cuservideo,
-          sign: row.csignature,
-          birth: row.cbirthday,
-          time: row.cadddate,
-          userId: row.cuserid
+        this.formInline.pageNo = 1;
+        this.getLoadUserInformationList();
+      },
+      lookAction(index, row) {
+        console.log(row);
+        this.$router.push({
+          path: "/realName/detail",
+          query: {
+            tel: row.cmobileno,
+            nickName: row.cnickname,
+            sex: row.igender,
+            photo1: row.ccardphoto1,
+            photo2: row.ccardphoto2,
+            crealname: row.crealname,
+            birth: row.cbirthday,
+            time: row.cadddate,
+            cidcard: row.cidcard,
+            userId: row.cuserid
+          }
+        });
+      },
+      //点击看大图
+      openImg(head) {
+        if (head) {
+          this.imgVisible = true;
+          this.dialogImgUrl = head;
         }
-      });
-    },
-    //点击看大图
-    openImg(head) {
-      if (head) {
-        this.imgVisible = true;
-        this.dialogImgUrl = head;
-      }
-    },
-    //分页器
-    handleCurrentChange(pgno) {
-      this.formInline.pageNo = pgno;
-      this.getLoadUserInformationList();
-    },
-    //时间选择
-    dateFilter(input) {
-      var d = new Date(input);
-      var year = d.getFullYear();
-      var month =
-        d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : "" + (d.getMonth() + 1);
-      var day = d.getDate() < 10 ? "0" + d.getDate() : "" + d.getDate();
-      return year + "-" + month + "-" + day;
-    },
-    startTimeChang(val) {
-      let startTime = this.dateFilter(val);
-      this.formInline.startDate = startTime;
-    },
-    endTimeChang(val) {
-      let endTime = this.dateFilter(val);
-      this.formInline.endDate = endTime;
-    },
-          getTime() {
+      },
+      //分页器
+      handleCurrentChange(pgno) {
+        this.formInline.pageNo = pgno;
+        this.getLoadUserInformationList();
+      },
+      //时间选择
+      dateFilter(input) {
+        var d = new Date(input);
+        var year = d.getFullYear();
+        var month =
+          d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : "" + (d.getMonth() + 1);
+        var day = d.getDate() < 10 ? "0" + d.getDate() : "" + d.getDate();
+        return year + "-" + month + "-" + day;
+      },
+      startTimeChang(val) {
+        let startTime = this.dateFilter(val);
+        this.formInline.startDate = startTime;
+      },
+      endTimeChang(val) {
+        let endTime = this.dateFilter(val);
+        this.formInline.endDate = endTime;
+      },
+      getTime() {
         var _this = this;
         let yy = new Date().getFullYear();
         let mm =
@@ -217,26 +203,28 @@ export default {
         _this.timer = yy + "-" + mm + "-" + dd;
       }
 
-  },
-  created() {
-    this.getLoadUserInformationList();
-          setInterval(this.getTime, 1000);
-  },
-      beforeDestroy() {
+    },
+    created() {
+      this.getLoadUserInformationList();
+      setInterval(this.getTime, 1000);
+    },
+    beforeDestroy() {
       if (this.timer) {
         clearInterval(this.timer); // 在Vue实例销毁前，清除我们的定时器
       }
     },
 
-};
+  };
+
 </script>
 <style lang='less' scoped>
-.demo-form-inline {
-  text-align: left;
-  padding: 5px;
-}
+  .demo-form-inline {
+    text-align: left;
+    padding: 5px;
+  }
 
-.el-select {
-  width: 120px;
-}
+  .el-select {
+    width: 120px;
+  }
+
 </style>

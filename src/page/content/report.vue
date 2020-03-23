@@ -50,7 +50,7 @@
               </el-table-column>
               <el-table-column label="被举报类型" align="center" header-align="center">
                 <template slot-scope="scope">
-                  <template v-if="scope.row.istate.split(',')[0] != ''">
+                  <!-- <template v-if="scope.row.istate.split(',')[0] != ''">
                     <span v-if="scope.row.istate.split(',')[0] == 1">头像、资料作假</span>
                     <span v-else-if="scope.row.istate.split(',')[0] == 2">骚扰广告</span>
                     <span v-else-if="scope.row.istate.split(',')[0] == 3">诈骗、托</span>
@@ -77,7 +77,7 @@
                     <span v-else-if="scope.row.istate.split(',')[2] == 6">,色情低俗</span>
                     <span v-else></span>
                   </template>
-                                    <template v-if="scope.row.istate.split(',')[3] != ''">
+                  <template v-if="scope.row.istate.split(',')[3] != ''">
                     <span v-if="scope.row.istate.split(',')[3] == 1">,头像、资料作假</span>
                     <span v-else-if="scope.row.istate.split(',')[3] == 2">,骚扰广告</span>
                     <span v-else-if="scope.row.istate.split(',')[3] == 3">,诈骗、托</span>
@@ -103,14 +103,17 @@
                     <span v-else-if="scope.row.istate.split(',')[5] == 5">,发广告或推广消息</span>
                     <span v-else-if="scope.row.istate.split(',')[5] == 6">,色情低俗</span>
                     <span v-else></span>
-                  </template>
+                  </template> -->
 
-                  <!-- <p v-if="scope.row.state == 1">头像、资料作假</p>
-                  <p v-else-if="scope.row.state == 2">骚扰广告</p>
-                  <p v-else-if="scope.row.state == 3">诈骗、托</p>
-                  <p v-else-if="scope.row.state == 4">恶意骚扰、不文明语言</p>
-                  <p v-else-if="scope.row.state == 5">发广告或推广消息</p> 
-                  <p v-else>色情低俗</p>-->
+                  <p v-for="item in scope.row.istate" :key="item">
+                    <span v-if="item == 1">头像、资料作假</span>
+                    <span v-else-if="item == 2">骚扰广告</span>
+                    <span v-else-if="item == 3">诈骗、托</span>
+                    <span v-else-if="item == 4">恶意骚扰、不文明语言</span>
+                    <span v-else-if="item == 5">发广告或推广消息</span>
+                    <span v-else-if="item == 6">色情低俗</span>
+                    <span v-else></span>
+                  </p>
                 </template>
               </el-table-column>
               <el-table-column label="操作" align="center" header-align="center">
@@ -122,15 +125,10 @@
               </el-table-column>
             </el-table>
             <!-- 分页 -->
-            <el-pagination
-            style="margin-top: 16px; text-align:center;"
-            layout="total, prev, pager, next"
-            :total="total"
-            :page-size="listQuery.pageSize"
-            :current-page.sync="listQuery.pageNo"
-            @current-change="handleCurrentChange"
-          ></el-pagination>
-                </div>
+            <el-pagination style="margin-top: 16px; text-align:center;" layout="total, prev, pager, next" :total="total"
+              :page-size="listQuery.pageSize" :current-page.sync="listQuery.pageNo"
+              @current-change="handleCurrentChange"></el-pagination>
+          </div>
         </el-card>
       </el-col>
     </el-row>
@@ -182,7 +180,7 @@
     },
     methods: {
       handleFilter() {
-        if(this.listQuery.endDate == '' && this.listQuery.startDate != '') {
+        if (this.listQuery.endDate == '' && this.listQuery.startDate != '') {
           this.listQuery.endDate = this.timer
         }
         this.listQuery.pageNo = 1;

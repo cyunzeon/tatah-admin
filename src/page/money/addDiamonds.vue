@@ -53,15 +53,10 @@
               </el-table-column>
             </el-table>
             <!-- 分页 -->
-            <el-pagination
-            style="margin-top: 16px; text-align:center;"
-            layout="total, prev, pager, next"
-            :total="total"
-            :page-size="listQuery.pageSize"
-            :current-page.sync="listQuery.pageNo"
-            @current-change="handleCurrentChange"
-          ></el-pagination>
-                </div>
+            <el-pagination style="margin-top: 16px; text-align:center;" layout="total, prev, pager, next" :total="total"
+              :page-size="listQuery.pageSize" :current-page.sync="listQuery.pageNo"
+              @current-change="handleCurrentChange"></el-pagination>
+          </div>
         </el-card>
       </el-col>
     </el-row>
@@ -88,7 +83,8 @@
         operation: {
           backstageid: '',
           state: '',
-          diamonds: ''
+          diamonds: '',
+          itype: ''
         }
       }
     },
@@ -107,8 +103,9 @@
         this.getLoadaddRechargeList();
       },
       agreeBtn(row) {
-        this.operation.backstageid = row.backstageid,
-          this.operation.diamonds = row.diamonds,
+        this.operation.backstageid = row.backstageid;
+          this.operation.diamonds = row.diamonds;
+          this.operation.itype = row.itype;
           this.operation.state = 1;
         operationAddRecharge(this.operation).then(res => {
           if (res.data.code == 200) {
@@ -123,8 +120,9 @@
         })
       },
       rejectBtn(row) {
-        this.operation.backstageid = row.backstageid,
-          this.operation.diamonds = row.diamonds,
+        this.operation.backstageid = row.backstageid;
+          this.operation.diamonds = row.diamonds;
+          this.operation.itype = row.itype;
           this.operation.state = 2;
         operationAddRecharge(this.operation).then(res => {
           if (res.data.code == 200) {

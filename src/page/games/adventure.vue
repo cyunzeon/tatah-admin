@@ -54,6 +54,13 @@
                   <span>任务内容：</span>
                   <el-input v-model="editForm.ccontent"></el-input>
                 </div>
+                <div class="input-item">
+                  游戏类型：
+                  <el-select v-model="editForm.igametype" :placeholder="gametype">
+                    <el-option label="冒险游戏" value="1"></el-option>
+                    <el-option label="真心话" value="2"></el-option>
+                  </el-select>
+                </div>
                 <div class="btn-wrap">
                   <el-button @click="agreeBtn">确认</el-button>
                   <el-button @click="cancelBtn">取消</el-button>
@@ -104,6 +111,7 @@ export default {
       editForm: {
         ctitleid: "",
         ccontent: "",
+        igametype: "",
         type: 1
       },
       addForm: {
@@ -113,7 +121,8 @@ export default {
       },
       showLook: false,
       showAdd: false,
-      placeholder: ""
+      placeholder: "",
+      gametype: ""
     };
   },
   methods: {
@@ -131,6 +140,13 @@ export default {
         this.placeholder = "上架";
       } else {
         this.placeholder = "";
+      }
+      if (row.igametype == 1) {
+        this.gametype = "冒险游戏";
+      } else if (row.igametype == 2) {
+        this.gametype = "真心话";
+      } else {
+        this.gametype = "";
       }
       this.showLook = true;
     },

@@ -43,7 +43,7 @@
       <el-table :data="tableData" stripe border style="width: 100%" highlight-current-row>
         <el-table-column prop="mobileno" label="手机号" header-align="center" align="center">
         </el-table-column>
-        <el-table-column prop="nickName" label="昵称" header-align="center" align="center">
+        <el-table-column prop="nickname" label="昵称" header-align="center" align="center">
         </el-table-column>
         <el-table-column label="头像" header-align="center" align="center">
           <template slot-scope="scope">

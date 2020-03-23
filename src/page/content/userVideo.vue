@@ -52,8 +52,8 @@
         </el-table-column>
         <el-table-column label="视频" header-align="center" align="center">
           <template slot-scope="scope">
-            <video muted width="700" height="400" autoplay loop controls='controls' class="video-wrap">
-              <source :src="scope.row.cvideo" type="video/mp4">
+            <video muted width="700" height="400" loop controls='controls' class="video-wrap" :src="scope.row.cvideo">
+              <source  type="video/mp4">
               您的浏览器不支持 video 标签
             </video>
           </template>
@@ -136,8 +136,8 @@
           if (res.data.code == 200) {
             this.total = parseInt(res.data.data.total);
             this.tableData = res.data.data.list;
-            console.log(this.tableData[2].cvideo)
-            console.log(typeof(this.tableData[2].cvideo))
+            console.log(this.tableData[0].cvideo)
+            console.log(typeof(this.tableData[0].cvideo))
           }
         })
       },

@@ -198,7 +198,7 @@
           //地图
           series: [{
             roam: true,
-            name: '香港18区人口密度',
+            name: 'Iyou使用人口分布',
             type: 'map',
             mapType: 'china', // 自定义扩展图表类型
             itemStyle: {
@@ -406,7 +406,20 @@
               /*name: '衣服',*/
               type: 'bar',
               color: '#66b1ff',
-              data: [120, 100, 440, 320, 150]
+              data: [120, 100, 440, 320, 150],
+              itemStyle: {
+                normal: {
+                  label: {
+                    show: true, //开启显示
+                    position: "top", //在上方显示
+                    textStyle: {
+                      //数值样式
+                      color: "#222",
+                      fontSize: 14
+                    }
+                  }
+                }
+              },
             }
             /*,
                         {
@@ -422,7 +435,7 @@
         this.sexCharts = echarts.init(document.getElementById('sex-echarts'))
         var data = [{
           name: '男性',
-          value: 54
+          value: 99
         }, {
           name: '女性',
           value: 44
