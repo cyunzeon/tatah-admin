@@ -124,8 +124,9 @@
       <div class="p10">
         <table class="table2">
           <tr>
-            <th style="width: 50%;">照片</th>
+            <th>照片</th>
             <th>视频</th>
+            <th>身份证照片</th>
           </tr>
           <tr>
             <td class="photo-wrap">
@@ -133,23 +134,37 @@
                 <p>暂无照片</p>
               </template>
               <template v-else>
-                <img :src="infoList.photo1" alt />
-                <img :src="infoList.photo2" alt />
+                <img :src="infoList.photo1" alt @click="openImg(infoList.photo1)">
+                <img :src="infoList.photo2" alt @click="openImg(infoList.photo2)"/>
               </template>
             </td>
             <td>
-              <embed :src="infoList.uservideo" allowFullScreen="true" quality="high" class="video-wrap"
-                align="middle" allowScriptAccess="always" v-if="infoList.uservideo != ''"></embed>
-              <!-- <video muted width="700" height="400" autoplay loop controls='controls' class="video-wrap" v-if="infoList.uservideo != ''">
-                <source :src="infoList.uservideo" type="video/mp4">
+              <!-- <embed :src="infoList.uservideo" quality="high" class="video-wrap" align="middle"
+                allowScriptAccess="always" v-if="infoList.uservideo"></embed> -->
+              <video muted width="700" height="400" autoplay loop controls='controls' :src="infoList.uservideo" class="video-wrap" v-if="infoList.uservideo != ''" >
+                <source  type="video/mp4">
                 您的浏览器不支持 video 标签
-              </video> -->
+              </video>
               <p v-else>暂无视频</p>
+            </td>
+            <td class="photo-wrap">
+              <template v-if="infoList.photo1 == ''">
+                <p>暂无照片</p>
+              </template>
+              <template v-else>
+                <img :src="infoList.photo1" alt @click="openImg(infoList.photo1)"/>
+                <img :src="infoList.photo2" alt @click="openImg(infoList.photo2)"/>
+              </template>
             </td>
           </tr>
         </table>
       </div>
     </div>
+    <el-dialog width="400px" :visible.sync="imgVisible" class="img-dialog">
+      <el-card :body-style="{ padding: '0px' }">
+        <img :src="dialogImgUrl" width="100%" height="100%">
+      </el-card>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -162,7 +177,9 @@
     data() {
       return {
         infoList: "",
-        accountList: ""
+        accountList: "",
+        imgVisible: false,
+        dialogImgUrl: ''
       };
     },
     methods: {
@@ -203,8 +220,7 @@
         }).then(res => {
           if (res.data.code == 200) {
             this.infoList = res.data.data;
-            console.log(this.infoList.uservideo)
-            console.log(typeof (this.infoList.uservideo))
+            //this.$forceUpdate();
           }
         });
       },
@@ -216,12 +232,19 @@
             this.accountList = res.data.data;
           }
         });
-      }
+      },
+            //点击看大图
+            openImg(head) {
+        if (head) {
+          this.imgVisible = true
+          this.dialogImgUrl = head
+        }
+      },
     },
     created() {
       this.getLoadUserVerifyInfo();
       this.getLoadUserAccountInfo();
-    }
+    },
   };
 
 </script>
@@ -298,8 +321,8 @@
       justify-content: space-around;
 
       img {
-        width: 350px;
-        height: 350px;
+        width: 250px;
+        height: 250px;
         padding: 28px 0;
       }
     }

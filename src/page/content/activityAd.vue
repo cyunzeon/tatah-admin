@@ -28,8 +28,8 @@
         </el-table-column>
         <el-table-column label="状态" header-align="center" align="center">
           <template slot-scope="scope">
-            <p v-if="scope.row.upperstate==1">上架</p>
-            <p v-else-if="scope.row.upperstate==0">下架</p>
+            <p v-if="scope.row.istatus==0">上架</p>
+            <p v-else-if="scope.row.istatus==1">下架</p>
             <p v-else></p>
           </template>
         </el-table-column>
@@ -96,7 +96,7 @@
             ctitle: row.ctitle,
             cadverturl: row.cadverturl,
             curl: row.curl,
-            upperstate: row.upperstate
+            istate: row.istatus
           }
         })
       },

@@ -34,8 +34,8 @@
         </tr>
         <tr>
           <td colspan="2" class="photo-box">
-            <img :src="$route.query.photo1" alt="">
-            <img :src="$route.query.photo2" alt="">
+            <img :src="$route.query.photo1" alt="" @click="openImg($route.query.photo1)">
+            <img :src="$route.query.photo2" alt="" @click="openImg($route.query.photo2)">
           </td>
           <td>
             <video muted width="700" height="400" autoplay loop controls='controls'>
@@ -65,6 +65,11 @@
         </tr>
       </table>
     </div>
+    <el-dialog width="600px" :visible.sync="imgVisible">
+      <el-card :body-style="{ padding: '0px' }">
+        <img :src="dialogImgUrl" width="100%" height="100%">
+      </el-card>
+    </el-dialog>
 
   </div>
 
@@ -82,6 +87,8 @@
           userId: this.$route.query.userId
         },
         tableData: [],
+        dialogImgUrl: '',
+        imgVisible: false
       };
     },
     methods: {
@@ -100,7 +107,15 @@
       },
       backBtn() {
         this.$router.go(-1)
-      }
+      },
+            //点击看大图
+            openImg(head) {
+        if (head) {
+          this.imgVisible = true
+          this.dialogImgUrl = head
+        }
+      },
+
     }
   };
 

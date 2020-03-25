@@ -20,7 +20,7 @@
             <el-table-column label="价值" header-align="center" align="center">
               <template slot-scope="scope">
                 {{scope.row.iprice}}钻石
-                </template>
+              </template>
             </el-table-column>
             <el-table-column prop="itop" label="排序" header-align="center" align="center">
             </el-table-column>
@@ -32,33 +32,38 @@
             </el-table-column>
             <el-table-column label="操作" header-align="center" align="center">
               <template slot-scope="scope">
-                <el-button type="primary" @click="lookAction(scope.$index, scope.row)">查看</el-button>
+                <el-button type="primary" @click="lookAction(scope.$index, scope.row)">编辑</el-button>
               </template>
             </el-table-column>
           </el-table>
 
           <!-- 分页 -->
           <el-pagination style="margin-top: 16px; text-align:center;" layout="total, prev, pager, next" :total="total"
-          :page-size="form.pageSize" :current-page.sync="form.pageNo"
-          @current-change="handleCurrentChange"></el-pagination>
+            :page-size="form.pageSize" :current-page.sync="form.pageNo" @current-change="handleCurrentChange">
+          </el-pagination>
 
 
           <div class="shade" v-show="showLook">
-            <div class="shade-wrap">
-              <p>查看礼物</p>
+            <div class="shade-wrap" :style="contentStyleObj">
+              <p>编辑礼物</p>
               <div class="input-wrap">
                 <div class="input-item">
-                  礼物名称：{{lookList.cname}}
+                  礼物名称：<el-input v-model="editForm.name" placeholder=""></el-input>
                 </div>
                 <div class="input-item">
-                  礼物价值：{{lookList.iprice}}钻石
+                  礼物价值：<el-input v-model="editForm.price" placeholder=""></el-input>
                 </div>
                 <div class="input-item">
-                  礼物排序：{{lookList.itop}}
+                  礼物排序：<el-input v-model="editForm.top" placeholder=""></el-input>
                 </div>
                 <div class="input-item">
                   礼物图片：
-                  <img :src="lookList.cpictureurl" alt="">
+                  <img :src="editForm.pictureUrl" alt="">
+                  <el-upload class="upload-demo" action="http://iyadmin.tiantiancaidian.com/system/uploadImage"
+                    :on-preview="ehandlePreview" :on-remove="ehandleRemove" :before-remove="beforeRemove" multiple
+                    :limit="1" :on-success="esuccess" :file-list="fileList" list-type="picture">
+                    <el-button size="small" type="primary">点击上传</el-button>
+                  </el-upload>
                 </div>
                 <div class="input-item">
                   礼物状态：
@@ -69,7 +74,7 @@
                 </div>
                 <div class="btn-wrap">
                   <el-button @click="agreeBtn">确认</el-button>
-                  <el-button @click="showLook=false">取消</el-button>
+                  <el-button @click="cancelBtn">取消</el-button>
                 </div>
               </div>
             </div>
@@ -90,9 +95,9 @@
                 </div>
                 <div class="input-item">
                   礼物图片：
-                  <el-upload class="upload-demo" action="http://iyadmin.tiantiancaidian.com/system/uploadImage" :on-preview="handlePreview"
-                    :on-remove="handleRemove" :before-remove="beforeRemove" multiple :limit="1" :on-success="success"
-                    :file-list="fileList" list-type="picture">
+                  <el-upload class="upload-demo" action="http://iyadmin.tiantiancaidian.com/system/uploadImage"
+                    :on-preview="handlePreview" :on-remove="handleRemove" :before-remove="beforeRemove" multiple
+                    :limit="1" :on-success="success" :file-list="fileList" list-type="picture">
                     <el-button size="small" type="primary">点击上传</el-button>
                   </el-upload>
 
@@ -106,7 +111,7 @@
                 </div>
                 <div class="btn-wrap">
                   <el-button @click="addBtn">确认</el-button>
-                  <el-button @click="showAdd=false">取消</el-button>
+                  <el-button @click="cancelBtn">取消</el-button>
                 </div>
               </div>
             </div>
@@ -132,6 +137,10 @@
           pageNo: 1,
           pageSize: 20
         },
+        contentStyleObj: {
+          top: '',
+          left: ''
+        },
         editForm: {
           giftId: '',
           name: '',
@@ -155,16 +164,24 @@
         showAdd: false,
         placeholder: '',
         istate: '',
-        fileList: []
+        fileList: [],
+        _windowHeight: '',
+        _windowWidth: ''
       }
     },
     methods: {
       refreshBtn() {
         this.getLoadUserGiftList();
       },
+      cancelBtn() {
+        this.fileList = [];
+        this.showAdd = false;
+        this.showLook = false;
+      },
       lookAction(index, row) {
+        this.getHeight()
+      console.log(this.contentStyleObj);
         this.lookList = row;
-        console.log(row)
         this.editForm.giftId = row.cgiftid;
         this.editForm.name = row.cname;
         this.editForm.pictureUrl = row.cpictureurl;
@@ -186,6 +203,7 @@
               type: 'success'
             });
             this.showLook = false;
+            this.fileList = [];
             this.getLoadUserGiftList();
           } else {
             this.$message.error(res.data.message);
@@ -234,12 +252,31 @@
       success(response, file, fileList) {
         this.addForm.pictureUrl = response.data.imageUrl;
       },
+      ehandleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      ehandlePreview(file) {
+        console.log(file);
+      },
+      esuccess(response, file, fileList) {
+        console.log(response.data)
+        this.editForm.pictureUrl = response.data.imageUrl;
+      },
       beforeRemove(file, fileList) {
         return this.$confirm(`确定移除 ${ file.name }？`);
+      },
+      getHeight() {
+        // 获取浏览器高度，减去顶部导航栏的值，70该值也可以动态获取
+        this.contentStyleObj.top = (window.innerHeight - 582) + 'px';
+        //this.contentStyleObj.width=window.innerWidth-250+'px';
       }
     },
     created() {
-      this.getLoadUserGiftList()
+      this.getLoadUserGiftList();
+      window.addEventListener('resize', this.getHeight);
+    },
+    destroyed() {
+      window.removeEventListener('resize', this.getHeight)
     }
   }
 
@@ -266,11 +303,11 @@
 
       .shade-wrap {
         width: 400px;
-        height: 460px;
+        height: 582px;
         background: #fff;
         position: absolute;
-        top: 0;
-        bottom: 0;
+        z-index: 101;
+        /* top: 30%; */
         left: 0;
         right: 0;
         margin: auto;
@@ -291,10 +328,10 @@
           display: flex;
           flex-direction: column;
           justify-content: center;
+          align-items: center;
 
           .input-item {
             margin: 10px 0;
-            padding-left: 100px;
 
             .el-select {
               width: 120px;
@@ -304,6 +341,11 @@
               width: 100px;
               height: 100px;
             }
+          }
+
+          .input-item:nth-of-type(4),
+          .input-item:nth-of-type(5) {
+            margin-left: -56px;
           }
 
           .btn-wrap {
@@ -331,6 +373,7 @@
 
       .shade-wrap {
         width: 400px;
+        height: 582px;
         background: #fff;
         margin: 100px auto;
         border-radius: 5px;

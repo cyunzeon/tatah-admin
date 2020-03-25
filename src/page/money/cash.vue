@@ -25,7 +25,7 @@
                 <el-option label="已处理" value="1"></el-option>
               </el-select>
             </div>
-            <div class="palette palette-wrap">
+            <!-- <div class="palette palette-wrap">
               是否处理:
               <el-select v-model="listQuery.success" placeholder="请选择">
                 <el-option label="全部" value></el-option>
@@ -35,7 +35,7 @@
                 <el-option label="银行处理失败" value="3"></el-option>
                 <el-option label="银行批复中" value="4"></el-option>
               </el-select>
-            </div>
+            </div> -->
             <div class="palette palette-wrap">
               时间:
               <el-date-picker
@@ -65,54 +65,52 @@
               border
               style="width: 100%"
             >
-              <el-table-column label="序号" align="center" header-align="center" width="60">
+              <!-- <el-table-column label="序号" align="center" header-align="center" width="60">
                 <template slot-scope="scope">
                   <span>{{(listQuery.pageNo - 1) * listQuery.pageSize + scope.$index + 1}}</span>
                 </template>
-              </el-table-column>
+              </el-table-column> -->
               <el-table-column
                 label="订单编号"
                 prop="cbatchno"
                 align="center"
+                fixed
                 header-align="center"
-                width="160"
               ></el-table-column>
               <el-table-column
                 label="手机号码"
                 prop="cmobileno"
                 align="center"
                 header-align="center"
-                width="160"
+                width="100"
               ></el-table-column>
               <el-table-column
                 label="提现金额"
                 prop="imoney"
                 align="center"
                 header-align="center"
-                width="160"
+                width="100"
               ></el-table-column>
               <el-table-column
                 label="用户姓名"
                 prop="crealname"
                 align="center"
                 header-align="center"
-                width="160"
+                width="100"
               ></el-table-column>
-              <el-table-column label="省份" prop align="center" header-align="center" width="160"></el-table-column>
-              <el-table-column label="城市" prop align="center" header-align="center" width="160"></el-table-column>
               <el-table-column
                 label="银行名称"
                 prop="cbankname"
                 align="center"
                 header-align="center"
-                width="160"
+                width="130"
               ></el-table-column>
               <el-table-column
                 label="支行名称"
                 prop="cbankbranchname"
                 align="center"
                 header-align="center"
-                width="160"
+                width="130"
               ></el-table-column>
               <el-table-column
                 label="银行卡号"
@@ -126,7 +124,7 @@
                 prop="repaymoney"
                 align="center"
                 header-align="center"
-                width="160"
+                width="100"
               >
                 <template slot-scope="scope">
                   <p v-if="scope.row.itype == 0">提款到银行</p>
@@ -138,28 +136,30 @@
                 prop="ccashdate"
                 align="center"
                 header-align="center"
-                width="160"
+                width="140"
               ></el-table-column>
               <el-table-column
                 label="处理时间"
                 prop="cconfdate"
                 align="center"
                 header-align="center"
-                width="160"
+                width="140"
               ></el-table-column>
-              <el-table-column label="是否处理" align="center" header-align="center" width="160">
+              <el-table-column label="处理状态" align="center" header-align="center" width="100">
                 <template slot-scope="scope">
                   <p v-if="scope.row.isuccess == 0">未处理</p>
                   <p v-else-if="scope.row.isuccess == 1">提款成功</p>
                   <p v-else-if="scope.row.isuccess == 2">拒绝提款</p>
                   <p v-else-if="scope.row.isuccess == 3">银行处理失败</p>
-                  <p v-else>银行批复中</p>
+                  <p v-else-if="scope.row.isuccess == 4">银行批复中</p>
+                  <p v-else></p>
                 </template>
               </el-table-column>
-              <el-table-column label="订单状态" align="center" header-align="center" width="160">
+              <el-table-column label="订单状态" align="center" header-align="center" width="90">
                 <template slot-scope="scope">
                   <p v-if="scope.row.istate == 0">已申请</p>
-                  <p v-else>已处理</p>
+                  <p v-else-if="scope.row.istate == 1">已处理</p>
+                  <p v-else></p>
                 </template>
               </el-table-column>
               <el-table-column
@@ -167,26 +167,16 @@
                 prop="coperator"
                 align="center"
                 header-align="center"
-                width="160"
+                width="110"
               >
                 <template></template>
               </el-table-column>
-              <el-table-column label="操作" align="center" header-align="center" width="160">
+              <el-table-column label="操作" align="center" header-align="center" width="90">
                 <template slot-scope="scope" v-show="scope.row.isuccess == 0">
-                  <el-button type="primary" @click="tailBtn(scope.$index, scope.row)">处理</el-button>
+                  <el-button type="primary" @click="tailBtn(scope.$index, scope.row)" v-show="scope.row.istate == 0">处理</el-button>
                 </template>
               </el-table-column>
             </el-table>
-            <!-- 分页 -->
-            <el-pagination
-            style="margin-top: 16px; text-align:center;"
-            layout="total, prev, pager, next"
-            :total="total"
-            :page-size="listQuery.pageSize"
-            :current-page.sync="listQuery.pageNo"
-            @current-change="handleCurrentChange"
-          ></el-pagination>
-
             <div class="shade" v-show="showCash">
               <div class="shade-wrap">
                 <p>提现处理</p>
@@ -199,11 +189,22 @@
                   <div class="btn-wrap">
                     <el-button @click="agreeBtn">同意提款</el-button>
                     <el-button @click="nagreeBtn">拒绝提款</el-button>
-                    <el-button @click="showCash=false">取消</el-button>
+                    <el-button @click="cancelBtn">取消</el-button>
                   </div>
                 </div>
               </div>
-            </div>
+            </div>      
+
+            <!-- 分页 -->
+            <el-pagination
+            style="margin-top: 16px; text-align:center;"
+            layout="total, prev, pager, next"
+            :total="total"
+            :page-size="listQuery.pageSize"
+            :current-page.sync="listQuery.pageNo"
+            @current-change="handleCurrentChange"
+          ></el-pagination>
+
           </div>
         </el-card>
       </el-col>
@@ -226,11 +227,8 @@ export default {
     return {
       tableData: [],
       cashList: {
-        numberId: "",
         cashId: "",
-        state: "",
         crealname: '',
-        cmobileno: '',
         cbankcard: '',
         cbankname: '',
         cbankbranchname: '',
@@ -273,7 +271,6 @@ export default {
     },
     agreeBtn() {
       operationUserCash({
-        numberId: this.cashList.numberId,
         cashId: this.cashList.cashId,
         state: 1
       }).then(res => {
@@ -291,7 +288,6 @@ export default {
     },
     nagreeBtn() {
       operationUserCash({
-        numberId: this.cashList.numberId,
         cashId: this.cashList.cashId,
         state: 2
       }).then(res => {
@@ -308,20 +304,20 @@ export default {
       });
     },
     tailBtn(index, row) {
-      this.cashList.numberId = row.icashid;
-      this.cashList.cashId = row.CBATCHNO;
-      this.cashList.state = row.istate;
-      this.cashList.crealname = row.crealname;
-      this.cashList.cmobileno = row.cmobileno;
-      this.cashList.cbankcard = row.cbankcard;
-      this.cashList.cbankname = row.cbankname;
-      this.cashList.cbankbranchname = row.cbankbranchname;
-      this.cashList.imoney = row.imoney;
-      //this.$set(this.showCash, index, true);
+      this.$set(this.cashList, 'cashId', row.icashid);
+      this.$set(this.cashList, 'crealname', row.crealname);
+      this.$set(this.cashList, 'cbankcard', row.cbankcard);
+      this.$set(this.cashList, 'cbankname', row.cbankname);
+      this.$set(this.cashList, 'cbankbranchname', row.cbankbranchname);
+      this.$set(this.cashList, 'imoney', row.imoney);
       this.showCash = true
+      console.log(this.cashList)
+    },
+    cancelBtn() {
+      this.showCash = false;
     },
     handleFilter() {
-      if(this.listQuery.endDate == '' && this.listQuery.startDate != '') {
+      if(!this.listQuery.endDate && this.listQuery.startDate) {
           this.listQuery.endDate = this.timer
         }
       this.listQuery.pageNo = 1;
@@ -457,7 +453,7 @@ export default {
 
       .input-item {
         margin: 10px 0;
-        padding-left: 130px;
+        padding-left: 80px;
       }
 
       .btn-wrap {

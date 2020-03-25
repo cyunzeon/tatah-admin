@@ -38,7 +38,10 @@
         </el-table-column>
         <el-table-column prop="iredpacketnum" label="每日礼物数量（钻石/人）" width="120" header-align="center" align="center">
         </el-table-column>
-        <el-table-column prop="isendhour" label="礼物发放时间" width="120" header-align="center" align="center">
+        <el-table-column label="礼物发放时间" width="120" header-align="center" align="center">
+          <template slot-scope="scope">
+            <span>每日{{scope.row.isendhour}}:00</span>
+</template>
         </el-table-column>
         <el-table-column prop="itotalnum" label="累计送出礼物（钻石）" width="170" header-align="center" align="center">
         </el-table-column>

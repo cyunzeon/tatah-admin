@@ -43,7 +43,7 @@ export default new Router({
         ...system,
         ...dataAnalysis,
         ...money,
-        ...games
+        ...games,
       ]
     },
     {

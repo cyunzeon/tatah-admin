@@ -9,9 +9,9 @@
           <el-input v-model="form.ctitle"></el-input>
         </el-form-item>
         <el-form-item label="状态：">
-          <el-select v-model="form.upperstate" :placeholder="placeholder">
-            <el-option label="上架" value="1"></el-option>
-            <el-option label="下架" value="0"></el-option>
+          <el-select v-model="form.state" :placeholder="placeholder">
+            <el-option label="上架" value="0"></el-option>
+            <el-option label="下架" value="1"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="活动图片：">
@@ -50,7 +50,7 @@ export default {
       form: {
         curl: this.$route.query.curl,
         ctitle: this.$route.query.ctitle,
-        upperstate: this.$route.query.upperstate,
+        state: this.$route.query.state,
         cadverturl: this.$route.query.cadverturl,
         cadvertid: this.$route.query.cadvertid,
         type: 1,
@@ -61,9 +61,9 @@ export default {
     };
   },
   created() {
-    if(this.$route.query.upperstate == 0) {
+    if(this.$route.query.istate == 1) {
       this.placeholder = '下架'
-    } else if(this.$route.query.upperstate == 1) {
+    } else if(this.$route.query.istate == 0) {
       this.placeholder = '上架'
     }
   },

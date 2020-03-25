@@ -22,12 +22,12 @@
             <el-option label="发现banner" value="5"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="状态：">
+        <!-- <el-form-item label="状态：">
           <el-select v-model="form.upperstate" placeholder="请选择状态">
             <el-option label="上架" value="0"></el-option>
             <el-option label="下架" value="1"></el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="活动图片：">
           <img :src="form.curl" alt />
           <el-upload

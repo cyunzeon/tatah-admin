@@ -49,15 +49,15 @@
 
             <!-- 表单 -->
             <el-table v-loading="loading" element-loading-text="加载数据中" :data="tableData" border style="width: 100%">
-              <el-table-column label="序号" align="center" header-align="center" width="60">
+              <!-- <el-table-column label="序号" align="center" header-align="center" width="60">
                 <template slot-scope="scope">
                   <span>{{(listQuery.pageNo - 1) * listQuery.pageSize + scope.$index + 1}}</span>
                 </template>
-              </el-table-column>
-              <el-table-column label="订单编号" prop="cbatchno" align="center" header-align="center" width="160">
+              </el-table-column> -->
+              <el-table-column label="订单编号" prop="cbatchno" align="center" header-align="center" width="130">
                 <template></template>
               </el-table-column>
-              <el-table-column label="状态" align="center" header-align="center" width="90">
+              <el-table-column label="状态" align="center" header-align="center" width="70">
                 <template slot-scope="scope">
                   <p v-if="scope.row.istate == 0">已申请</p>
                   <p v-else-if="scope.row.istate == 1">未处理</p>
@@ -66,13 +66,13 @@
                   <p v-else></p>
                 </template>
               </el-table-column>
-              <el-table-column label="手机号码" prop="cmobileno" align="center" header-align="center" width="160">
+              <el-table-column label="手机号码" prop="cmobileno" align="center" header-align="center" width="110">
                 <template></template>
               </el-table-column>
               <el-table-column label="充值金额" prop="imoney" align="center" header-align="center" width="160">
                 <template></template>
               </el-table-column>
-              <el-table-column label="手续费" prop="irate" align="center" header-align="center" width="160">
+              <el-table-column label="手续费" prop="irate" align="center" header-align="center" width="100">
                 <template></template>
               </el-table-column>
               <el-table-column label="进账钻石" prop="idiamond" align="center" header-align="center" width="160">
@@ -80,19 +80,19 @@
               </el-table-column>
               <el-table-column label="支付网关" prop="iway" align="center" header-align="center" width="160">
               </el-table-column>
-              <el-table-column label="充值时间" prop="ccashdate" align="center" header-align="center" width="160">
+              <el-table-column label="充值时间" prop="ccashdate" align="center" header-align="center" width="140">
                 <template></template>
               </el-table-column>
-              <el-table-column label="到账时间" prop="carrivaldate" align="center" header-align="center" width="160">
+              <el-table-column label="到账时间" prop="carrivaldate" align="center" header-align="center" width="140">
                 <template></template>
               </el-table-column>
-              <el-table-column label="备注" prop="cmemo" align="center" header-align="center" width="160">
+              <el-table-column label="备注" prop="cmemo" align="center" header-align="center">
                 <template></template>
               </el-table-column>
-              <el-table-column label="来源" prop="cfrom" align="center" header-align="center" width="160">
+              <el-table-column label="来源" prop="cfrom" align="center" header-align="center" width="100">
                 <template></template>
               </el-table-column>
-              <el-table-column label="支付商号" prop="cmctid" align="center" header-align="center" width="160">
+              <el-table-column label="支付商号" prop="cmctid" align="center" header-align="center" width="110">
                 <template></template>
               </el-table-column>
             </el-table>

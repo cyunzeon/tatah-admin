@@ -70,26 +70,27 @@
           <div class="input-item">
             <span>题目：</span>
             <el-input placeholder="请输入题目" v-model="subject"></el-input>
-            <el-button @click="editTit">修改</el-button>
+            <!-- <el-button @click="editTit">修改</el-button> -->
           </div>
           <div class="input-item">
             <div>
               <span>选项A：</span>
               <el-input placeholder="请输入答案" v-model="aSub"></el-input>
-              <el-button @click="editA">修改</el-button>
+              <!-- <el-button @click="editA">修改</el-button> -->
             </div>
             <div>
               <span>选项B：</span>
               <el-input placeholder="请输入答案" v-model="bSub"></el-input>
-              <el-button @click="editB">修改</el-button>
+              <!-- <el-button @click="editB">修改</el-button> -->
             </div>
             <div>
               <span>选项C：</span>
               <el-input placeholder="请输入答案" v-model="cSub"></el-input>
-              <el-button @click="editC">修改</el-button>
+              <!-- <el-button @click="editC">修改</el-button> -->
             </div>
           </div>
           <div class="btn-wrap">
+            <el-button @click="editBtn">修改</el-button>
             <el-button @click="cancelBtn">取消</el-button>
           </div>
         </div>
@@ -162,12 +163,37 @@
         this.bId = '';
         this.cId = '';
         this.answerid = '';
-        this.serialn = '';
         this.content = '';
       },
       agreeBtn() {
-        this.content = '1:' + this.aSub + ',' + '2:' + this.bSub + ',' + '3:' + this.cSub;
-        console.log(this.content)
+        if(this.aSub && !this.bSub && !this.cSub)
+        {
+          this.content = '1:' + this.aSub + ',' + '2:,3:';
+        }
+        if(!this.aSub && this.bSub && !this.cSub)
+        {
+          this.content = '1:,2:'+ this.bSub + ',3:';
+        }
+        if(!this.aSub && !this.bSub && this.cSub)
+        {
+          this.content = '1:,2:,3:' + this.cSub;
+        }
+        if(this.aSub && this.bSub && !this.cSub)
+        {
+          this.content = '1:' + this.aSub + ',' + '2:' + this.bSub + ',3:';
+        }
+        if(this.aSub && !this.bSub && this.cSub)
+        {
+          this.content = '1:' + this.aSub + ',2:,' + '3:' + this.cSub;
+        }
+        if(!this.aSub && this.bSub && this.cSub)
+        {
+          this.content = '1:,2:' + this.bSub + ',' + '3:' + this.cSub;
+        }
+        if(this.aSub && this.bSub && this.cSub)
+        {
+          this.content = '1:' + this.aSub + ',' + '2:' + this.bSub + ',' + '3:' + this.cSub;
+        }
         editSquareQuestion({
           questionid: '',
           subject: this.subject,
@@ -194,7 +220,69 @@
           }
         });
       },
-      editA() {
+      editBtn() {
+        if(this.aSub && !this.bSub && !this.cSub)
+        {
+          this.content = '1:' + this.aSub + ',' + '2:,3:';
+        }
+        if(!this.aSub && this.bSub && !this.cSub)
+        {
+          this.content = '1:,2:'+ this.bSub + ',3:';
+        }
+        if(!this.aSub && !this.bSub && this.cSub)
+        {
+          this.content = '1:,2:,3:' + this.cSub;
+        }
+        if(this.aSub && this.bSub && !this.cSub)
+        {
+          this.content = '1:' + this.aSub + ',' + '2:' + this.bSub + ',3:';
+        }
+        if(this.aSub && !this.bSub && this.cSub)
+        {
+          this.content = '1:' + this.aSub + ',2:,' + '3:' + this.cSub;
+        }
+        if(!this.aSub && this.bSub && this.cSub)
+        {
+          this.content = '1:,2:' + this.bSub + ',' + '3:' + this.cSub;
+        }
+        if(this.aSub && this.bSub && this.cSub)
+        {
+          this.content = '1:' + this.aSub + ',' + '2:' + this.bSub + ',' + '3:' + this.cSub;
+        }
+        editSquareQuestion({
+          questionid: this.questionid,
+          subject: this.subject,
+          sort: this.sort,
+          content: this.content,
+          serialn: this.serialn.join(','),
+          type: 1
+        }).then(res => {
+          if (res.data.code == 200) {
+            this.$message({
+              message: res.data.message,
+              type: 'success'
+            });
+            this.getLoadSquareQuestionList();
+            this.showEdit = false;
+            this.questionid = '';
+            this.subject = '';
+            this.sort = '';
+            this.aSub = '';
+            this.bSub = '';
+            this.cSub = '';
+            this.sort = '';
+            this.aId = '';
+            this.bId = '';
+            this.cId = '';
+            this.answerid = '';
+            this.content = '';
+          } else {
+            this.$message.error(res.data.message);
+          }
+        });
+
+      },
+      /*editA() {
         console.log(this.aId)
         editSquareQuestion({
           questionid: this.questionid,
@@ -327,7 +415,7 @@
             this.$message.error(res.data.message);
           }
         });
-      },
+      },*/
       deletAction(row) {
         console.log(row)
         editSquareQuestion({
@@ -363,7 +451,6 @@
         this.bId = row.squareAnswerlist[1].canswerid;
         this.cId = row.squareAnswerlist[2].canswerid;
         this.answerid = row.squareAnswerlist[0].canswerid;
-        console.log(this.aId)
       }
     },
     created() {
@@ -387,7 +474,7 @@
 
     .shade-wrap {
       width: 400px;
-      height: 460px;
+      height: 380px;
       background: #fff;
       position: absolute;
       top: 20%;
@@ -434,7 +521,7 @@
         .btn-wrap {
           width: 100%;
           display: flex;
-          margin: 40px 0 20px 0;
+          margin: 0 0 20px 0;
           justify-content: space-around;
         }
       }

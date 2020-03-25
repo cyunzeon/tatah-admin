@@ -29,7 +29,7 @@
       <el-form-item label="审核状态：">
         <el-select v-model="formInline.state" placeholder="请选择">
           <el-option label="全部" value=""></el-option>
-          <el-option label="未实名" value="0"></el-option>
+          <!-- <el-option label="未实名" value="0"></el-option> -->
           <el-option label="未处理" value="1"></el-option>
           <el-option label="已实名" value="2"></el-option>
           <el-option label="实名未通过" value="3"></el-option>

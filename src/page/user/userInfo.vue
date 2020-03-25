@@ -18,10 +18,10 @@
         </div>
       </el-form-item>
       <el-form-item label="注册审核：">
-        <el-select v-model="formInline.state" placeholder="请选择俱乐部状态">
+        <el-select v-model="formInline.iexamine" placeholder="注册审核">
           <el-option label="全部" value=""></el-option>
           <el-option label="已完成" value="1"></el-option>
-          <el-option label="未完成" value="2"></el-option>
+          <el-option label="未完成" value="0"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -53,13 +53,13 @@
         </el-table-column>
         <el-table-column prop="signature" label="个人描述" header-align="center">
         </el-table-column>
-        <el-table-column label="注册审核" width="80" header-align="center" align="center">
-          <template slot-scope="scope">
-            <p v-if="scope.row.state == 1">已完成</p>
-            <p v-else-if="scope.row.state == 1">未完成</p>
-            <p v-else></p>
-          </template>
-        </el-table-column>
+          <!-- <el-table-column label="注册审核" width="80" header-align="center" align="center">
+            <template slot-scope="scope">
+              <p v-if="scope.row.state == 1">已完成</p>
+              <p v-else-if="scope.row.state == 2">未完成</p>
+              <p v-else></p>
+            </template>
+          </el-table-column> -->
         <el-table-column label="状态" width="80" header-align="center" align="center">
           <template slot-scope="scope">
             <p v-if="scope.row.state == 1">正常</p>
@@ -105,7 +105,8 @@
           pageSize: 20,
           pageNo: 1,
           startDate: '',
-          endDate: ''
+          endDate: '',
+          state: ''
         },
         //时间选择
         pickerOptionsStart: {

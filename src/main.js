@@ -7,8 +7,6 @@ import App from './App'
 import router from './router/index'
 import 'styles/reset.less'
 
-
-
 Vue.config.productionTip = false
 Vue.use(ElementUI);
 /* eslint-disable no-new */

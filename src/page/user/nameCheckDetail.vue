@@ -50,9 +50,9 @@
                   <el-radio label="3" v-model="form.state" value="3">不通过</el-radio>
                 </el-radio-group>
               </el-form-item>
-              <el-form-item>
+              <!-- <el-form-item>
                 <el-input type="textarea" v-model="form.reason" class='w200'></el-input>
-              </el-form-item>
+              </el-form-item> -->
               <el-form-item>
                 <el-button type="primary" @click="getAction">提交</el-button>
               </el-form-item>
@@ -112,8 +112,8 @@
   }
 
   .photo-box img {
-    width: 340px;
-    height: 240px;
+    width: 740px;
+    height: 540px;
   }
 
 </style>
