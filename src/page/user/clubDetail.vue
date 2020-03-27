@@ -24,7 +24,7 @@
         </tr>
         <tr>
           <td>礼物发放时间</td>
-          <td>{{$route.query.isendhour}}</td>
+          <td>每日{{$route.query.isendhour}}:00</td>
           <td>每日礼物数量(钻石/人)</td>
           <td>{{$route.query.iredpacketnum}}</td>
           <td>累计送出礼物(钻石)</td>

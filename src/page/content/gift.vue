@@ -186,12 +186,11 @@
         this.editForm.name = row.cname;
         this.editForm.pictureUrl = row.cpictureurl;
         this.editForm.price = row.iprice;
-        this.editForm.state = this.istate;
         this.editForm.top = row.itop;
         if (row.istate == 0) {
-          this.placeholder = '下架'
+          this.editForm.state = '0';
         } else {
-          this.placeholder = '上架'
+          this.editForm.state = '1';
         }
         this.showLook = true;
       },

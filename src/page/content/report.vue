@@ -105,7 +105,7 @@
                     <span v-else></span>
                   </template> -->
 
-                  <p v-for="item in scope.row.istate" :key="item">
+                  <p v-for="item in scope.row.istate" :key="item.index">
                     <span v-if="item == 1">头像、资料作假</span>
                     <span v-else-if="item == 2">骚扰广告</span>
                     <span v-else-if="item == 3">诈骗、托</span>

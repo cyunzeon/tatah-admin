@@ -55,7 +55,7 @@
               </el-col>
             </el-row> -->
             <div class="table">
-              <display-info-with-emoji :msg="inputMessage"></display-info-with-emoji>
+              <!-- <display-info-with-emoji :msg="inputMessage"></display-info-with-emoji> -->
 
               <ul>
                 <li v-for="item in tableData" :key="item.carticleid" v-show="item.istate == 1">

@@ -74,8 +74,10 @@
         </el-table-column>
         <el-table-column label="操作" header-align="center" align="center">
           <template slot-scope="scope">
-            <el-button type="primary" @click="lookAction(scope.$index, scope.row)" v-show="scope.row.iexamine != 1">查看
+            <el-button type="primary" @click="lookAction(scope.$index, scope.row)" v-show="scope.row.iexamine != 1">审核
             </el-button>
+            <span v-show="scope.row.iexamine == 1">已审核
+            </span>
           </template>
         </el-table-column>
       </el-table>

@@ -172,8 +172,11 @@
                 <template></template>
               </el-table-column>
               <el-table-column label="操作" align="center" header-align="center" width="90">
-                <template slot-scope="scope" v-show="scope.row.isuccess == 0">
+                <template slot-scope="scope" >
                   <el-button type="primary" @click="tailBtn(scope.$index, scope.row)" v-show="scope.row.istate == 0">处理</el-button>
+                  <span v-show="scope.row.istate == 1">
+                    已处理
+                  </span>
                 </template>
               </el-table-column>
             </el-table>

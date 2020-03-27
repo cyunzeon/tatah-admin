@@ -7,7 +7,7 @@
           <el-input v-model="form.ctitle"></el-input>
         </el-form-item>
         <el-form-item label="状态：">
-          <el-select v-model="form.istatus" placeholder="请选择状态">
+          <el-select v-model="form.istatus">
             <el-option label="上架" value="0"></el-option>
             <el-option label="下架" value="1"></el-option>
           </el-select>
@@ -55,6 +55,13 @@
         showStatus: false,
         showAdv: false
       }
+    },
+    created() {
+      if(this.$route.query.istatus == 1) {
+      this.form.istatus = '1'
+    } else if(this.$route.query.istatus == 0) {
+      this.form.istatus = '0'
+    }
     },
     methods: {
       onSubmit() {

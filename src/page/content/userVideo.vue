@@ -34,7 +34,7 @@
             <el-option label="已审核通过" value="1"></el-option>
             <el-option label="未通过" value="2"></el-option>
           </el-select>
-        </el-form-item>  
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
         </el-form-item>
@@ -47,13 +47,14 @@
         <el-table-column label="性别" header-align="center" align="center">
           <template slot-scope="scope">
             <p v-if="scope.row.igender == 1">男</p>
-            <p v-else>女</p>
+            <p v-else-if="scope.row.igender == 2">女</p>
+            <p v-else></p>
           </template>
         </el-table-column>
         <el-table-column label="视频" header-align="center" align="center">
           <template slot-scope="scope">
             <video muted width="700" height="400" loop controls='controls' class="video-wrap" :src="scope.row.cvideo">
-              <source  type="video/mp4">
+              <source type="video/mp4">
               您的浏览器不支持 video 标签
             </video>
           </template>
@@ -76,22 +77,22 @@
           </template>
         </el-table-column>
         <el-table-column label="操作" header-align="center" align="center">
-          <template slot-scope="scope" v-if="scope.row.istate==0">
-            <el-button type="primary" @click="passBtn(scope.$index, scope.row)">通过</el-button>
-            <el-button type="danger" @click="delAction(scope.$index, scope.row)">拒绝</el-button>
+          <template slot-scope="scope" >
+            <template v-if="scope.row.istate==0">
+              <el-button type="primary" @click="passBtn(scope.$index, scope.row)">通过</el-button>
+              <el-button type="danger" @click="delAction(scope.$index, scope.row)">拒绝</el-button>
+  
+            </template>
+            <span v-else>已审核</span>
+
           </template>
         </el-table-column>
       </el-table>
     </div>
     <div class="block p20 tac">
-      <el-pagination
-      style="margin-top: 16px; text-align:center;"
-      layout="total, prev, pager, next"
-      :total="total"
-      :page-size="formInline.pageSize"
-      :current-page.sync="formInline.pageNo"
-      @current-change="handleCurrentChange"
-    ></el-pagination>
+      <el-pagination style="margin-top: 16px; text-align:center;" layout="total, prev, pager, next" :total="total"
+        :page-size="formInline.pageSize" :current-page.sync="formInline.pageNo" @current-change="handleCurrentChange">
+      </el-pagination>
     </div>
 
   </div>
@@ -99,7 +100,8 @@
 <script>
   import {
     loadUserVideoExaminetList,
-    updateVideoExaminet  } from '@/request/api'
+    updateVideoExaminet
+  } from '@/request/api'
   export default {
     data() {
       return {
@@ -137,7 +139,7 @@
             this.total = parseInt(res.data.data.total);
             this.tableData = res.data.data.list;
             console.log(this.tableData[0].cvideo)
-            console.log(typeof(this.tableData[0].cvideo))
+            console.log(typeof (this.tableData[0].cvideo))
           }
         })
       },
@@ -213,7 +215,7 @@
         _this.timer = yy + "-" + mm + "-" + dd;
       },
       onSubmit() {
-        if(this.formInline.endDate == '' && this.formInline.startDate != '') {
+        if (this.formInline.endDate == '' && this.formInline.startDate != '') {
           this.formInline.endDate = this.timer
         }
         this.getLoadUserVideoExaminetList();
@@ -233,7 +235,7 @@
 </script>
 
 <style lang="scss" scoped>
-    .el-select {
+  .el-select {
     width: 120px;
   }
 
@@ -241,4 +243,5 @@
     width: 100px;
     height: 100px;
   }
+
 </style>

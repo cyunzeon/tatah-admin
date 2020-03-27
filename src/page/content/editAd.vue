@@ -9,7 +9,7 @@
           <el-input v-model="form.ctitle"></el-input>
         </el-form-item>
         <el-form-item label="状态：">
-          <el-select v-model="form.state" :placeholder="placeholder">
+          <el-select v-model="form.state">
             <el-option label="上架" value="0"></el-option>
             <el-option label="下架" value="1"></el-option>
           </el-select>
@@ -50,7 +50,7 @@ export default {
       form: {
         curl: this.$route.query.curl,
         ctitle: this.$route.query.ctitle,
-        state: this.$route.query.state,
+        state: this.$route.query.istate,
         cadverturl: this.$route.query.cadverturl,
         cadvertid: this.$route.query.cadvertid,
         type: 1,
@@ -62,9 +62,9 @@ export default {
   },
   created() {
     if(this.$route.query.istate == 1) {
-      this.placeholder = '下架'
+      this.form.state = '1'
     } else if(this.$route.query.istate == 0) {
-      this.placeholder = '上架'
+      this.form.state = '0'
     }
   },
   methods: {

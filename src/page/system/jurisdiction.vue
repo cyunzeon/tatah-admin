@@ -54,7 +54,7 @@
             return items != items2;
           });
         });
-        this.deleteIds = this.firstList.filter(items3 => {
+        this.deleteIds = this.all.filter(items3 => {
           return this.checkEquipArr.every(items4 => {
             return items3 != items4;
           });
@@ -73,6 +73,7 @@
               type: "success"
             });
             this.getLoadRolePermission();
+            //this.$router.go(0);
           } else {
             this.$message.error(res.data.message)
           }
@@ -83,13 +84,13 @@
       },
       handleCheckAllChange(event) {
         console.log(event)
-        this.checkEquipArr = []
-        let arr = this.checkedEquipments
+        this.checkEquipArr = [];
+        let arr = this.checkedEquipments;
         console.log('arr', arr)
         for (let i = 0; i < arr.length; i++) {
-          let roldList = arr[i]
+          let roldList = arr[i];
           for (let j = 0; j < roldList.length; j++) {
-            this.checkEquipArr.push(roldList[j])
+            this.checkEquipArr.push(roldList[j]);
           }
         }
         console.log('所有选中', this.checkEquipArr);
@@ -98,7 +99,7 @@
         loadPermissionList().then(res => {
           this.states = res.data.data.array;
           for (let j = 0; j < this.states.length; j++) {
-            this.all.push(this.states[j].cpermissionid)
+            this.all.push(this.states[j].cpermissionid);
           }
         });
       },
@@ -109,8 +110,8 @@
           this.roldList = res.data.data;
           // 初始化默认选中状态
           for (let i = 0; i < this.roldList.length; i++) {
-            let checkArr = []
-            let item = this.roldList[i].array
+            let checkArr = [];
+            let item = this.roldList[i].array;
             if (item.length === 0) {
               this.checkedEquipments.push([])
             } else {
@@ -119,7 +120,7 @@
                   checkArr.push(item[j].permissionId)
                 }
               }
-              this.checkedEquipments.push(checkArr)
+              this.checkedEquipments.push(checkArr);
             }
           }
           this.firstList = this.checkedEquipments.reduce((a, b) => a.concat(b))

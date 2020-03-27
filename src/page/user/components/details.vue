@@ -135,25 +135,26 @@
               </template>
               <template v-else>
                 <img :src="infoList.photo1" alt @click="openImg(infoList.photo1)">
-                <img :src="infoList.photo2" alt @click="openImg(infoList.photo2)"/>
+                <img :src="infoList.photo2" alt @click="openImg(infoList.photo2)" />
               </template>
             </td>
             <td>
               <!-- <embed :src="infoList.uservideo" quality="high" class="video-wrap" align="middle"
                 allowScriptAccess="always" v-if="infoList.uservideo"></embed> -->
-              <video muted width="700" height="400" autoplay loop controls='controls' :src="infoList.uservideo" class="video-wrap" v-if="infoList.uservideo != ''" >
-                <source  type="video/mp4">
+              <video muted width="700" height="400" autoplay loop controls='controls' :src="infoList.uservideo"
+                class="video-wrap" v-if="infoList.uservideo != ''">
+                <source type="video/mp4">
                 您的浏览器不支持 video 标签
               </video>
               <p v-else>暂无视频</p>
             </td>
             <td class="photo-wrap">
-              <template v-if="infoList.photo1 == ''">
+              <template v-if="!infoList.ccardphoto1 && !infoList.ccardphoto2">
                 <p>暂无照片</p>
               </template>
               <template v-else>
-                <img :src="infoList.photo1" alt @click="openImg(infoList.photo1)"/>
-                <img :src="infoList.photo2" alt @click="openImg(infoList.photo2)"/>
+                <img :src="infoList.ccardphoto1" alt @click="openImg(infoList.ccardphoto1)" />
+                <img :src="infoList.ccardphoto2" alt @click="openImg(infoList.ccardphoto2)" />
               </template>
             </td>
           </tr>
@@ -233,8 +234,8 @@
           }
         });
       },
-            //点击看大图
-            openImg(head) {
+      //点击看大图
+      openImg(head) {
         if (head) {
           this.imgVisible = true
           this.dialogImgUrl = head
@@ -312,8 +313,15 @@
   }
 
   .table2 {
+    width: 100%;
     th {
       background: #f8f8f8;
+    }
+
+    tr {
+      th {
+        width: 700px;
+      }      
     }
 
     .photo-wrap {

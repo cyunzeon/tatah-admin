@@ -46,8 +46,9 @@
         </el-table-column>
         <el-table-column label="性别" header-align="center" align="center">
           <template slot-scope="scope">
-            <p v-if="scope.row.gender == 1">男</p>
-            <p v-else>女</p>
+            <p v-if="scope.row.igender == 1">男</p>
+            <p v-else-if="scope.row.igender == 2">女</p>
+            <p v-else></p>
           </template>
         </el-table-column>
         <el-table-column label="头像" header-align="center" align="center">
@@ -73,9 +74,12 @@
           </template>
         </el-table-column>
         <el-table-column label="操作" header-align="center" align="center">
-          <template slot-scope="scope" v-if="scope.row.istate==0">
+          <template slot-scope="scope">
+            <template  v-if="scope.row.istate==0">
             <el-button type="primary" @click="passBtn(scope.$index, scope.row)">通过</el-button>
             <el-button type="danger" @click="delAction(scope.$index, scope.row)">拒绝</el-button>
+          </template>
+          <span v-else>已审核</span>
           </template>
         </el-table-column>
       </el-table>

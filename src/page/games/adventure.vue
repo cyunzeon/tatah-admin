@@ -37,14 +37,9 @@
           </el-table>
 
           <!-- 分页 -->
-          <el-pagination
-            style="margin-top: 16px; text-align:center;"
-            layout="total, prev, pager, next"
-            :total="total"
-            :page-size="form.pageSize"
-            :current-page.sync="form.pageNo"
-            @current-change="handleCurrentChange"
-          ></el-pagination>
+          <el-pagination style="margin-top: 16px; text-align:center;" layout="total, prev, pager, next" :total="total"
+            :page-size="form.pageSize" :current-page.sync="form.pageNo" @current-change="handleCurrentChange">
+          </el-pagination>
 
           <div class="shade2" v-show="showLook">
             <div class="shade-wrap">
@@ -98,209 +93,214 @@
 </template>]
 
 <script>
-import { loadAdventureTaskList, editAdventureByCtastId } from "@/request/api";
-export default {
-  data() {
-    return {
-      total: 0,
-      tableData: [],
-      form: {
-        pageNo: 1,
-        pageSize: 20
-      },
-      editForm: {
-        ctitleid: "",
-        ccontent: "",
-        igametype: "",
-        type: 1
-      },
-      addForm: {
-        ccontent: "",
-        igametype: "",
-        type: 3
-      },
-      showLook: false,
-      showAdd: false,
-      placeholder: "",
-      gametype: ""
-    };
-  },
-  methods: {
-    refreshBtn() {
-      this.getLoadAdventureTaskList();
+  import {
+    loadAdventureTaskList,
+    editAdventureByCtastId
+  } from "@/request/api";
+  export default {
+    data() {
+      return {
+        total: 0,
+        tableData: [],
+        form: {
+          pageNo: 1,
+          pageSize: 20
+        },
+        editForm: {
+          ctitleid: "",
+          ccontent: "",
+          igametype: "",
+          type: 1
+        },
+        addForm: {
+          ccontent: "",
+          igametype: "",
+          type: 3
+        },
+        showLook: false,
+        showAdd: false,
+        placeholder: "",
+        gametype: ""
+      };
     },
-    lookAction(index, row) {
-      (this.editForm.ctitleid = row.ctitleid),
-        (this.editForm.state = row.exstate),
-        (this.editForm.ccontent = row.ccontent);
-      console.log(row.exstate);
-      if (row.exstate == 0) {
-        this.placeholder = "下架";
-      } else if (row.exstate == 1) {
-        this.placeholder = "上架";
-      } else {
-        this.placeholder = "";
+    methods: {
+      refreshBtn() {
+        this.getLoadAdventureTaskList();
+      },
+      lookAction(index, row) {
+        this.editForm.ctitleid = row.ctitleid;
+       // this.editForm.state = row.exstate;
+        this.editForm.ccontent = row.ccontent;
+        console.log(row.exstate);
+        if (row.exstate == 0) {
+          this.editForm.state = '0';
+        } else if (row.exstate == 1) {
+          this.editForm.state = '1';
+        } else {
+          this.placeholder = "";
+        }
+        if (row.igametype == 1) {
+          this.editForm.igametype = '1';
+        } else if (row.igametype == 2) {
+          this.editForm.igametype = '2';
+        } else {
+          this.editForm.igametype = '';
+        }
+        this.showLook = true;
+      },
+      agreeBtn() {
+        editAdventureByCtastId(this.editForm).then(res => {
+          if (res.data.code == 200) {
+            this.$message({
+              message: res.data.message,
+              type: "success"
+            });
+            this.showLook = false;
+            this.getLoadAdventureTaskList();
+          } else {
+            this.$message.error(res.data.message);
+          }
+        });
+      },
+      delAction(row) {
+        editAdventureByCtastId({
+          type: 2,
+          ctitleid: row.ctitleid
+        }).then(res => {
+          if (res.data.code == 200) {
+            this.$message({
+              message: res.data.message,
+              type: "success"
+            });
+            this.getLoadAdventureTaskList();
+          } else {
+            this.$message.error(res.data.message);
+          }
+        });
+      },
+      cancelBtn() {
+        this.editForm.ccontent = "";
+        this.editForm.state = "";
+        this.addForm.ccontent = "";
+        this.addForm.state = "";
+        this.showLook = false;
+        this.showAdd = false;
+      },
+      addBtn() {
+        editAdventureByCtastId(this.addForm).then(res => {
+          if (res.data.code == 200) {
+            this.$message({
+              message: res.data.message,
+              type: "success"
+            });
+            this.showAdd = false;
+            this.addForm.ccontent = "";
+            this.addForm.state = "";
+            this.getLoadAdventureTaskList();
+          } else {
+            this.$message.error(res.data.message);
+          }
+        });
+      },
+      getLoadAdventureTaskList() {
+        loadAdventureTaskList(this.form).then(res => {
+          if (res.data.code == 200) {
+            this.tableData = res.data.data.list;
+            this.total = parseInt(res.data.data.total);
+          }
+        });
+      },
+      //分页器
+      handleCurrentChange(pgno) {
+        this.form.pageNo = pgno;
+        this.getLoadAdventureTaskList();
       }
-      if (row.igametype == 1) {
-        this.gametype = "冒险游戏";
-      } else if (row.igametype == 2) {
-        this.gametype = "真心话";
-      } else {
-        this.gametype = "";
-      }
-      this.showLook = true;
     },
-    agreeBtn() {
-      editAdventureByCtastId(this.editForm).then(res => {
-        if (res.data.code == 200) {
-          this.$message({
-            message: res.data.message,
-            type: "success"
-          });
-          this.showLook = false;
-          this.getLoadAdventureTaskList();
-        } else {
-          this.$message.error(res.data.message);
-        }
-      });
-    },
-    delAction(row) {
-      editAdventureByCtastId({
-        type: 2,
-        ctitleid: row.ctitleid
-      }).then(res => {
-        if (res.data.code == 200) {
-          this.$message({
-            message: res.data.message,
-            type: "success"
-          });
-          this.getLoadAdventureTaskList();
-        } else {
-          this.$message.error(res.data.message);
-        }
-      });
-    },
-    cancelBtn() {
-      this.editForm.ccontent = "";
-      this.editForm.state = "";
-      this.addForm.ccontent = "";
-      this.addForm.state = "";
-      this.showLook = false;
-      this.showAdd = false;
-    },
-    addBtn() {
-      editAdventureByCtastId(this.addForm).then(res => {
-        if (res.data.code == 200) {
-          this.$message({
-            message: res.data.message,
-            type: "success"
-          });
-          this.showAdd = false;
-          this.addForm.ccontent = "";
-          this.addForm.state = "";
-          this.getLoadAdventureTaskList();
-        } else {
-          this.$message.error(res.data.message);
-        }
-      });
-    },
-    getLoadAdventureTaskList() {
-      loadAdventureTaskList(this.form).then(res => {
-        if (res.data.code == 200) {
-          this.tableData = res.data.data.list;
-          this.total = parseInt(res.data.data.total);
-        }
-      });
-    },
-    //分页器
-    handleCurrentChange(pgno) {
-      this.form.pageNo = pgno;
+    created() {
       this.getLoadAdventureTaskList();
     }
-  },
-  created() {
-    this.getLoadAdventureTaskList();
-  }
-};
+  };
+
 </script>
 
 <style lang="scss" scoped>
-.gift-wrap {
-  .refresh-btn {
-    float: right;
-    margin-bottom: 20px;
-  }
+  .gift-wrap {
+    .refresh-btn {
+      float: right;
+      margin-bottom: 20px;
+    }
 
-  .shade2 {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    z-index: 101;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: block;
+    .shade2 {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      z-index: 101;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: block;
 
-    .shade-wrap {
-      width: 400px;
-      background: #fff;
-      margin: 100px auto;
-      border-radius: 5px;
+      .shade-wrap {
+        width: 400px;
+        background: #fff;
+        margin: 100px auto;
+        border-radius: 5px;
 
-      p {
-        display: block;
-        height: 30px;
-        line-height: 30px;
-        background: #409eff;
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-        color: #fff;
-        padding-left: 20px;
-      }
+        p {
+          display: block;
+          height: 30px;
+          line-height: 30px;
+          background: #409eff;
+          border-top-left-radius: 5px;
+          border-top-right-radius: 5px;
+          color: #fff;
+          padding-left: 20px;
+        }
 
-      .input-wrap {
-        display: flex;
-        width: 100%;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
-
-        .input-item {
-          width: 100%;
-          margin: 10px 0;
+        .input-wrap {
           display: flex;
-          justify-content: center;
+          width: 100%;
+          flex-direction: column;
+          justify-content: space-around;
           align-items: center;
 
-          .el-select {
-            width: 120px;
+          .input-item {
+            width: 100%;
+            margin: 10px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .el-select {
+              width: 120px;
+            }
+
+            .el-input {
+              width: 200px;
+            }
+
+            img {
+              width: 100px;
+              height: 100px;
+            }
           }
 
-          .el-input {
-            width: 200px;
+          .input-item:nth-of-type(4),
+          .input-item:nth-of-type(5) {
+            margin-left: -56px;
           }
 
-          img {
-            width: 100px;
-            height: 100px;
+          .btn-wrap {
+            width: 100%;
+            display: flex;
+            margin: 40px 0 20px 0;
+            justify-content: space-around;
           }
-        }
-
-        .input-item:nth-of-type(4),
-        .input-item:nth-of-type(5) {
-          margin-left: -56px;
-        }
-
-        .btn-wrap {
-          width: 100%;
-          display: flex;
-          margin: 40px 0 20px 0;
-          justify-content: space-around;
         }
       }
     }
   }
-}
+
 </style>

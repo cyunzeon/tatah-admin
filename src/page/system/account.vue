@@ -59,7 +59,7 @@
           ></el-pagination>
 
 
-            <div class="shade" v-show="showInfo">
+            <div class="shade2" v-show="showInfo">
               <div class="shade-wrap">
                 <p>账号信息</p>
                 <div class="input-wrap">
@@ -319,6 +319,7 @@ export default {
 
   .shade-wrap {
     width: 400px;
+    height: 260px;
     background: #fff;
     position: absolute;
     top: 0;
@@ -353,10 +354,11 @@ export default {
       .btn-wrap {
         width: 100%;
         display: flex;
-        margin: 10px 0;
+        margin: 20px 0;
         justify-content: space-around;
       }
     }
   }
 }
+
 </style>
