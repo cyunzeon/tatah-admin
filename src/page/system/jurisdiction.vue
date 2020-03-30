@@ -72,8 +72,8 @@
               message: res.data.message,
               type: "success"
             });
-            this.getLoadRolePermission();
-            //this.$router.go(0);
+            //this.getLoadRolePermission();
+            this.$router.go(0);
           } else {
             this.$message.error(res.data.message)
           }

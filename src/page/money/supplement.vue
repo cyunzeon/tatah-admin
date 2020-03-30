@@ -80,7 +80,7 @@
 <script>
   import {
     loadRechargeList,
-    operationAddRecharge
+    operationRecharge
   } from '@/request/api'
   export default {
     created() {
@@ -95,12 +95,6 @@
           pageNo: 1,
           pageSize: 20,
           approval: 2
-        },
-        operation: {
-          backstageid: '',
-          state: '',
-          diamonds: '',
-          itype: ''
         }
       }
     },
@@ -119,11 +113,13 @@
         this.getLoadRechargeList();
       },
       agreeBtn(row) {
-        this.operation.backstageid = row.backstageid;
-          this.operation.diamonds = row.diamonds;
-          this.operation.itype = row.itype;
-          this.operation.state = 1;
-        operationAddRecharge(this.operation).then(res => {
+          operationRecharge({
+            type:2,
+            irechargeid: row.irechargeid,
+            state: 1,
+            imoney: row.imoney,
+            crepairuid: row.crepairuid
+          }).then(res => {
           if (res.data.code == 200) {
             this.$message({
               message: res.data.message,
@@ -136,11 +132,13 @@
         })
       },
       rejectBtn(row) {
-        this.operation.backstageid = row.backstageid;
-          this.operation.diamonds = row.diamonds;
-          this.operation.itype = row.itype;
-          this.operation.state = 2;
-        operationAddRecharge(this.operation).then(res => {
+          operationRecharge({
+            type:2,
+            irechargeid: row.irechargeid,
+            state: 2,
+            imoney: row.imoney,
+            crepairuid: row.crepairuid
+          }).then(res => {
           if (res.data.code == 200) {
             this.$message({
               message: res.data.message,

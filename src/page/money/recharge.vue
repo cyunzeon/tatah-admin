@@ -230,7 +230,8 @@
     methods: {
       applyBtn(row) {
         operationRecharge({
-          irechargeid: row.irechargeid
+          irechargeid: row.irechargeid,
+          type:1
         }).then(res => {
           if (res.data.code == 200) {
             this.$message({
