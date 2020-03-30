@@ -294,13 +294,13 @@
         width: 100%;
         height: 100%;
         display: flex;
-        justify-content: space-around;
+        /* justify-content: space-around; */
         flex-wrap: wrap;
 
         li {
           width: 500px;
           border: 1px solid #eee;
-          margin-bottom: 20px;
+          margin: 0 40px 20px 0;
 
           .top {
             padding: 20px;

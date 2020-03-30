@@ -18,18 +18,23 @@
               <el-input v-model="listQuery.mobileNo" />
             </div>
             <div class="palette palette-wrap">
+              订单编号:
+              <el-input v-model="listQuery.batchNo" />
+            </div>
+            <div class="palette palette-wrap">
               订单状态:
               <el-select v-model="listQuery.state" placeholder="请选择">
                 <el-option label="全部" value></el-option>
                 <el-option label="已申请" value="0"></el-option>
-                <el-option label="未处理" value="1"></el-option>
-                <el-option label="已处理" value="2"></el-option>
+                <!-- <el-option label="未处理" value="1"></el-option>
+                <el-option label="已处理" value="2"></el-option> -->
                 <el-option label="已成功" value="3"></el-option>
               </el-select>
             </div>
             <div class="palette palette-wrap">
               支付网关:
               <el-select v-model="listQuery.wayId" placeholder="请选择">
+                <el-option label="全部" value></el-option>
                 <el-option label="苹果内购" value="0"></el-option>
                 <el-option label="支付宝" value="1"></el-option>
               </el-select>
@@ -54,7 +59,7 @@
                   <span>{{(listQuery.pageNo - 1) * listQuery.pageSize + scope.$index + 1}}</span>
                 </template>
               </el-table-column> -->
-              <el-table-column label="订单编号" prop="cbatchno" align="center" header-align="center" width="130">
+              <el-table-column label="订单编号" fixed prop="cbatchno" align="center" header-align="center" width="130">
                 <template></template>
               </el-table-column>
               <el-table-column label="状态" align="center" header-align="center" width="70">
@@ -66,34 +71,46 @@
                   <p v-else></p>
                 </template>
               </el-table-column>
-              <el-table-column label="手机号码" prop="cmobileno" align="center" header-align="center" width="110">
+              <el-table-column label="手机号码" prop="cmobileno" align="center" header-align="center" width="100">
                 <template></template>
               </el-table-column>
-              <el-table-column label="充值金额" prop="imoney" align="center" header-align="center" width="160">
+              <el-table-column label="充值金额" prop="imoney" align="center" header-align="center" width="80">
                 <template></template>
               </el-table-column>
-              <el-table-column label="手续费" prop="irate" align="center" header-align="center" width="100">
+              <el-table-column label="手续费" prop="irate" align="center" header-align="center" width="80">
                 <template></template>
               </el-table-column>
-              <el-table-column label="进账钻石" prop="idiamond" align="center" header-align="center" width="160">
+              <el-table-column label="进账钻石" prop="idiamond" align="center" header-align="center" width="80">
                 <template></template>
               </el-table-column>
-              <el-table-column label="支付网关" prop="iway" align="center" header-align="center" width="160">
+              <el-table-column label="支付网关" prop="iway" align="center" header-align="center" width="90">
               </el-table-column>
-              <el-table-column label="充值时间" prop="ccashdate" align="center" header-align="center" width="140">
+              <el-table-column label="充值时间" prop="ccashdate" align="center" header-align="center" width="134">
                 <template></template>
               </el-table-column>
-              <el-table-column label="到账时间" prop="carrivaldate" align="center" header-align="center" width="140">
-                <template></template>
+              <el-table-column label="到账时间" prop="carrivaldate" align="center" header-align="center" width="134">
+              </el-table-column>
+              <el-table-column label="申请补单时间" prop="sheetime" align="center" header-align="center" width="134">
+              </el-table-column>
+              <el-table-column label="申请补单人" prop="crepaname" align="center" header-align="center" width="100">
+              </el-table-column>
+              <el-table-column label="处理人" prop="carrivaldate" align="center" header-align="center" width="70">
               </el-table-column>
               <el-table-column label="备注" prop="cmemo" align="center" header-align="center">
                 <template></template>
               </el-table-column>
-              <el-table-column label="来源" prop="cfrom" align="center" header-align="center" width="100">
+              <el-table-column label="来源" prop="cfrom" align="center" header-align="center" width="70">
                 <template></template>
               </el-table-column>
-              <el-table-column label="支付商号" prop="cmctid" align="center" header-align="center" width="110">
+              <el-table-column label="支付商号" prop="cmctid" align="center" header-align="center" width="90">
                 <template></template>
+              </el-table-column>
+              <el-table-column label="操作" align="center" header-align="center" width="120">
+                <template slot-scope="scope">
+                  <el-button type="primary" @click="applyBtn(scope.row)" v-if="scope.row.istate == 0">
+                    申请补单
+                  </el-button>
+                </template>
               </el-table-column>
             </el-table>
             <!-- 分页 -->
@@ -158,7 +175,8 @@
   import {
     loadRechargeList,
     addRecharge,
-    subtractRecharge
+    subtractRecharge,
+    operationRecharge
   } from "@/request/api";
   export default {
     created() {
@@ -180,12 +198,14 @@
         listQuery: {
           pageNo: 1,
           pageSize: 20,
+          approval: 1,
           mobileNo: "",
           numberId: "",
           startDate: "",
           endDate: "",
           wayId: "",
-          state: ""
+          state: "",
+          batchNo: ""
         },
         addList: {
           mobileNo: "",
@@ -208,6 +228,21 @@
       };
     },
     methods: {
+      applyBtn(row) {
+        operationRecharge({
+          irechargeid: row.irechargeid
+        }).then(res => {
+          if (res.data.code == 200) {
+            this.$message({
+              message: res.data.message,
+              type: "success"
+            });
+            this.getLoadRechargeList();
+          } else {
+            this.$message.error(res.data.message);
+          }
+        })
+      },
       handleFilter() {
         if (this.listQuery.endDate == '' && this.listQuery.startDate != '') {
           this.listQuery.endDate = this.timer

@@ -84,6 +84,10 @@
               {
                 label: '添加钻石审核',
                 url: '/addDiamonds'
+              },
+              {
+                label: '订单补单审核',
+                url: '/supplement'
               }
             ]
           },

@@ -89,6 +89,8 @@ export const loadaddRechargeList = p => http.post('/finance/loadaddRechargeList'
 export const operationAddRecharge = p => http.post('/finance/operationAddRecharge',p)
 //提现申请 
 export const operationUserCash = p => http.post('/finance/operationUserCash',p)
+//申请补单 
+export const operationRecharge = p => http.post('/finance/operationRecharge',p)
 
 //权限管理
 //删除用户

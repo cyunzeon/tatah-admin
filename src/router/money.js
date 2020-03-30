@@ -14,6 +14,11 @@ let arr = [
     path: '/adddiamonds',
     name: 'adddiamonds',
     component: () => import('@/page/money/addDiamonds'),
+  },
+  {
+    path: '/supplement',
+    name: 'supplement',
+    component: () => import('@/page/money/supplement'),
   }
 ]
 

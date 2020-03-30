@@ -45,22 +45,22 @@
         </el-table-column>
         <el-table-column label="进帐钻石" header-align="center" align="center">
           <template slot-scope="scope">
-            <p v-if="scope.row.type==0 && scope.row.Imoneytype==1">{{scope.row.czcs}}</p>
+            <p v-if="scope.row.type==0 && scope.row.Imoneytype==1">{{scope.row.jzzs}}</p>
           </template>
         </el-table-column>
         <el-table-column label="出帐钻石" header-align="center" align="center">
           <template slot-scope="scope">
-            <p v-if="scope.row.type==1 && scope.row.Imoneytype==1">{{scope.row.czcs}}</p>
+            <p v-if="scope.row.type==1 && scope.row.Imoneytype==1">{{scope.row.czzs}}</p>
           </template>
         </el-table-column>
         <el-table-column label="进帐金币" header-align="center" align="center">
           <template slot-scope="scope">
-            <p v-if="scope.row.type==0 && scope.row.Imoneytype==0">{{scope.row.czcs}}</p>
+            <p v-if="scope.row.type==0 && scope.row.Imoneytype==0">{{scope.row.czjb}}</p>
           </template>
         </el-table-column>
         <el-table-column label="出账金币" header-align="center" align="center">
           <template slot-scope="scope">
-            <p v-if="scope.row.type==1 && scope.row.Imoneytype==0">{{scope.row.czcs}}</p>
+            <p v-if="scope.row.type==1 && scope.row.Imoneytype==0">{{scope.row.jzjb}}</p>
           </template>
         </el-table-column>
         <el-table-column prop="adddate" label="操作时间" header-align="center" align="center">

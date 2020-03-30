@@ -28,7 +28,9 @@
       <tr>
         <td>图片证据</td>
         <td>
-          <img :src="$route.query.reportimg" alt />
+          <div v-for="item in $route.query.reportimg.split(',')" :key="index" class="img-wrap">
+            <img :src="item" alt />
+          </div>
         </td>
       </tr>
     </table>
@@ -78,6 +80,9 @@ export default {
   img {
     width: 300px;
     height: 500px;
+    float: left;
+    margin: 0 20px;
   }
+
 }
 </style>
