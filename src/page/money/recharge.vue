@@ -26,8 +26,8 @@
               <el-select v-model="listQuery.state" placeholder="请选择">
                 <el-option label="全部" value></el-option>
                 <el-option label="已申请" value="0"></el-option>
-                <!-- <el-option label="未处理" value="1"></el-option>
-                <el-option label="已处理" value="2"></el-option> -->
+                <el-option label="未处理" value="1"></el-option>
+                <el-option label="已处理" value="2"></el-option>
                 <el-option label="已成功" value="3"></el-option>
               </el-select>
             </div>
@@ -107,7 +107,7 @@
               </el-table-column>
               <el-table-column label="操作" align="center" header-align="center" width="120">
                 <template slot-scope="scope">
-                  <el-button type="primary" @click="applyBtn(scope.row)" v-if="scope.row.istate == 0">
+                  <el-button type="primary" @click="applyBtn(scope.row)" v-if="scope.row.sheetstate == 1">
                     申请补单
                   </el-button>
                 </template>
