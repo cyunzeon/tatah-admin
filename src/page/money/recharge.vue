@@ -19,7 +19,7 @@
             </div>
             <div class="palette palette-wrap">
               订单编号:
-              <el-input v-model="listQuery.batchNo" />
+              <el-input v-model="listQuery.numberId" />
             </div>
             <div class="palette palette-wrap">
               订单状态:
@@ -205,7 +205,7 @@
           endDate: "",
           wayId: "",
           state: "",
-          batchNo: ""
+          numberId: ""
         },
         addList: {
           mobileNo: "",
