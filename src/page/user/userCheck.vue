@@ -74,9 +74,9 @@
         </el-table-column>
         <el-table-column label="操作" header-align="center" align="center">
           <template slot-scope="scope">
-            <el-button type="primary" @click="lookAction(scope.$index, scope.row)" v-show="scope.row.iexamine != 1">审核
+            <el-button type="primary" @click="lookAction(scope.$index, scope.row)" v-show="scope.row.iexamine == 2">审核
             </el-button>
-            <span v-show="scope.row.iexamine == 1">已审核
+            <span v-show="scope.row.iexamine == 1 || scope.row.iexamine == 3">已审核
             </span>
           </template>
         </el-table-column>

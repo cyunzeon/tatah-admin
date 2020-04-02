@@ -21,25 +21,49 @@
             <td>性别</td>
             <td>
               <span v-if="infoList.gender==1">男</span>
-              <span v-else-if="infoList.gender==0">女</span>
+              <span v-else-if="infoList.gender==2">女</span>
               <span v-else></span>
             </td>
           </tr>
           <tr>
             <td>生日</td>
             <td>{{infoList.birthday}}</td>
+            <td>会员类型</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>结算比例</td>
+            <td></td>
             <td>身高</td>
-            <td>{{infoList.height}}</td>
+            <td>{{infoList.height}}cm</td>
           </tr>
           <tr>
             <td>体重</td>
-            <td>{{infoList.weight}}</td>
+            <td>{{infoList.weight}}kg</td>
             <td>学历</td>
             <td>{{infoList.educational}}</td>
           </tr>
           <tr>
             <td>家乡</td>
             <td>{{infoList.hometown}}</td>
+            <td>院校</td>
+            <td>{{infoList.school}}</td>
+          </tr>
+          <tr>
+            <td>行业</td>
+            <td>{{infoList.industry}}</td>
+            <td>职位</td>
+            <td>{{infoList.adddate}}</td>
+          </tr>
+          <tr>
+            <td>抽烟习惯</td>
+            <td>{{infoList.smoking}}</td>
+            <td>饮酒习惯</td>
+            <td>{{infoList.drinkwine}}</td>
+          </tr>
+          <tr>
+            <td>喜欢菜系</td>
+            <td>{{infoList.likeCuisine}}</td>
             <td>注册时间</td>
             <td>{{infoList.adddate}}</td>
           </tr>
@@ -55,7 +79,7 @@
           </tr>
           <tr>
             <td>真实姓名</td>
-            <td>{{infoList.crealname}}</td>
+            <td>{{infoList.realname}}</td>
             <td>身份证号码</td>
             <td>{{infoList.idCard}}</td>
           </tr>
@@ -68,12 +92,8 @@
           <tr>
             <td>支行名称</td>
             <td>{{infoList.bankBranchName}}</td>
-            <td>支付宝帐号</td>
-            <td>{{infoList.alipayCcount}}</td>
-          </tr>
-          <tr>
             <td>个人描述</td>
-            <td colspan="3">{{infoList.csignature}}</td>
+            <td>{{infoList.csignature}}</td>
           </tr>
         </table>
       </el-col>

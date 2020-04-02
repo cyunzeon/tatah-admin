@@ -19,9 +19,9 @@
         <el-form-item label="支行名称">
           <el-input v-model="form.bankBranchName"></el-input>
         </el-form-item>
-        <el-form-item label="支付宝帐号">
+        <!-- <el-form-item label="支付宝帐号">
           <el-input v-model="form.alipayAccount"></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="个人描述">
           <el-input type="textarea" v-model="form.signature"></el-input>
         </el-form-item>
