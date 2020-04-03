@@ -92,9 +92,9 @@
               </el-table-column>
               <el-table-column label="申请补单时间" prop="sheetime" align="center" header-align="center" width="134">
               </el-table-column>
-              <el-table-column label="申请补单人" prop="crepaname" align="center" header-align="center" width="100">
+              <el-table-column label="申请补单人" prop="applyname" align="center" header-align="center" width="100">
               </el-table-column>
-              <el-table-column label="处理人" prop="carrivaldate" align="center" header-align="center" width="70">
+              <el-table-column label="处理人" prop="handlename" align="center" header-align="center" width="100">
               </el-table-column>
               <el-table-column label="备注" prop="cmemo" align="center" header-align="center">
                 <template></template>

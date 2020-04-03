@@ -29,11 +29,16 @@
             <td>生日</td>
             <td>{{infoList.birthday}}</td>
             <td>会员类型</td>
-            <td></td>
+            <td>
+              <span v-if="infoList.ivipcard==1">银卡</span>
+              <span v-else-if="infoList.ivipcard==2">金卡</span>
+              <span v-else-if="infoList.ivipcard==3">黑卡</span>
+              <span v-else></span>
+            </td>
           </tr>
           <tr>
             <td>结算比例</td>
-            <td></td>
+            <td>{{infoList.rate}}%</td>
             <td>身高</td>
             <td>{{infoList.height}}cm</td>
           </tr>
@@ -93,7 +98,7 @@
             <td>支行名称</td>
             <td>{{infoList.bankBranchName}}</td>
             <td>个人描述</td>
-            <td>{{infoList.csignature}}</td>
+            <td>{{infoList.signature}}</td>
           </tr>
         </table>
       </el-col>

@@ -118,7 +118,8 @@
             irechargeid: row.irechargeid,
             state: 1,
             imoney: row.imoney,
-            crepairuid: row.crepairuid
+            crepairuid: row.crepairuid,
+            userId: row.cuserid
           }).then(res => {
           if (res.data.code == 200) {
             this.$message({
@@ -144,7 +145,7 @@
               message: res.data.message,
               type: 'success'
             });
-            this.add = false;
+            this.getLoadRechargeList();
           } else {
             this.$message.error(res.data.message);
           }
