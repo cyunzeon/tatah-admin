@@ -33,7 +33,7 @@
       <el-table :data="tableData" stripe border style="width: 100%">
         <el-table-column prop="tradeorder" label="流水编号" header-align="center" align="center">
         </el-table-column>
-        <el-table-column label="充值金额" header-align="center" align="center">
+        <!-- <el-table-column label="充值金额" header-align="center" align="center">
           <template slot-scope="scope">
             <p v-if="scope.row.biztype==101">{{scope.row.czcs}}</p>
           </template>
@@ -42,25 +42,25 @@
           <template slot-scope="scope">
             <p v-if="scope.row.biztype==103">{{scope.row.czcs}}</p>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column label="进帐钻石" header-align="center" align="center">
           <template slot-scope="scope">
-            <p v-if="scope.row.type==0 && scope.row.Imoneytype==1">{{scope.row.jzzs}}</p>
+            <p v-if="scope.row.type==0 && scope.row.Imoneytype==1">{{scope.row.money}}</p>
           </template>
         </el-table-column>
         <el-table-column label="出帐钻石" header-align="center" align="center">
           <template slot-scope="scope">
-            <p v-if="scope.row.type==1 && scope.row.Imoneytype==1">{{scope.row.czzs}}</p>
+            <p v-if="scope.row.type==1 && scope.row.Imoneytype==1">{{scope.row.money}}</p>
           </template>
         </el-table-column>
         <el-table-column label="进帐金币" header-align="center" align="center">
           <template slot-scope="scope">
-            <p v-if="scope.row.type==0 && scope.row.Imoneytype==0">{{scope.row.czjb}}</p>
+            <p v-if="scope.row.type==0 && scope.row.Imoneytype==0">{{scope.row.money}}</p>
           </template>
         </el-table-column>
         <el-table-column label="出账金币" header-align="center" align="center">
           <template slot-scope="scope">
-            <p v-if="scope.row.type==1 && scope.row.Imoneytype==0">{{scope.row.jzjb}}</p>
+            <p v-if="scope.row.type==1 && scope.row.Imoneytype==0">{{scope.row.money}}</p>
           </template>
         </el-table-column>
         <el-table-column prop="adddate" label="操作时间" header-align="center" align="center">
