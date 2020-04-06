@@ -22,24 +22,11 @@
               border
               style="width: 100%"
             >
-              <el-table-column
-                label="用户名"
-                prop="caccount"
-                align="center"
-                header-align="center"
-              ></el-table-column>
-              <el-table-column
-                label="员工姓名"
-                prop="cusername"
-                align="center"
-                header-align="center"
-              ></el-table-column>
-              <el-table-column
-                label="注册时间"
-                prop="cadddate"
-                align="center"
-                header-align="center"
-              >
+              <el-table-column label="用户名（ID）" align="center" header-align="center">
+                <template slot-scope="scope">{{scope.row.caccount}}({{scope.row.cuserid}})</template>
+              </el-table-column>
+              <el-table-column label="员工姓名" prop="cusername" align="center" header-align="center"></el-table-column>
+              <el-table-column label="注册时间" prop="cadddate" align="center" header-align="center">
                 <template></template>
               </el-table-column>
               <el-table-column label="操作" align="center" header-align="center">
@@ -50,14 +37,13 @@
             </el-table>
 
             <el-pagination
-            style="margin-top: 16px; text-align:center;"
-            layout="total, prev, pager, next"
-            :total="total"
-            :page-size="listQuery.pageSize"
-            :current-page.sync="listQuery.pageNo"
-            @current-change="handleCurrentChange"
-          ></el-pagination>
-
+              style="margin-top: 16px; text-align:center;"
+              layout="total, prev, pager, next"
+              :total="total"
+              :page-size="listQuery.pageSize"
+              :current-page.sync="listQuery.pageNo"
+              @current-change="handleCurrentChange"
+            ></el-pagination>
 
             <div class="shade2" v-show="showInfo">
               <div class="shade-wrap">
@@ -149,9 +135,9 @@ export default {
       this.editPass = false;
     },
     handleCurrentChange(value) {
-        this.listQuery.pageNo = value;
-        this.getLoadAdminList();
-      },
+      this.listQuery.pageNo = value;
+      this.getLoadAdminList();
+    },
     setBtn() {
       if (
         this.listQuery.account != "" &&
@@ -360,5 +346,4 @@ export default {
     }
   }
 }
-
 </style>

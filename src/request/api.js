@@ -139,3 +139,5 @@ export const editAdventureByCtastId = p => http.post('/game/editAdventureByCtast
 
 //数据统计
 export const loadUserData = p => http.post('/user/loadUserData',p) 
+//数据图像
+export const loadUserStatistics = p => http.post('/user/loadUserStatistics',p) 
