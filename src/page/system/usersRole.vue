@@ -17,7 +17,7 @@
           <div class="table-wrapper">
             <div class="palette palette-wrap">
               <el-button type="primary" @click="addRole = true" icon="el-icon-plus">
-                添加用户
+                绑定用户
               </el-button>
             </div>
 

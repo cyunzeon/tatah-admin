@@ -57,7 +57,7 @@
         </div>
       </div>
     </div>
-    <div class="map-wrap">
+    <!-- <div class="map-wrap">
       <p>地域分布</p>
       <div class="map-box">
         <div class="map-data">
@@ -79,7 +79,7 @@
           </el-table>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 

@@ -43,7 +43,10 @@
         checkEquipArr: [], //选择以后的权限
         checkedEquipments: [], //随意修改后的checked项（即要传到后台的变更数据）,
         checkedIds: [],
-        deleteIds: []
+        deleteIds: [],
+        parentArr: ["500", "700", "712", "731", "750", "762", "765"],
+        firstLists: [],
+        uncheck: []
       };
     },
     methods: {
@@ -54,7 +57,12 @@
             return items != items2;
           });
         });
-        this.deleteIds = this.all.filter(items3 => {
+        this.uncheck = this.all.filter(items5 => {
+          return this.parentArr.every(items6 => {
+            return items5 != items6;
+          });
+        });
+        this.deleteIds = this.uncheck.filter(items3 => {
           return this.checkEquipArr.every(items4 => {
             return items3 != items4;
           });
@@ -72,8 +80,8 @@
               message: res.data.message,
               type: "success"
             });
-            //this.getLoadRolePermission();
-            this.$router.go(0);
+            this.getLoadRolePermission();
+            //this.$router.go(0);
           } else {
             this.$message.error(res.data.message)
           }
@@ -101,7 +109,12 @@
           for (let j = 0; j < this.states.length; j++) {
             this.all.push(this.states[j].cpermissionid);
           }
+          console.log('all', this.all)
         });
+      },
+      delete(i) {
+        var index = this.all.indexOf(i);
+        this.all.splice(index, 1)
       },
       getLoadRolePermission() {
         loadRolePermission({
@@ -111,19 +124,33 @@
           // 初始化默认选中状态
           for (let i = 0; i < this.roldList.length; i++) {
             let checkArr = [];
-            let item = this.roldList[i].array;
-            if (item.length === 0) {
+            let testcheckArr = [];
+            let item = this.roldList[i];
+            //let item = this.roldList[i].array;
+            //let items = this.roldList[i];
+
+            if (item.array.length === 0) {
               this.checkedEquipments.push([])
             } else {
-              for (let j = 0; j < item.length; j++) {
-                if (item[j].isSelect == 1) {
-                  checkArr.push(item[j].permissionId)
+              for (let j = 0; j < item.array.length; j++) {
+                if (item.array[j].isSelect == 1) {
+                  checkArr.push(item.array[j].permissionId)
                 }
               }
               this.checkedEquipments.push(checkArr);
             }
+
+            /*if (items.length === 0) {
+              this.test.push([])
+            } else {
+              if (items[i].isSelect == 1) {
+                testcheckArr.push(items[i].permissionId)
+              }
+              this.test.push(testcheckArr);
+            }*/
           }
-          this.firstList = this.checkedEquipments.reduce((a, b) => a.concat(b))
+          this.firstLists = this.checkedEquipments.reduce((a, b) => a.concat(b));
+          this.firstList = this.firstLists.concat(this.parentArr);
           console.log('初始化默认选中状态', this.checkedEquipments)
           console.log('当前拥有', this.firstList)
         });

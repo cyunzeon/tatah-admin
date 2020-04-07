@@ -1,6 +1,7 @@
 <template>
-  <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
-</template>
+  <el-tree :data="idList" node-key="onlyId" ref="tree" highlight-current :props="defaultProps" @check='slesCheck' @node-click="handleNodeClick">
+    </el-tree>
+  </template>
 <script>
   import {
     loadMenuInfo
@@ -125,7 +126,7 @@
         ],
         defaultProps: {
           children: 'children',
-          label: 'label'
+          label: 'title'
         },
         idList: [],
         idWrap: []
@@ -133,12 +134,13 @@
     },
     methods: {
       handleNodeClick(data) {
+        console.log(data)
         let currentPath = this.$route.path;
-        if (currentPath == data.url) {
+        if (currentPath == data.href) {
           return
         }
-        if (data.url) {
-          this.$router.push(data.url)
+        if (data.href) {
+          this.$router.push(data.href)
         }
       },
       checkAuth() {
@@ -149,7 +151,8 @@
       },
       getLoadMenuInfo() {
         loadMenuInfo().then(res => {
-          this.idList = res.data.data;
+          this.idList = res.data.data.slice(0, 6);
+          console.log(this.idList)
           this.idList.map(item => {
             //console.log(item.onlyId)
             this.idWrap.push(item.onlyId);
@@ -157,7 +160,13 @@
           })
 
         })
+      },
+      slesCheck() {
+        let parentArr = this.$refs.tree.getHalfCheckedKeys()
+        let childArr = this.$refs.tree.getCheckedKeys()
+        this.addRoleForm.rolePower = parentArr.concat(childArr)
       }
+
     },
     created() {
       this.checkAuth();
