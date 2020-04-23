@@ -1,7 +1,7 @@
 <template>
-  <el-tree :data="idList" node-key="onlyId" ref="tree" highlight-current :props="defaultProps" @check='slesCheck' @node-click="handleNodeClick">
-    </el-tree>
-  </template>
+  <el-tree :data="idList" node-key="onlyId" ref="tree" highlight-current :props="defaultProps" @check='slesCheck' @node-click="handleNodeClick" v-if="idList">
+  </el-tree>
+</template>
 <script>
   import {
     loadMenuInfo
@@ -129,6 +129,7 @@
           label: 'title'
         },
         idList: [],
+        dataList: [],
         idWrap: []
       }
     },
@@ -152,12 +153,19 @@
       getLoadMenuInfo() {
         loadMenuInfo().then(res => {
           this.idList = res.data.data.slice(0, 6);
-          console.log(this.idList)
-          this.idList.map(item => {
-            //console.log(item.onlyId)
-            this.idWrap.push(item.onlyId);
-            //console.log(this.idWrap)
-          })
+          //this.dataList = res.data.data;
+          console.log(res.data.data.slice(4, 6))
+          /*this.idList.push(res.data.data.slice(2, 3)[0]);
+          this.idList.push(res.data.data.slice(0, 1)[0]);
+          this.idList.push(res.data.data.slice(3, 4)[0]);
+          this.idList.push(res.data.data.slice(1, 2)[0]);
+          this.idList.push(res.data.data.slice(4, 5)[0]);
+          this.idList.push(res.data.data.slice(5, 6)[0]);*/
+          //this.idList = res.data.data.slice(0, 6);
+          /*this.idList.map(item => {
+            console.log('item', typeof(item))
+              this.idWrap.push(item.onlyId);
+          })*/
 
         })
       },

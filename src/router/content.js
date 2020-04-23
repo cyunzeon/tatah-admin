@@ -45,9 +45,34 @@ let arr = [
     component: () => import('@/page/content/reportDetail'),
   },
   {
+    path: '/partyReport',
+    name: 'partyReport',
+    component: () => import('@/page/content/partyReport'),
+  },
+  {
+    path: '/partyReport/detail',
+    name: 'partyReportDetail',
+    component: () => import('@/page/content/partyReportDetail'),
+  },
+  {
     path: '/gift',
     name: 'gift',
     component: () => import('@/page/content/gift'),
+  },
+  {
+    path: '/iceBreaking',
+    name: 'iceBreaking',
+    component: () => import('@/page/content/iceBreaking'),
+  },
+  {
+    path: '/task',
+    name: 'task',
+    component: () => import('@/page/content/task'),
+  },
+  {
+    path: '/party',
+    name: 'party',
+    component: () => import('@/page/content/party'),
   },
   {
     path: '/uservideo',

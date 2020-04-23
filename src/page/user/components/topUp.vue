@@ -39,11 +39,7 @@
         </el-table-column>
         <el-table-column prop="confdate" label="确认时间" header-align="center" align="center">
         </el-table-column>
-        <el-table-column label="支付网关" header-align="center" align="center">
-          <template slot-scope="scope">
-            <p v-if="scope.row.type == 0">银行</p>
-            <p v-else>支付宝</p>
-          </template>
+        <el-table-column label="支付网关" prop="iway" header-align="center" align="center">
         </el-table-column>
         <el-table-column prop="memo" label="处理内容" header-align="center" align="center">
         </el-table-column>

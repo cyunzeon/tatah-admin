@@ -21,7 +21,7 @@
               订单状态:
               <el-select v-model="listQuery.state" placeholder="请选择">
                 <el-option label="全部" value></el-option>
-                <el-option label="已申请" value="0"></el-option>
+                <el-option label="未处理" value="0"></el-option>
                 <el-option label="已处理" value="1"></el-option>
               </el-select>
             </div>

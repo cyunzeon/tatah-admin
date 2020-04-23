@@ -32,6 +32,7 @@
               <el-table-column label="操作" align="center" header-align="center">
                 <template slot-scope="scope">
                   <el-button type="primary" @click="lookAction(scope.row)">查看</el-button>
+                  <el-button type="danger" @click="deleteBtn(scope.row)">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -97,7 +98,7 @@
   </div>
 </template>
 <script>
-import { loadAdminList, editUser } from "@/request/api";
+import { loadAdminList, editUser, delUser } from "@/request/api";
 export default {
   data() {
     return {
@@ -133,6 +134,21 @@ export default {
     cancelAction() {
       this.showInfo = false;
       this.editPass = false;
+    },
+    deleteBtn(row) {
+      delUser({
+        userId: row.cuserid
+      }).then(res => {
+        if (res.data.code == 200) {
+            this.$message({
+              message: res.data.message,
+              type: "success"
+            });
+            this.getLoadAdminList();
+          } else {
+            this.$message.error(res.data.message);
+          }
+      })
     },
     handleCurrentChange(value) {
       this.listQuery.pageNo = value;
