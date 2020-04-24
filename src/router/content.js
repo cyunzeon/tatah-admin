@@ -83,6 +83,11 @@ let arr = [
     path: '/dynamic',
     name: 'dynamic',
     component: () => import('@/page/content/dynamic'),
+  },
+  {
+    path: '/dynamic/talkDetail',
+    name: 'talkDetail',
+    component: () => import('@/page/content/talkDetail'),
   }
 ]
 

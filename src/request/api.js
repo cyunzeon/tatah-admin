@@ -73,6 +73,10 @@ export const operationGift = p => http.post('/content/operationGift',p)
 export const loadUserCircleArticleList = p => http.post('/content/loadUserCircleArticleList',p)
 //删除用户动态
 export const updateUserCircleArticleList = p => http.post('/content/updateUserCircleArticleList',p)
+//评论
+export const getArticleDynamic = p => http.post('/content/getArticleDynamic',p)
+//删除评论
+export const deleteCommentById = p => http.post('/content/deleteCommentById',p)
 //聚会投诉管理
 export const findAllUpc = p => http.post('/party/findAllUpc',p)
 //聚会投诉审核
@@ -145,3 +149,5 @@ export const editAdventureByCtastId = p => http.post('/game/editAdventureByCtast
 export const loadUserData = p => http.post('/user/loadUserData',p) 
 //数据图像
 export const loadUserStatistics = p => http.post('/user/loadUserStatistics',p) 
+
+

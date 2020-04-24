@@ -67,6 +67,7 @@
                         <span>{{item.cadddate}}</span>
                       </div>
                     </div>
+                    <el-button @click="talk(item)">查看评论</el-button>
                     <el-button type="danger" @click="deletBtn(item)">删除</el-button>
                   </div>
                   <p class="word-wrap">{{item.ccontent}}</p>
@@ -92,12 +93,18 @@
         </el-card>
       </el-col>
     </el-row>
+    <div class="shade" v-show="showTalk">
+      <div class="shade-wrap">
+      </div>
+    </div>
   </div>
 </template>
 <script>
   import {
     loadUserCircleArticleList,
-    updateUserCircleArticleList
+    updateUserCircleArticleList,
+    getArticleDynamic,
+    deleteCommentById
   } from '@/request/api'
   import {
     smileEmoji,
@@ -125,7 +132,9 @@
     data() {
       return {
         tableData: [],
+        talkList: [],
         loading: false,
+        showTalk: false,
         total: 0,
         dialogFormVisible: false,
         listQuery: {
@@ -152,6 +161,18 @@
       }
     },
     methods: {
+      talk(item) {
+        this.$router.push({
+          path: '/dynamic/talkDetail',
+          query: {
+            carticleId: item.carticleid
+          }})
+      },
+      deletTalk(item) {
+        deleteCommentById().then(res => {
+
+        })
+      },
       deletBtn(item) {
         console.log(item)
         updateUserCircleArticleList({
@@ -170,7 +191,7 @@
         })
       },
       handleFilter() {
-        if(this.listQuery.endDate == '' && this.listQuery.startDate != '') {
+        if (this.listQuery.endDate == '' && this.listQuery.startDate != '') {
           this.listQuery.endDate = this.timer
         }
         this.listQuery.pageNo = 1;
@@ -352,6 +373,53 @@
               width: 150px;
               height: 150px;
               margin: 10px 0;
+            }
+          }
+        }
+      }
+    }
+
+    .shade {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      z-index: 101;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: block;
+
+      .shade-wrap {
+        width: 1000px;
+        height: 600px;
+        background: #fff;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        border-radius: 5px;
+
+        .box-ul {
+          .talk-item {
+            padding: 20px;
+            .top {
+              display: flex;
+              justify-content: space-between;
+
+              .left {
+                display: flex;
+                align-items: center;
+
+                img {
+                  width: 80px;
+                  height: 80px;
+                  border-radius: 50%;
+                }
+              }
             }
           }
         }
