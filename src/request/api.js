@@ -73,6 +73,10 @@ export const operationGift = p => http.post('/content/operationGift',p)
 export const loadUserCircleArticleList = p => http.post('/content/loadUserCircleArticleList',p)
 //删除用户动态
 export const updateUserCircleArticleList = p => http.post('/content/updateUserCircleArticleList',p)
+//聚会投诉管理
+export const findAllUpc = p => http.post('/party/findAllUpc',p)
+//聚会投诉审核
+export const partyInfo = p => http.post('/party/partyInfo',p)
 
 //财务管理
 //充值列表

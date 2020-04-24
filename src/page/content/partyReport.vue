@@ -16,12 +16,12 @@
 
           <div class="table-wrapper">
             <div class="palette palette-wrap">
-              被举报人手机号码:
-              <el-input v-model="listQuery.bjbrMobileNo" />
+              手机号码:
+              <el-input v-model="listQuery.mobileNo" />
             </div>
             <div class="palette palette-wrap">
-              举报人手机号:
-              <el-input v-model="listQuery.jbrMobileNo" />
+              昵称:
+              <el-input v-model="listQuery.strName" />
             </div>
             <div class="palette palette-wrap">
               举报时间:
@@ -38,11 +38,11 @@
 
             <!-- 表单 -->
             <el-table v-loading="loading" element-loading-text="加载数据中" :data='tableData' border style="width: 100%">
-              <el-table-column label="举报人" prop="cmobileno" align="center" header-align="center">
+              <el-table-column label="举报人手机号" prop="cmobilenoOne" align="center" header-align="center">
                 <template>
                 </template>
               </el-table-column>
-              <el-table-column label="被举报人" prop="crmobileno" align="center" header-align="center">
+              <el-table-column label="被举报人手机号" prop="cmobilenoTwo" align="center" header-align="center">
               </el-table-column>
               <el-table-column label="举报时间" prop="cadddate" align="center" header-align="center">
                 <template>
@@ -50,13 +50,9 @@
               </el-table-column>
               <el-table-column label="被举报类型" align="center" header-align="center">
                 <template slot-scope="scope">
-                  <p v-for="item in scope.row.istate" :key="item.index">
-                    <span v-if="item == 1">头像、资料作假</span>
-                    <span v-else-if="item == 2">骚扰广告</span>
-                    <span v-else-if="item == 3">诈骗、托</span>
-                    <span v-else-if="item == 4">恶意骚扰、不文明语言</span>
-                    <span v-else-if="item == 5">发广告或推广消息</span>
-                    <span v-else-if="item == 6">色情低俗</span>
+                  <p v-for="item in scope.row.cmobilenoTwo" :key="item.index">
+                    <span v-if="item == 1">未能准时参加见面聚会</span>
+                    <span v-else-if="item == 2">未参加见面聚会</span>
                     <span v-else></span>
                   </p>
                 </template>
@@ -81,11 +77,11 @@
 </template>
 <script>
   import {
-    loadUserReportList
+    findAllUpc
   } from '@/request/api'
   export default {
     created() {
-      this.getLoadUserReportList();
+      this.getFindAllUpc();
       setInterval(this.getTime, 1000);
     },
     beforeDestroy() {
@@ -102,8 +98,8 @@
         listQuery: {
           pageNo: 1,
           pageSize: 20,
-          jbrMobileNo: '',
-          bjbrMobileNo: '',
+          mobileNo: '',
+          strName: '',
           portraitType: '',
           endDate: '',
           startDate: ''
@@ -129,10 +125,10 @@
           this.listQuery.endDate = this.timer
         }
         this.listQuery.pageNo = 1;
-        this.getLoadUserReportList();
+        this.getFindAllUpc();
       },
-      getLoadUserReportList() {
-        loadUserReportList(this.listQuery).then(res => {
+      getFindAllUpc() {
+        findAllUpc(this.listQuery).then(res => {
           if (res.data.code == 200) {
             this.tableData = res.data.data.list;
             this.total = parseInt(res.data.data.total);
@@ -143,20 +139,16 @@
         this.$router.push({
           path: '/partyReport/detail',
           query: {
-            jbrMobileNo: row.cmobileno,
-            bjbrMobileNo: row.crmobileno,
-            cadddate: row.cadddate,
-            reportimg: row.creportimg,
-            state: row.state
+            ipartycptid: row.ipartycptid
           }
         })
       },
       refreshAction() {
-        this.getLoadUserReportList();
+        this.getFindAllUpc();
       },
       handleCurrentChange(value) {
         this.listQuery.pageNo = value;
-        this.getLoadUserReportList();
+        this.getFindAllUpc();
       },
       //时间选择
       dateFilter(input) {
