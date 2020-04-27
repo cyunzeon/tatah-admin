@@ -21,7 +21,7 @@
             </div>
             <div class="palette palette-wrap">
               昵称:
-              <el-input v-model="listQuery.strName" />
+              <el-input v-model="listQuery.nickName" />
             </div>
             <div class="palette palette-wrap">
               举报时间:
@@ -50,9 +50,8 @@
               </el-table-column>
               <el-table-column label="被举报类型" align="center" header-align="center">
                 <template slot-scope="scope">
-                  <p v-for="item in scope.row.cmobilenoTwo" :key="item.index">
-                    <span v-if="item == 1">未能准时参加见面聚会</span>
-                    <span v-else-if="item == 2">未参加见面聚会</span>
+                    <span v-if="scope.row.reason == 1">未能准时参加见面聚会</span>
+                    <span v-else-if="scope.row.reason == 2">未参加见面聚会</span>
                     <span v-else></span>
                   </p>
                 </template>
@@ -99,7 +98,7 @@
           pageNo: 1,
           pageSize: 20,
           mobileNo: '',
-          strName: '',
+          nickName: '',
           portraitType: '',
           endDate: '',
           startDate: ''

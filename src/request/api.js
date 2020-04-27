@@ -79,8 +79,27 @@ export const getArticleDynamic = p => http.post('/content/getArticleDynamic',p)
 export const deleteCommentById = p => http.post('/content/deleteCommentById',p)
 //聚会投诉管理
 export const findAllUpc = p => http.post('/party/findAllUpc',p)
-//聚会投诉审核
+//聚会投诉详情
 export const partyInfo = p => http.post('/party/partyInfo',p)
+//聚会投诉审核
+export const partyUpcExamine = p => http.post('/party/partyUpcExamine',p)
+//破冰任务查询
+export const findAllTask = p => http.post('/task/findAllTask',p)
+//破冰任务操作
+export const taskOpt = p => http.post('/task/taskOpt',p)
+//任务提交查询
+export const findAllSubmitTask = p => http.post('/task/findAllSubmitTask',p)
+//任务提交操作
+export const taskSubMitOpt = p => http.post('/task/taskSubMitOpt',p)
+//见面聚会查询
+export const findAllParty = p => http.post('/party/findAllParty',p)
+//见面聚会审核
+export const partyExamine = p => http.post('/party/partyExamine',p)
+//见面聚会详情
+export const clickOneParty = p => http.post('/party/clickOneParty',p)
+//见面聚会编辑
+export const editParty = p => http.post('/party/editParty',p)
+
 
 //财务管理
 //充值列表

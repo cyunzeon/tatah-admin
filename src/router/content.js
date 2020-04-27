@@ -75,6 +75,15 @@ let arr = [
     component: () => import('@/page/content/party'),
   },
   {
+    path: '/party/detail',
+    name: 'partyDetail',
+    component: () => import('@/page/content/partyDetail'),
+  },{
+    path: '/party/edit',
+    name: 'partyEdit',
+    component: () => import('@/page/content/partyEdit'),
+  },
+  {
     path: '/uservideo',
     name: 'uservideo',
     component: () => import('@/page/content/userVideo'),
