@@ -20,20 +20,21 @@
               v-model="formInline.endDate" @change="endTimeChang"></el-date-picker>
           </div>
         </el-form-item>
-        <el-form-item label="状态：">
+        <el-form-item label="聚会状态：">
           <el-select v-model="formInline.state" placeholder="请选择">
             <el-option label="全部" value=""></el-option>
-            <el-option label="已拒绝" value="2"></el-option>
-            <el-option label="已通过" value="1"></el-option>
+            <el-option label="进行中" value="0"></el-option>
+            <el-option label="已取消" value="2"></el-option>
+            <el-option label="已结束" value="1"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="是否处理：">
+        <!-- <el-form-item label="是否处理：">
           <el-select v-model="formInline.handle" placeholder="请选择">
             <el-option label="全部" value=""></el-option>
-            <el-option label="未审核" value="0"></el-option>
-            <el-option label="已审核" value="1"></el-option>
+            <el-option label="未处理" value="0"></el-option>
+            <el-option label="已处理" value="1"></el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="审核状态：">
           <el-select v-model="formInline.state" placeholder="请选择">
             <el-option label="全部" value=""></el-option>
@@ -76,13 +77,13 @@
             <p v-else></p>
           </template>
         </el-table-column>
-        <el-table-column label="是否处理" header-align="center" align="center">
+        <!-- <el-table-column label="是否处理" header-align="center" align="center">
           <template slot-scope="scope">
             <p v-if="scope.row.handle==0">未审核</p>
             <p v-else-if="scope.row.handle==1">已审核</p>
             <p v-else></p>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column label="审核状态" header-align="center" align="center">
           <template slot-scope="scope">
             <p v-if="scope.row.systemtype==0">未审核</p>
@@ -93,8 +94,12 @@
         </el-table-column>
         <el-table-column label="操作" header-align="center" align="center" width="200">
           <template slot-scope="scope">
-            <el-button type="primary" @click="passBtn(scope.$index, scope.row)">编辑</el-button>
-            <el-button type="primary" @click="delAction(scope.$index, scope.row)">审核</el-button>
+            <template v-if="scope.row.handle==1">
+              <el-button type="primary" @click="passBtn(scope.$index, scope.row)">编辑</el-button>
+            </template>
+            <template v-else>
+              <el-button type="primary" @click="delAction(scope.$index, scope.row)">审核</el-button>
+            </template>
             </template>
         </el-table-column>
       </el-table>

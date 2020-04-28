@@ -60,20 +60,11 @@
       <tr>
         <td>审核</td>
         <td colspan="2">
-          <el-form :inline="true" :model="form" class='tal p10'>
-            <el-form-item>
               <el-radio-group v-model="type" class='tac'>
                 <el-radio label="1" v-model="type" value="1">通过</el-radio>
                 <el-radio label="2" v-model="type" value="2">不通过</el-radio>
               </el-radio-group>
-            </el-form-item>
-            <!-- <el-form-item>
-              <el-input type="textarea" v-model="form.reason" class='w200'></el-input>
-            </el-form-item> -->
-            <el-form-item>
               <el-button type="primary" @click="getAction">提交</el-button>
-            </el-form-item>
-          </el-form>
         </td>
       </tr>
     </table>
@@ -83,7 +74,7 @@
 <script>
   import {
     clickOneParty,
-    partyUpcExamine
+    partyExamine
   } from '@/request/api';
   export default {
     data() {
@@ -100,7 +91,7 @@
     },
     methods: {
       backAction() {
-        this.$router.go(-1);
+        this.$router.push('/party');
       },
       getClickOneParty() {
         clickOneParty({
@@ -112,13 +103,21 @@
         })
       },
       getAction() {
-        partyUpcExamine({
+        partyExamine({
           ipartyid: this.$route.query.ipartyid,
           pagephoto: this.pagephoto,
           detailsphoto: this.detailsphoto,
           type: this.type
         }).then(res => {
-
+          if (res.data.code == 200) {
+            this.$message({
+              message: res.data.message,
+              type: 'success'
+            });
+            this.$router.go(-1);
+          } else {
+            this.$message.error(res.data.message);
+          }
         })
       },
       success(response, file, fileList) {
@@ -138,6 +137,7 @@
   }
   .el-button {
     margin: 10px;
+    z-index: 999;
   }
 
   .tables {

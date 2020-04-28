@@ -20,13 +20,13 @@
               v-model="formInline.endDate" @change="endTimeChang"></el-date-picker>
           </div>
         </el-form-item>
-        <el-form-item label="是否处理：">
+        <!-- <el-form-item label="是否处理：">
           <el-select v-model="formInline.handle" placeholder="请选择">
             <el-option label="全部" value=""></el-option>
             <el-option label="未审核" value="0"></el-option>
             <el-option label="已审核" value="1"></el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="审核状态：">
           <el-select v-model="formInline.state" placeholder="请选择">
             <el-option label="全部" value=""></el-option>
@@ -62,13 +62,13 @@
         </el-table-column>
         <el-table-column prop="irewardamount" label="奖励金额" header-align="center" align="center">
         </el-table-column>
-        <el-table-column label="是否处理" header-align="center" align="center">
+        <!-- <el-table-column label="是否处理" header-align="center" align="center">
           <template slot-scope="scope">
             <p v-if="scope.row.handle==0">未审核</p>
             <p v-else-if="scope.row.handle==1">已审核</p>
             <p v-else></p>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column label="状态" header-align="center" align="center">
           <template slot-scope="scope">
             <p v-if="scope.row.systemType==0">未审核</p>

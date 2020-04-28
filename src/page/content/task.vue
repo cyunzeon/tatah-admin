@@ -20,13 +20,13 @@
               v-model="formInline.endDate" @change="endTimeChang"></el-date-picker>
           </div>
         </el-form-item>
-        <el-form-item label="是否处理：">
+        <!-- <el-form-item label="是否处理：">
           <el-select v-model="formInline.handle" placeholder="请选择">
             <el-option label="全部" value=""></el-option>
             <el-option label="未审核" value="0"></el-option>
             <el-option label="已审核" value="1"></el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="审核状态：">
           <el-select v-model="formInline.state" placeholder="请选择">
             <el-option label="全部" value=""></el-option>
@@ -51,20 +51,27 @@
             <p v-else></p>
           </template>
         </el-table-column>
-        <el-table-column label="图片" header-align="center" align="center">
+        <el-table-column label="图片,视频" header-align="center" align="center">
           <template slot-scope="scope">
-            <img :src="scope.row.URL" style="width: 50px;height:50px;" alt="" @click="openImg(scope.row.chead)">
+            <!--  -->
+            <img :src="scope.row.photo" style="width: 150px;height:150px;" alt="" @click="openImg(scope.row.photo)"
+              v-show="scope.row.photo">
+            <video style="width: 150px;height:150px;" muted width="400" height="300" autoplay loop controls="controls"
+              :src="scope.row.video" v-show="scope.row.video">
+              <source type="video/mp4" />您的浏览器不支持 video 标签
+            </video>
+
           </template>
         </el-table-column>
         <el-table-column prop="cadddate" label="提交时间" header-align="center" align="center">
         </el-table-column>
-        <el-table-column label="是否处理" header-align="center" align="center">
+        <!-- <el-table-column label="是否处理" header-align="center" align="center">
           <template slot-scope="scope">
             <p v-if="scope.row.handle==0">未审核</p>
             <p v-else-if="scope.row.handle==1">已审核</p>
             <p v-else></p>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column label="状态" header-align="center" align="center">
           <template slot-scope="scope">
             <p v-if="scope.row.systemType==0">未审核</p>
@@ -75,24 +82,19 @@
         </el-table-column>
         <el-table-column label="操作" header-align="center" align="center">
           <template slot-scope="scope">
-            <template  v-if="scope.row.handle==0">
-            <el-button type="primary" @click="passBtn(scope.$index, scope.row)">通过</el-button>
-            <el-button type="danger" @click="delAction(scope.$index, scope.row)">拒绝</el-button>
-          </template>
-          <span v-else>已审核</span>
+            <template v-if="scope.row.systemType==0">
+              <el-button type="primary" @click="passBtn(scope.$index, scope.row)">通过</el-button>
+              <el-button type="danger" @click="delAction(scope.$index, scope.row)">拒绝</el-button>
+            </template>
+            <span v-else>已审核</span>
           </template>
         </el-table-column>
       </el-table>
     </div>
     <div class="block p20 tac">
-      <el-pagination
-      style="margin-top: 16px; text-align:center;"
-      layout="total, prev, pager, next"
-      :total="total"
-      :page-size="formInline.pageSize"
-      :current-page.sync="formInline.pageNo"
-      @current-change="handleCurrentChange"
-    ></el-pagination>
+      <el-pagination style="margin-top: 16px; text-align:center;" layout="total, prev, pager, next" :total="total"
+        :page-size="formInline.pageSize" :current-page.sync="formInline.pageNo" @current-change="handleCurrentChange">
+      </el-pagination>
     </div>
 
     <el-dialog width="400px" :visible.sync="imgVisible" class="img-dialog">
@@ -122,7 +124,7 @@
           startDate: '',
           endDate: '',
           state: '',
-          handle:''
+          handle: ''
         },
         //时间选择
         pickerOptionsStart: {
@@ -226,7 +228,7 @@
         _this.timer = yy + "-" + mm + "-" + dd;
       },
       onSubmit() {
-        if(this.formInline.endDate == '' && this.formInline.startDate != '') {
+        if (this.formInline.endDate == '' && this.formInline.startDate != '') {
           this.formInline.endDate = this.timer
         }
         this.getFindAllSubmitTask();

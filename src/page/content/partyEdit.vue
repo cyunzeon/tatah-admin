@@ -98,6 +98,7 @@
     },
     methods: {
       backAction() {
+        console.log(1111)
         this.$router.go(-1);
       },
       getClickOneParty() {
@@ -147,6 +148,7 @@
 
   .el-button {
     margin: 10px;
+    z-index: 9999;
   }
 
   .tables {
