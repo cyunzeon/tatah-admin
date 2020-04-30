@@ -95,7 +95,7 @@
         <el-table-column label="操作" header-align="center" align="center" width="200">
           <template slot-scope="scope">
             <template v-if="scope.row.handle==1">
-              <el-button type="primary" @click="passBtn(scope.$index, scope.row)">编辑</el-button>
+              <el-button @click="passBtn(scope.$index, scope.row)">编辑</el-button>
             </template>
             <template v-else>
               <el-button type="primary" @click="delAction(scope.$index, scope.row)">审核</el-button>

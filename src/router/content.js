@@ -97,6 +97,11 @@ let arr = [
     path: '/dynamic/talkDetail',
     name: 'talkDetail',
     component: () => import('@/page/content/talkDetail'),
+  },
+  {
+    path: '/comment',
+    name: 'comment',
+    component: () => import('@/page/content/wuyong'),
   }
 ]
 

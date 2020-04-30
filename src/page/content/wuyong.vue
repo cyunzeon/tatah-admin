@@ -1,18 +1,15 @@
 <template>
   <div class="bg_fff main">
-    <h3 class="title"><i class="el-icon-user-solid"></i>破冰任务管理</h3>
-    <div class="btn-list">
+    <h3 class="title"><i class="el-icon-user-solid"></i>动态评论管理</h3>
+    <!-- <div class="btn-list">
       <el-button type="primary" icon="el-icon-refresh" size='small' @click="refreshAction">刷新</el-button>
-    </div>
+    </div> -->
     <div class="p10">
       <el-form :inline="true" :model="formInline" class="demo-form-inline">
-        <el-form-item label="手机号码：">
-          <el-input v-model="formInline.mobileNo" placeholder="手机号码"></el-input>
-        </el-form-item>
         <el-form-item label="昵称：">
           <el-input v-model="formInline.nickName" placeholder="昵称"></el-input>
         </el-form-item>
-        <el-form-item label="注册时间：">
+        <el-form-item label="时间：">
           <div class="block">
             <el-date-picker type="date" placeholder="选择开始日期" :picker-options="pickerOptionsStart"
               v-model="formInline.startDate" @change="startTimeChang"></el-date-picker>
@@ -27,76 +24,68 @@
             <el-option label="已审核" value="1"></el-option>
           </el-select>
         </el-form-item> -->
-        <el-form-item label="审核状态：">
-          <el-select v-model="formInline.state" placeholder="请选择">
-            <el-option label="全部" value=""></el-option>
-            <el-option label="未审核" value="0"></el-option>
-            <el-option label="已通过" value="1"></el-option>
-            <el-option label="未通过" value="2"></el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">查询</el-button>
+          <el-button type="primary">查询</el-button>
         </el-form-item>
       </el-form>
-      <el-table :data="tableData" stripe border style="width: 100%">
-        <el-table-column prop="cmobileno" label="手机号" header-align="center" align="center">
-        </el-table-column>
-        <el-table-column prop="nickName" label="昵称" header-align="center" align="center">
-        </el-table-column>
-        <el-table-column label="性别" header-align="center" align="center">
-          <template slot-scope="scope">
-            <p v-if="scope.row.gender == 1">男</p>
-            <p v-else-if="scope.row.gender == 2">女</p>
-            <p v-else></p>
-          </template>
-        </el-table-column>
-        <el-table-column prop="ctaskcontent" label="任务内容" header-align="center" align="center">
-        </el-table-column>
-        <el-table-column label="任务类型" header-align="center" align="center">
-          <template slot-scope="scope">
-            <p v-if="scope.row.itasktype == 1">照片</p>
-            <p v-else-if="scope.row.itasktype == 2">视频</p>
-            <p v-else></p>
-          </template>
-        </el-table-column>
-        <el-table-column prop="irewardamount" label="奖励金额" header-align="center" align="center">
-        </el-table-column>
-        <!-- <el-table-column label="是否处理" header-align="center" align="center">
-          <template slot-scope="scope">
-            <p v-if="scope.row.handle==0">未审核</p>
-            <p v-else-if="scope.row.handle==1">已审核</p>
-            <p v-else></p>
-          </template>
-        </el-table-column> -->
-        <el-table-column label="审核状态" header-align="center" align="center">
-          <template slot-scope="scope">
-            <p v-if="scope.row.systemType==0">未审核</p>
-            <p v-else-if="scope.row.systemType==1">已通过</p>
-            <p v-else-if="scope.row.systemType==2">未通过</p>
-            <p v-else></p>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" header-align="center" align="center">
-          <template slot-scope="scope">
-            <template  v-if="scope.row.handle==0">
-            <el-button type="primary" @click="passBtn(scope.$index, scope.row)">通过</el-button>
-            <el-button type="danger" @click="delAction(scope.$index, scope.row)">拒绝</el-button>
-          </template>
-          <span v-else>已审核</span>
-          </template>
-        </el-table-column>
-      </el-table>
+
+      <ul class="ul-box">
+        <li v-for="(item, index) in dataList" :key="index">
+          <div class="left">
+            <img :src="item.img" alt="">
+            <div class="comment">
+              <p>{{item.name}}</p>
+              <p>{{item.time}}</p>
+            </div>
+          </div>
+          <span>评论内容：{{item.content}}</span>
+          <span>动态内容：{{item.pcontent}}</span>
+          <el-button type="primary" @click="onSubmit(item, index)" v-if="item.del == 0">审核评论</el-button>
+          <el-button type="danger" @click="onDel(item, index)" v-else>删除评论</el-button>
+        </li>
+        <!-- <li>
+          <div class="left">
+            <img src="../../assets/img/cyh.jpg" alt="">
+            <div class="comment">
+              <p>陈以后</p>
+              <p>2020-04-29 09:36:21</p>
+            </div>
+          </div>
+          <span>评论内容：美短吗？</span>
+          <span>动态内容：睡个觉都是爱我的形状</span>
+          <el-button type="primary" @click="onSubmit">审核评论</el-button>
+        </li>
+        <li>
+          <div class="left">
+            <img src="../../assets/img/k.jpg" alt="">
+            <div class="comment">
+              <p>K！</p>
+              <p>2020-04-29 09:21:06</p>
+            </div>
+          </div>
+          <span>评论内容：来成都吃串串</span>
+          <span>动态内容：有成都重庆的小伙伴吗？目前能出游吗？</span>
+          <el-button type="primary" @click="onSubmit">审核评论</el-button>
+        </li>
+        <li>
+          <div class="left">
+            <img src="../../assets/img/mar.jpg" alt="">
+            <div class="comment">
+              <p>Martix</p>
+              <p>2020-04-29 09:21:06</p>
+            </div>
+          </div>
+          <span>评论内容：你这是怎么了。。</span>
+          <span>动态内容：本不富裕的家庭，雪上加霜~
+          </span>
+          <el-button type="danger" @click="onSubmit">删除评论</el-button>
+        </li> -->
+      </ul>
     </div>
     <div class="block p20 tac">
-      <el-pagination
-      style="margin-top: 16px; text-align:center;"
-      layout="total, prev, pager, next"
-      :total="total"
-      :page-size="formInline.pageSize"
-      :current-page.sync="formInline.pageNo"
-      @current-change="handleCurrentChange"
-    ></el-pagination>
+      <el-pagination style="margin-top: 16px; text-align:center;" layout="total, prev, pager, next" :total="total"
+        :page-size="formInline.pageSize" :current-page.sync="formInline.pageNo" @current-change="handleCurrentChange">
+      </el-pagination>
     </div>
 
     <el-dialog width="400px" :visible.sync="imgVisible" class="img-dialog">
@@ -115,7 +104,7 @@
     data() {
       return {
         tableData: [],
-        total: 0,
+        total: 3,
         dialogImgUrl: '',
         imgVisible: false,
         formInline: {
@@ -125,9 +114,32 @@
           pageNo: 1,
           startDate: '',
           endDate: '',
-          handle:'',
+          handle: '',
           state: ''
         },
+        dataList: [{
+          'name': '陈以后',
+          'img': require('../../assets/img/cyh.jpg'),
+          'time': '2020-04-29 09:36:21',
+          'content': '美短吗？',
+          'pcontent': '睡个觉都是爱我的形状',
+          'del': 0
+        },
+        {
+          'name': 'Martix',
+          'img': require('../../assets/img/mar.jpg'),
+          'time': '2020-04-29 09:21:06',
+          'content': '你这是怎么了。。',
+          'pcontent': '本不富裕的家庭，雪上加霜~',
+          'del': 0
+        },{
+          'name': 'K！',
+          'img': require('../../assets/img/k.jpg'),
+          'time': '2020-04-29 09:21:06',
+          'content': '来成都吃串串',
+          'pcontent': '有成都重庆的小伙伴吗？目前能出游吗？',
+          'del': 0
+        }],
         //时间选择
         pickerOptionsStart: {
           disabledDate(time) {
@@ -148,7 +160,7 @@
         findAllTask(this.formInline).then(res => {
           if (res.data.code == 200) {
             console.log(res.data.data)
-            this.total = parseInt(res.data.data.total);
+            //this.total = parseInt(res.data.data.total);
             this.tableData = res.data.data.list;
           }
         })
@@ -229,11 +241,17 @@
           new Date().getDate();
         _this.timer = yy + "-" + mm + "-" + dd;
       },
-      onSubmit() {
-        if(this.formInline.endDate == '' && this.formInline.startDate != '') {
+      onSubmit(item, index) {
+        console.log(item)
+        /*if (this.formInline.endDate == '' && this.formInline.startDate != '') {
           this.formInline.endDate = this.timer
         }
-        this.getFindAllTask();
+        this.getFindAllTask();*/
+        this.$set(item,'del',1)
+      },
+      onDel(item, index) {
+        this.dataList.splice(this.dataList.indexOf(item),1);
+        this.total--;
       }
     },
     created() {
@@ -252,6 +270,33 @@
 <style lang="scss" scoped>
   .el-select {
     width: 120px;
+  }
+
+  .ul-box {
+    li {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+      padding: 10px 100px;
+
+      .left {
+        display: flex;
+        align-items: center;
+        margin-right: 240px;
+
+        img {
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          margin-right: 20px;
+        }
+      }
+
+      span {
+        margin-right: 240px;
+        width: 250px;
+      }
+    }
   }
 
 </style>

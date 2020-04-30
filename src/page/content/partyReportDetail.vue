@@ -25,7 +25,7 @@
       <tr>
         <td>图片证据</td>
         <td>
-          <div v-for="item in dataForm.photo.split(',')" :key="index" class="img-wrap">
+          <div v-for="(item, index) in dataForm.photo.split(',')" :key="index" class="img-wrap">
             <img :src="item" alt />
           </div>
         </td>
